@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California Connection All-Stars | Asset Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icon Library for player controls -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            /* Updated to new color - BOLD BLUE */
+            border-top: 4px solid #2563eb; /* blue-600 */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        audio {
+            width: 100%;
+            margin-top: 12px;
+            /* Updated to new color - BOLD BLUE */
+            accent-color: #2563eb; /* blue-600 */
+        }
+        .player-btn {
+            /* Updated to new color - BOLD BLUE */
+            background-color: #2563eb; /* blue-600 */
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        .player-btn:hover {
+            /* Updated to new color - BOLD BLUE */
+            background-color: #1d4ed8; /* blue-700 */
+        }
+        .player-btn:disabled {
+            background-color: #93c5fd; /* blue-300 */
+            cursor: not-allowed;
+        }
+        
+        /* Custom Form Styles */
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151; /* gray-700 */
+        }
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db; /* gray-300 */
+            border-radius: 0.375rem; /* rounded-md */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+            /* Updated focus color - FUCKING ORANGE */
+            --tw-ring-color: #f97316;
+        }
+        .form-submit {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.375rem;
+            /* Updated to new color - FUCKING ORANGE */
+            background-color: #f97316; /* orange-500 */
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .form-submit:hover {
+            /* Updated to new color - FUCKING ORANGE */
+            background-color: #ea580c; /* orange-600 */
+        }
+        .form-submit:disabled {
+            background-color: #fdba74; /* orange-300 */
+            cursor: not-allowed;
+        }
+        .form-message {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+        }
+        .form-message-success {
+            background-color: #d1fae5; /* green-100 */
+            color: #065f46; /* green-800 */
+        }
+        .form-message-error {
+            /* This is our "RED POP" */
+            background-color: #fee2e2; /* red-100 */
+            color: #991b1b; /* red-800 */
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden my-8">
+        
+        <!-- Header - BOLD BLUE -->
+        <header class="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold">California Connection All-Stars</h1>
+                <p class="text-lg mt-1 opacity-90">Invitation & Asset Generator</p>
+            </div>
+            <img src="https://211sj.org/wp-content/themes/yootheme/cache/71/new-kick-it-ca-1-7122e420.webp" alt="Kick It California Logo" class="h-16 w-auto" 
+                 onerror="this.onerror=null; this.src='https://placehold.co/150x50/ffffff/333333?text=Logo+Load+Error';">
+        </header>
+
+        <!-- Event Details Section - Light Blue Background -->
+        <section class="p-6 md:p-8 border-b border-gray-200 bg-blue-50">
+            <h2 class="text-2xl font-semibold text-blue-800 mb-4 text-center">You're Invited!</h2>
+            <p class="text-center text-gray-700 text-lg">In appreciation of our historic partnership—<span class="italic">"one of the most important things I’ve had the opportunity to work on..."</span>—we're hosting a special event to say THANK YOU.</p>
+            <div class="mt-6 text-center">
+                <div class="text-xl font-semibold text-blue-700">A 211 & Kick It California Thank You Event</div>
+                <div class="text-lg text-gray-600 mt-2">January 2026</div>
+            </div>
+        </section>
+
+        <!-- Custom HubSpot Form Section -->
+        <section class="p-6 md:p-8 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-2 text-center">Stay Updated!</h2>
+            <p class="text-center text-gray-600 mb-6">Let us know you're interested and we'll send the formal invite soon.</p>
+            <div id="hubspot-form-container" class="max-w-md mx-auto">
+                
+                <form id="custom-hubspot-form">
+                    <div class="space-y-4">
+                        <!-- First Name -->
+                        <div>
+                            <label for="hs-firstname" class="form-label">First name</label>
+                            <input id="hs-firstname" name="firstname" type="text" class="form-input" required>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div>
+                            <label for="hs-email" class="form-label">Email*</label>
+                            <input id="hs-email" name="email" type="email" class="form-input" required>
+                        </div>
+                        
+                        <!-- 211 Office -->
+                        <div>
+                            <label for="hs-211-office" class="form-label">Select Your 211 Call Center</label>
+                            <select id="hs-211-office" name="select_your_211_call_center" class="form-select" required>
+                                <option value="" disabled selected>Please Select</option>
+                                <!-- Options will be populated by JavaScript -->
+                            </select>
+                        </div>
+                        
+                        <!-- Submit Button - FUCKING ORANGE -->
+                        <div>
+                            <button id="hs-submit-btn" type="submit" class="form-submit">
+                                Keep me posted!
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <!-- Form Status Message -->
+                <div id="hs-form-message" class="form-message hidden"></div>
+
+            </div>
+        </section>
+
+
+        <!-- 211 Mascot Generator Section -->
+        <section class="p-6 md:p-8 border-b border-gray-200 bg-gray-50">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-2">211 Mascot Generator</h2>
+            <p class="text-gray-600 mb-6">Select a partner to start, or write your own prompt below to create a custom mascot!</p>
+
+            <!-- Dropdown Selector -->
+            <div class="mb-4">
+                <label for="211-select" class="block text-sm font-medium text-gray-700 mb-2">Select 211 Partner (to get a starter prompt):</label>
+                <select id="211-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+
+            <!-- Custom Prompt Text Area -->
+            <div class="mb-4">
+                <label for="custom-prompt" class="block text-sm font-medium text-gray-700 mb-2">Image Prompt:</label>
+                <textarea id="custom-prompt" rows="3" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="A fun, friendly vector illustration mascot of..."></textarea>
+                <p class="text-xs text-gray-500 mt-1 italic text-right">Customize and share with your colleagues!</p>
+            </div>
+
+            <!-- Card -->
+            <div class="max-w-md mx-auto bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+                <div class="p-5" id="card-header">
+                    <h3 id="card-name" class="text-2xl font-semibold text-blue-700 text-center">Custom Mascot</h3>
+                </div>
+                <div class="h-80 bg-gray-200 flex items-center justify-center relative">
+                    <img id="mascot-image" class="w-full h-full object-contain" src="https://placehold.co/400x300/e2e8f0/94a3b8?text=Your+Mascot+Here" alt="Generated Mascot">
+                    <div id="mascot-loader" class="loader absolute hidden"></div>
+                </div>
+                <div class="p-4 bg-gray-100 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button id="generate-btn" class="w-full bg-blue-600 text-white font-medium py-2.5 px-4 rounded-lg hover:bg-blue-700 transition duration-300 disabled:opacity-50">
+                        Generate Image
+                    </button>
+                    <a id="download-btn" class="w-full bg-gray-600 text-white font-medium py-2.5 px-4 rounded-lg hover:bg-gray-700 transition duration-300 text-center hidden" href="#" download="mascot.png">
+                        Download Image
+                    </a>
+                </div>
+            </div>
+
+            <!-- Message Box (RED POP) -->
+            <div id="message-box" class="hidden mt-6 max-w-md mx-auto p-4 rounded-lg bg-red-100 text-red-700">
+                <h3 class="font-semibold">Error</h3>
+                <p id="message-text"></p>
+            </div>
+        </section>
+        
+        <!-- Audio Player Section -->
+        <section class="p-6 md:p-8 bg-gray-50">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Event Theme - Song Sampler</h2>
+            <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-5 border border-gray-200">
+                <div class="text-center">
+                    <p class="text-sm text-gray-500">Now Playing:</p>
+                    <h3 id="now-playing-title" class="text-lg font-semibold text-blue-700">Kick it off 2 (1)</h3>
+                    <p id="now-playing-style" class="text-sm text-gray-500">Style: Upbeat Acoustic Pop</p>
+                </div>
+                
+                <audio id="audio-player" controls class="mt-4">
+                    Your browser does not support the audio element.
+                </audio>
+
+                <div class="flex items-center justify-center space-x-6 mt-4">
+                    <button id="prev-track" class="player-btn">
+                        <i class="fas fa-backward"></i>
+                    </button>
+                    <button id="next-track" class="player-btn">
+                        <i class="fas fa-forward"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // --- Gemini API Configuration ---
+        const apiKey = ""; // API key will be injected by the environment.
+        const genModel = "gemini-2.5-flash-image-preview";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${genModel}:generateContent?key=${apiKey}`;
+
+        // --- 211 All-Star Data (Expanded & More Creative) ---
+        const all211s = [
+            { id: 'custom', name: '--- Custom Mascot ---', mascotName: 'Custom Mascot', placeholder: 'Your+Mascot+Here', prompt: "A fun, friendly vector illustration mascot of..." },
+            { id: 'ala', name: '211 Alameda County', mascotName: 'The Oakland Oak', placeholder: 'Alameda', prompt: "A friendly, wise vector art oak tree with deep roots, wearing a headset. Clean white background." },
+            { id: 'but', name: '211 Butte County', mascotName: 'The Chico Bridge Builder', placeholder: 'Butte', prompt: "A happy vector art character of the Honey Run Covered Bridge, smiling and wearing a headset. Clean white background." },
+            { id: 'ccc', name: '211 Contra Costa County', mascotName: 'The Diablo Peak Performer', placeholder: 'Contra+Costa', prompt: "A smiling vector art mascot of Mount Diablo's summit, wearing a ranger hat and a headset. Clean white background." },
+            { id: 'fre', name: '211 Fresno County', mascotName: 'The Central Valley Vine', placeholder: 'Fresno', prompt: "A cool vector art bunch of grapes, wearing sunglasses and a headset, giving a thumbs up. Clean white background." },
+            { id: 'hum', name: '211 Humboldt County', mascotName: 'The Redwood Relay', placeholder: 'Humboldt', prompt: "A giant, friendly vector art Redwood tree, smiling and wearing a telephone headset. Clean white background." },
+            { id: 'ker', name: '211 Kern County', mascotName: 'The Bakersfield Soundwave', placeholder: 'Kern', prompt: "A cool vector art acoustic guitar with a country twang, wearing a headset and cowboy boots. Clean white background." },
+            { id: 'la', name: '211 LA County', mascotName: 'The Hollywood Star', placeholder: 'Los+Angeles', prompt: "A smiling, confident vector art star from the Walk of Fame, wearing a headset and sunglasses. Clean white background." },
+            { id: 'mar', name: '211 Marin County', mascotName: 'The Marin Headland Helper', placeholder: 'Marin', prompt: "A vector art mascot of the Golden Gate Bridge (Marin side), peeking cheerfully from the fog and wearing a headset. Clean white background." },
+            { id: 'men', name: '211 Mendocino County', mascotName: 'The Skunk Train Conductor', placeholder: 'Mendocino', prompt: "A friendly vector art cartoon skunk, wearing a train conductor's hat and a headset. Clean white background." },
+            { id: 'nap', name: '211 Napa County', mascotName: 'The Valley Vintage', placeholder: 'Napa', prompt: "A sophisticated vector art wine bottle, wearing a small beret and a headset. Clean white background." },
+            { id: 'nev', name: '211 Nevada County', mascotName: 'The Gold Country Miner', placeholder: 'Nevada', prompt: "A cheerful vector art gold nugget, wearing a miner's helmet with a light and a headset. Clean white background." },
+            { id: 'oc', name: '211 Orange County', mascotName: 'The OC Operator', placeholder: 'Orange+County', prompt: "A happy vector art cartoon orange, wearing a headset and carrying a surfboard. Clean white background." },
+            { id: 'pla', name: '211 Placer County', mascotName: 'The Tahoe Tessie', placeholder: 'Placer', prompt: "A friendly, mythical vector art 'Tessie' (like the Loch Ness Monster) peeking out of Lake Tahoe with a headset on. Clean white background." },
+            { id: 'riv', name: '211 Riverside County', mascotName: 'The Palm Springs Navigator', placeholder: 'Riverside', prompt: "A stylish vector art palm tree with a mid-century modern vibe, wearing a headset. Clean white background." },
+            { id: 'sac', name: '211 Sacramento County', mascotName: 'The Capital Connector', placeholder: 'Sacramento', prompt: "A proud vector art California State Capitol Dome, smiling and wearing a headset like a crown. Clean white background." },
+            { id: 'sbc', name: '211 San Bernardino County', mascotName: 'The Route 66 Rocker', placeholder: 'San+Bernardino', prompt: "A cool vector art Route 66 sign, shaped like a guitar and wearing a headset. Clean white background." },
+            { id: 'sd', name: '211 San Diego County', mascotName: 'The Balboa Park Pal', placeholder: 'San+Diego', prompt: "A happy vector art version of the Balboa Park Tower, wearing cool sunglasses and a headset. Clean white background." },
+            { id: 'sf', name: '211 San Francisco County', mascotName: 'The Cable Car Connector', placeholder: 'San+Francisco', prompt: "A cheerful, cartoony vector art cable car, climbing a hill and wearing a headset. Clean white background." },
+            { id: 'sj', name: '211 San Joaquin County', mascotName: 'The Delta King', placeholder: 'San+Joaquin', prompt: "A friendly vector art riverboat, paddling down the delta and wearing a captain's hat with a headset. Clean white background." },
+            { id: 'slo', name: '211 San Luis Obispo County', mascotName: 'The Morro Rock Responder', placeholder: 'San+Luis+Obispo', prompt: "A strong, friendly vector art Morro Rock, wearing a headset and waving. Clean white background." },
+            { id: 'sm', name: '211 San Mateo County', mascotName: 'The Silicon Valley Server', placeholder: 'San+Mateo', prompt: "A futuristic, friendly vector art robot, giving a thumbs up and wearing a headset. Clean white background." },
+            { id: 'sbara', name: '211 Santa Barbara County', mascotName: 'The Mission Messenger', placeholder: 'Santa+Barbara', prompt: "A beautiful vector art arch from the Santa Barbara Mission, smiling and wearing a headset. Clean white background." },
+            { id: 'sclara', name: '211 Santa Clara County', mascotName: 'The Tech Titan', placeholder: 'Santa+Clara', prompt: "A smart vector art computer chip, smiling and wearing a headset. Clean white background." },
+            { id: 'scruz', name: '211 Santa Cruz County', mascotName: 'The Boardwalk Star', placeholder: 'Santa+Cruz', prompt: "A fun vector art Giant Dipper roller coaster car, cheering with its 'hands' up and wearing a headset. Clean white background." },
+            { id: 'sha', name: '211 Shasta County', mascotName: 'The Shasta Summit', placeholder: 'Shasta', prompt: "A majestic vector art snow-capped Mount Shasta, smiling kindly and wearing a headset. Clean white background." },
+            { id: 'sol', name: '211 Solano County', mascotName: 'The Jelly Belly Captain', placeholder: 'Solano', prompt: "A happy vector art jelly bean, wearing a captain's hat and a headset. Clean white background." },
+            { id: 'son', name: '211 Sonoma County', mascotName: 'The Wine Country Welcome', placeholder: 'Sonoma', prompt: "A friendly, rustic vector art wine barrel, waving and wearing a headset. Clean white background." },
+            { id: 'sta', name: '211 Stanislaus County', mascotName: 'The Modesto Arch', placeholder: 'Stanislaus', prompt: "A bright vector art 'Water Wealth Contentment Health' arch from Modesto, wearing a headset. Clean white background." },
+            { id: 'ven', name: '211 Ventura County', mascotName: 'The Pier-to-Peer Pal', placeholder: 'Ventura', prompt: "A happy vector art Ventura Pier, with cartoon eyes and a smile, wearing a headset. Clean white background." },
+            { id: 'yol', name: '211 Yolo County', mascotName: 'The Causeway Connector', placeholder: 'Yolo', prompt: "A vector art mascot of the Yolo Causeway, smiling and wearing a headset. Clean white background." }
+        ];
+
+        // --- Song Data ---
+        const playlist = [
+            { title: "Kick it off 2 (1)", style: "Upbeat Acoustic Pop", src: "https://github.com/ingramjam/kic-intake/raw/main/kick%20it%20off%202%20(1).mp3" },
+            { title: "Kick it off 2", style: "Upbeat Acoustic Pop", src: "https://github.com/ingramjam/kic-intake/raw/main/kick%20it%20off%202.mp3" },
+            { title: "Kick it off", style: "Upbeat Acoustic Pop", src: "https://github.com/ingramjam/kic-intake/raw/main/kick%20it%20off.mp3" },
+            { title: "Kick IT", style: "Upbeat Acoustic Pop", src: "https://github.com/ingramjam/kic-intake/raw/main/Kick%20IT.mp3" },
+            { title: "Server Less Funk", style: "Funk", src: "https://github.com/ingramjam/kic-intake/raw/main/Server%20Less%20Funk.mp3" }
+        ];
+        let currentTrackIndex = 0;
+
+        // --- DOM Elements ---
+        const messageBox = document.getElementById('message-box');
+        const messageText = document.getElementById('message-text');
+        const dropdown = document.getElementById('211-select');
+        const cardName = document.getElementById('card-name');
+        const customPrompt = document.getElementById('custom-prompt');
+        const cardImage = document.getElementById('mascot-image');
+        const cardLoader = document.getElementById('mascot-loader');
+        const generateBtn = document.getElementById('generate-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        
+        // Player elements
+        const audioPlayer = document.getElementById('audio-player');
+        const nowPlayingTitle = document.getElementById('now-playing-title');
+        const nowPlayingStyle = document.getElementById('now-playing-style');
+        const prevTrackBtn = document.getElementById('prev-track');
+        const nextTrackBtn = document.getElementById('next-track');
+        
+        // HubSpot Form Elements
+        const hsForm = document.getElementById('custom-hubspot-form');
+        const hsFormMessage = document.getElementById('hs-form-message');
+        const hsSubmitBtn = document.getElementById('hs-submit-btn');
+        const hsOfficeSelect = document.getElementById('hs-211-office');
+
+
+        /**
+         * Populates the mascot dropdown menu with 211 locations.
+         */
+        function populateDropdown() {
+            all211s.forEach(location => {
+                const option = document.createElement('option');
+                option.value = location.id;
+                option.textContent = location.name;
+                dropdown.appendChild(option);
+            });
+        }
+        
+        /**
+         * Populates the HubSpot form dropdown with 211 locations.
+         * Skips the "custom" entry.
+         */
+        function populateFormDropdown() {
+            all211s.forEach(location => {
+                if (location.id === 'custom') return; // Skip the "Custom Mascot" option
+                const option = document.createElement('option');
+                option.value = location.name; // Use the full name as the value for HubSpot
+                option.textContent = location.name;
+                hsOfficeSelect.appendChild(option);
+            });
+        }
+
+
+        /**
+         * Displays the selected 211's info in the card.
+         */
+        function displaySelected211() {
+            clearMessage();
+            const selectedId = dropdown.value;
+            const selectedData = all211s.find(item => item.id === selectedId);
+
+            if (selectedData) {
+                cardName.textContent = selectedData.mascotName;
+                customPrompt.value = selectedData.prompt; // Set the prompt in the textarea
+                cardImage.src = `https://placehold.co/400x300/e2e8f0/94a3b8?text=${selectedData.placeholder}`;
+                cardImage.alt = selectedData.name;
+                generateBtn.disabled = false;
+                downloadBtn.classList.add('hidden'); // Hide download button on change
+            } else {
+                generateBtn.disabled = true;
+            }
+        }
+        
+        /**
+         * Initiates the image generation process using the custom prompt.
+         */
+        function startGeneration() {
+            const promptText = customPrompt.value; // Get text from the textarea
+            if (promptText) {
+                generateImage(promptText, 'mascot-image', 'mascot-loader', 'generate-btn');
+            } else {
+                showMessage("Please enter a prompt in the text area.");
+            }
+        }
+
+        /**
+         * Hides any error messages.
+         */
+        function clearMessage() {
+            messageBox.classList.add('hidden');
+            messageText.textContent = '';
+        }
+
+        /**
+         * Shows an error message.
+         * @param {string} message - The error message to display.
+         */
+        function showMessage(message) {
+            messageText.textContent = message;
+            messageBox.classList.remove('hidden');
+        }
+
+        /**
+         * Calls the Gemini API to generate an image from a text prompt.
+         */
+        async function generateImage(promptText, imgId, loaderId, buttonId) {
+            clearMessage();
+            const imgElement = document.getElementById(imgId);
+            const loaderElement = document.getElementById(loaderId);
+            const buttonElement = document.getElementById(buttonId);
+
+            loaderElement.classList.remove('hidden');
+            buttonElement.disabled = true;
+            buttonElement.textContent = 'Generating...';
+            downloadBtn.classList.add('hidden');
+            imgElement.style.opacity = '0.5';
+
+            const payload = {
+                contents: [{
+                    parts: [{ text: promptText }]
+                }],
+                generationConfig: {
+                    responseModalities: ['IMAGE']
+                },
+            };
+
+            try {
+                const response = await exponentialBackoff(async () => {
+                    return fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                const base64Data = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
+
+                if (!base64Data) {
+                    throw new Error('No image data found in API response.');
+                }
+
+                const dataUrl = `data:image/png;base64,${base64Data}`;
+                imgElement.src = dataUrl;
+                downloadBtn.href = dataUrl; // Set download link
+                downloadBtn.classList.remove('hidden'); // Show download button
+
+                imgElement.onerror = () => {
+                    imgElement.src = `https://placehold.co/400x300/f87171/ffffff?text=Load+Error`;
+                    showMessage("Failed to load the generated image data.");
+                };
+
+            } catch (error) {
+                console.error('Error generating image:', error);
+                showMessage(`Error: ${error.message}. Please check the console and API key.`);
+                imgElement.src = `https://placehold.co/400x300/f87171/ffffff?text=Error`;
+            } finally {
+                loaderElement.classList.add('hidden');
+                buttonElement.disabled = false;
+                buttonElement.textContent = 'Generate Image';
+                imgElement.style.opacity = '1';
+            }
+        }
+
+        /**
+         * Retries a function with exponential backoff.
+         */
+        async function exponentialBackoff(fn, maxRetries = 5, baseDelay = 1000) {
+            let attempt = 0;
+            while (attempt < maxRetries) {
+                try {
+                    const response = await fn();
+                    if (response.status === 429 || response.status === 503) {
+                         throw new Error(`Retryable error: ${response.status}`);
+                    }
+                    return response;
+                } catch (error) {
+                    if (attempt === maxRetries - 1) {
+                        throw error;
+                    }
+                    const delay = baseDelay * (2 ** attempt);
+                    if (!error.message.startsWith('Retryable error')) {
+                         console.warn(`Attempt ${attempt + 1} failed. Retrying in ${delay}ms...`, error.message);
+                    }
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    attempt++;
+                }
+            }
+        }
+
+        // --- Audio Player Logic ---
+        function loadTrack(index, shouldPlay = false) {
+            const track = playlist[index];
+            nowPlayingTitle.textContent = track.title;
+            nowPlayingStyle.textContent = `Style: ${track.style}`;
+            audioPlayer.src = track.src;
+            audioPlayer.load();
+            if (shouldPlay) {
+                audioPlayer.play().catch(e => console.warn("Audio play failed. User interaction needed."));
+            }
+        }
+
+        function playNextTrack() {
+            currentTrackIndex++;
+            if (currentTrackIndex >= playlist.length) {
+                currentTrackIndex = 0; // Loop back to the start
+            }
+            loadTrack(currentTrackIndex, true);
+        }
+
+        function playPrevTrack() {
+            currentTrackIndex--;
+            if (currentTrackIndex < 0) {
+                currentTrackIndex = playlist.length - 1; // Loop to the end
+            }
+            loadTrack(currentTrackIndex, true);
+        }
+
+// --- HubSpot Form Submission Logic ---
+        async function handleHubSpotSubmit(e) {
+            e.preventDefault();
+            hsSubmitBtn.disabled = true;
+            hsSubmitBtn.textContent = 'Submitting...';
+            hsFormMessage.classList.add('hidden');
+
+            const portalId = "131650";
+            const formId = "14c2a36e-387b-4368-a49a-b69fa1e98f5e";
+            const hubspotApiUrl = `httpsE://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`;
+            
+            const formData = new FormData(hsForm);
+            const data = {
+                fields: [
+                    { "name": "firstname", "value": formData.get('firstname') },
+                    { "name": "email", "value": formData.get('email') },
+                    { "name": "select_your_211_call_center", "value": formData.get('select_your_211_call_center') }
+                ]
+            };
+
+            try {
+                const response = await fetch(hubspotApiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    hsFormMessage.textContent = "Thank you! We'll keep you posted.";
+                    hsFormMessage.className = 'form-message form-message-success';
+                    hsForm.reset();
+                } else {
+                    const result = await response.json();
+                    throw new Error(result.message || 'Form submission failed.');
+                }
+
+            } catch (error) {
+                console.error('HubSpot Error:', error);
+                hsFormMessage.textContent = `An error occurred: ${error.message}`;
+                hsFormMessage.className = 'form-message form-message-error';
+            } finally {
+                hsFormMessage.classList.remove('hidden');
+                hsSubmitBtn.disabled = false;
+                hsSubmitBtn.textContent = 'Keep me posted!';
+            }
+        }
+
+
+        // --- Initialize the Page ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mascot Generator
+            populateDropdown();
+            displaySelected211(); // Display the first item (Custom) by default
+            
+            // HubSpot Form
+            populateFormDropdown(); // Populate the 211 office list in the form
+            
+            // Audio Player
+            loadTrack(currentTrackIndex, false); // Load the first track but do not play it
+
+            // --- ALL EVENT LISTENERS ---
+            // Mascot
+            dropdown.addEventListener('change', displaySelected211);
+            generateBtn.addEventListener('click', startGeneration);
+
+            // Player
+            nextTrackBtn.addEventListener('click', playNextTrack);
+            prevTrackBtn.addEventListener('click', playPrevTrack);
+            audioPlayer.addEventListener('ended', playNextTrack); // Auto-play next song
+
+            // HubSpot Form
+            hsForm.addEventListener('submit', handleHubSpotSubmit);
+        });
+        
+    </script>
+</body>
+</html>
