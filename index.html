@@ -231,7 +231,7 @@
          * Retries a function with exponential backoff.
          * This will help handle the 429 rate-limiting errors.
          */
-        async function exponentialBackoff(fn, maxRetries = 5, baseDelay = 2000) { // *** INCREASED baseDelay to 2000ms ***
+        async function exponentialBackoff(fn, maxRetries = 6, baseDelay = 3000) { // *** INCREASED baseDelay to 3000ms and maxRetries to 6 ***
             let attempt = 0;
             while (attempt < maxRetries) {
                 try {
@@ -291,6 +291,10 @@
                 });
 
                 if (!response.ok) {
+                    // *** ADDED SPECIFIC 429 MESSAGE ***
+                    if (response.status === 429) {
+                        throw new Error("Too many requests. You're generating images too fast! Please wait a minute and try again.");
+                    }
                     throw new Error(`API request failed with status ${response.status}. Check your API key.`);
                 }
 
