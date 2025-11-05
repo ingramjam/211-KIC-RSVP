@@ -520,7 +520,7 @@
             loadTrack(currentTrackIndex, true);
         }
 
-// --- HubSpot Form Submission Logic ---
+        // --- HubSpot Form Submission Logic ---
         async function handleHubSpotSubmit(e) {
             e.preventDefault();
             hsSubmitBtn.disabled = true;
@@ -528,8 +528,9 @@
             hsFormMessage.classList.add('hidden');
 
             const portalId = "131650";
-            const formId = "14c2a36e-387b-4368-a49a-b69fa1e98f5e";
-            const hubspotApiUrl = `httpsE://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`;
+            const formId = "14c2a36e-387b-43a9-a49a-b69fa1e98f5e";
+            // *** CORRECTED URL ***
+            const hubspotApiUrl = `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`;
             
             const formData = new FormData(hsForm);
             const data = {
