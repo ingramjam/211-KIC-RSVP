@@ -40,24 +40,15 @@
         
         <header class="bg-gray-700 p-6">
             <h1 class="text-3xl font-bold text-white">ADMIN Mascot Factory</h1>
-            <p class="text-gray-400">Use this tool to generate and save your 211 mascot images.</p>
+            <p class="text-gray-400">Use this tool to generate and save your 13 main 211 mascot images.</p>
         </header>
-
-        <!-- API Key Section -->
-        <section class="p-6 md:p-8 border-b border-gray-700">
-            <h2 class="text-xl font-semibold text-orange-400 mb-4">Step 1: Enter Your API Key</h2>
-            <div class="mb-4">
-                <label for="api-key-input" class="block text-sm font-medium text-gray-400 mb-2">Gemini API Key</label>
-                <input type="password" id="api-key-input" class="form-input bg-gray-800 border-gray-600 text-white" placeholder="Paste your key here. It is not saved.">
-            </div>
-        </section>
 
         <!-- Generator Section -->
         <section class="p-6 md:p-8">
-            <h2 class="text-xl font-semibold text-orange-400 mb-4">Step 2: Generate Mascots (One by One)</h2>
+            <h2 class="text-xl font-semibold text-orange-400 mb-4">Generate Mascots (One by One)</h2>
             
             <div class="mb-4 p-4 bg-gray-800 rounded-lg">
-                <h3 class="text-lg font-bold text-white" id="mascot-tracker">Mascot 0 of 30: ---</h3>
+                <h3 class="text-lg font-bold text-white" id="mascot-tracker">Mascot 0 of 13: ---</h3>
                 <p class="text-gray-400" id="mascot-name">---</p>
             </div>
 
@@ -100,41 +91,25 @@
 
     <script>
         // --- Gemini API Configuration ---
+        const apiKey = ""; // This will be auto-injected by the environment
         const genModel = "gemini-2.5-flash-image-preview";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${genModel}:generateContent?key=${apiKey}`;
         
-        // --- 211 All-Star Data (Generator Version) ---
+        // --- 13 MAIN 211s (FROM YOUR NEW LIST) ---
         const all211s = [
-            // Skipping 'custom' as this is a batch generator
-            { id: 'ala', name: '211 Alameda County', mascotName: 'The Oakland Oak', prompt: "A friendly, wise vector art oak tree with deep roots, wearing a headset. Clean white background." },
-            { id: 'but', name: '211 Butte County', mascotName: 'The Chico Bridge Builder', prompt: "A happy vector art character of the Honey Run Covered Bridge, smiling and wearing a headset. Clean white background." },
-            { id: 'ccc', name: '211 Contra Costa County', mascotName: 'The Diablo Peak Performer', prompt: "A smiling vector art mascot of Mount Diablo's summit, wearing a ranger hat and a headset. Clean white background." },
-            { id: 'fre', name: '211 Fresno County', mascotName: 'The Central Valley Vine', prompt: "A cool vector art bunch of grapes, wearing sunglasses and a headset, giving a thumbs up. Clean white background." },
-            { id: 'hum', name: '211 Humboldt County', mascotName: 'The Redwood Relay', prompt: "A giant, friendly vector art Redwood tree, smiling and wearing a telephone headset. Clean white background." },
-            { id: 'ker', name: '211 Kern County', mascotName: 'The Bakersfield Soundwave', prompt: "A cool vector art acoustic guitar with a country twang, wearing a headset and cowboy boots. Clean white background." },
             { id: 'la', name: '211 LA County', mascotName: 'The Hollywood Star', prompt: "A smiling, confident vector art star from the Walk of Fame, wearing a headset and sunglasses. Clean white background." },
-            { id: 'mar', name: '211 Marin County', mascotName: 'The Marin Headland Helper', prompt: "A vector art mascot of the Golden Gate Bridge (Marin side), peeking cheerfully from the fog and wearing a headset. Clean white background." },
-            { id: 'men', name: '211 Mendocino County', mascotName: 'The Skunk Train Conductor', prompt: "A friendly vector art cartoon skunk, wearing a train conductor's hat and a headset. Clean white background." },
-            { id: 'nap', name: '211 Napa County', mascotName: 'The Valley Vintage', prompt: "A sophisticated vector art wine bottle, wearing a small beret and a headset. Clean white background." },
-            { id: 'nev', name: '211 Nevada County', mascotName: 'The Gold Country Miner', prompt: "A cheerful vector art gold nugget, wearing a miner's helmet with a light and a headset. Clean white background." },
-            { id: 'oc', name: '211 Orange County', mascotName: 'The OC Operator', prompt: "A happy vector art cartoon orange, wearing a headset and carrying a surfboard. Clean white background." },
-            { id: 'pla', name: '211 Placer County', mascotName: 'The Tahoe Tessie', prompt: "A friendly, mythical vector art 'Tessie' (like the Loch Ness Monster) peeking out of Lake Tahoe with a headset on. Clean white background." },
-            { id: 'riv', name: '211 Riverside County', mascotName: 'The Palm Springs Navigator', prompt: "A stylish vector art palm tree with a mid-century modern vibe, wearing a headset. Clean white background." },
-            { id: 'sac', name: '211 Sacramento County', mascotName: 'The Capital Connector', prompt: "A proud vector art California State Capitol Dome, smiling and wearing a headset like a crown. Clean white background." },
-            { id: 'sbc', name: '211 San Bernardino County', mascotName: 'The Route 66 Rocker', prompt: "A cool vector art Route 66 sign, shaped like a guitar and wearing a headset. Clean white background." },
+            { id: 'bay', name: '211 Bay Area', mascotName: 'The Bay Bridge Connector', prompt: "A smiling vector art mascot of the Bay Bridge, wearing a headset. Clean white background." },
             { id: 'sd', name: '211 San Diego County', mascotName: 'The Balboa Park Pal', prompt: "A happy vector art version of the Balboa Park Tower, wearing cool sunglasses and a headset. Clean white background." },
-            { id: 'sf', name: '211 San Francisco County', mascotName: 'The Cable Car Connector', prompt: "A cheerful, cartoony vector art cable car, climbing a hill and wearing a headset. Clean white background." },
+            { id: 'ie', name: '211 Inland Empire', mascotName: 'The IE Route Rocker', prompt: "A stylish vector art mascot combining a Joshua Tree and a Route 66 sign, wearing a headset. Clean white background." },
+            { id: 'oc', name: '211 Orange County', mascotName: 'The OC Operator', prompt: "A happy vector art cartoon orange, wearing a headset and carrying a surfboard. Clean white background." },
+            { id: 'ven', name: '211 Ventura County', mascotName: 'The Pier-to-Peer Pal', prompt: "A happy vector art Ventura Pier, with cartoon eyes and a smile, wearing a headset. Clean white background." },
+            { id: 'ala', name: '211 Alameda County', mascotName: 'The Oakland Oak', prompt: "A friendly, wise vector art oak tree with deep roots, wearing a headset. Clean white background." },
             { id: 'sj', name: '211 San Joaquin County', mascotName: 'The Delta King', prompt: "A friendly vector art riverboat, paddling down the delta and wearing a captain's hat with a headset. Clean white background." },
-            { id: 'slo', name: '211 San Luis Obispo County', mascotName: 'The Morro Rock Responder', prompt: "A strong, friendly vector art Morro Rock, wearing a headset and waving. Clean white background." },
-            { id: 'sm', name: '211 San Mateo County', mascotName: 'The Silicon Valley Server', prompt: "A futuristic, friendly vector art robot, giving a thumbs up and wearing a headset. Clean white background." },
-            { id: 'sbara', name: '211 Santa Barbara County', mascotName: 'The Mission Messenger', prompt: "A beautiful vector art arch from the Santa Barbara Mission, smiling and wearing a headset. Clean white background." },
-            { id: 'sclara', name: '211 Santa Clara County', mascotName: 'The Tech Titan', prompt: "A smart vector art computer chip, smiling and wearing a headset. Clean white background." },
-            { id: 'scruz', name: '211 Santa Cruz County', mascotName: 'The Boardwalk Star', prompt: "A fun vector art Giant Dipper roller coaster car, cheering with its 'hands' up and wearing a headset. Clean white background." },
-            { id: 'sha', name: '211 Shasta County', mascotName: 'The Shasta Summit', prompt: "A majestic vector art snow-capped Mount Shasta, smiling kindly and wearing a headset. Clean white background." },
-            { id: 'sol', name: '211 Solano County', mascotName: 'The Jelly Belly Captain', prompt: "A happy vector art jelly bean, wearing a captain's hat and a headset. Clean white background." },
-            { id: 'son', name: '211 Sonoma County', mascotName: 'The Wine Country Welcome', prompt: "A friendly, rustic vector art wine barrel, waving and wearing a headset. Clean white background." },
-            { id: 'sta', name: '2AN Stanislaus County', mascotName: 'The Modesto Arch', prompt: "A bright vector art 'Water Wealth Contentment Health' arch from Modesto, wearing a headset. Clean white background." },
-            { id: 'ven', name: '211 Ventura County', mascotName: 'The Pier-to-Peer Pal', prompt: "A happy vector art Ventura Pier, with cartoon eyes and a smile, wearing a headset." },
-            { id: 'yol', name: '211 Yolo County', mascotName: 'The Causeway Connector', prompt: "A vector art mascot of the Yolo Causeway, smiling and wearing a headset." }
+            { id: 'sac', name: '211 Sacramento County', mascotName: 'The Capital Connector', prompt: "A proud vector art California State Capitol Dome, smiling and wearing a headset like a crown. Clean white background." },
+            { id: 'nevpla', name: '211 Nevada/Placer', mascotName: 'The Tahoe Gold Miner', prompt: "A friendly vector art gold nugget, wearing a headset and peeking out from a snowy Lake Tahoe. Clean white background." },
+            { id: 'frema', name: '211 Fresno/Madera', mascotName: 'The Central Valley Vine', prompt: "A cool vector art bunch of grapes, wearing sunglasses and a headset, giving a thumbs up. Clean white background." },
+            { id: 'ccc', name: '211 Contra Costa County', mascotName: 'The Diablo Peak Performer', prompt: "A smiling vector art mascot of Mount Diablo's summit, wearing a ranger hat and a headset. Clean white background." },
+            { id: 'butgle', name: '211 Butte/Glenn', mascotName: 'The Chico Bridge Builder', prompt: "A happy vector art character of a covered bridge, smiling and wearing a headset. Clean white background." }
         ];
         
         let currentMascotIndex = 0;
@@ -149,7 +124,6 @@
         const cardLoader = document.getElementById('mascot-loader');
         const generateBtn = document.getElementById('generate-btn');
         const downloadBtn = document.getElementById('download-btn');
-        const apiKeyInput = document.getElementById('api-key-input');
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
 
@@ -196,15 +170,8 @@
          */
         function startGeneration() {
             const promptText = customPrompt.value;
-            const userApiKey = apiKeyInput.value;
-
-            if (!userApiKey) {
-                showMessage("Please paste your Gemini API key into the input field at the top.");
-                return;
-            }
-
             if (promptText) {
-                generateImage(promptText, userApiKey, 'mascot-image', 'mascot-loader', 'generate-btn');
+                generateImage(promptText, 'mascot-image', 'mascot-loader', 'generate-btn');
             } else {
                 showMessage("Please enter a prompt in the text area.");
             }
@@ -223,54 +190,29 @@
          * @param {string} message - The error message to display.
          */
         function showMessage(message) {
-            messageText.textContent = message;
-            messageBox.classList.remove('hidden');
-        }
-
-        /**
-         * Retries a function with exponential backoff.
-         * This will help handle the 429 rate-limiting errors.
-         */
-        async function exponentialBackoff(fn, maxRetries = 6, baseDelay = 3000) { // *** INCREASED baseDelay to 3000ms and maxRetries to 6 ***
-            let attempt = 0;
-            while (attempt < maxRetries) {
-                try {
-                    const response = await fn();
-                    // Check for retryable errors
-                    if (response.status === 429 || response.status === 503) {
-                         throw new Error(`Retryable error: ${response.status}`);
-                    }
-                    return response; // Success
-                } catch (error) {
-                    if (attempt === maxRetries - 1) {
-                        throw error; // Max retries reached
-                    }
-                    const delay = baseDelay * (2 ** attempt);
-                    // Only log on retryable errors, not all failures
-                    if (error.message.startsWith('Retryable error')) {
-                         console.warn(`Attempt ${attempt + 1} failed with ${error.message}. Retrying in ${delay}ms...`);
-                    } else {
-                        // Non-retryable error, throw immediately
-                        throw error;
-                    }
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    attempt++;
-                }
+            if (message.includes("429")) {
+                messageText.innerHTML = "<strong>API Limit Reached!</strong><br>The free tier is strict. Please wait 60 seconds and try again.";
+            } else if (message.includes("403")) {
+                 messageText.innerHTML = "<strong>API Key Error (403)</strong><br>The built-in API key is invalid or disabled.";
+            } else {
+                messageText.textContent = message;
             }
+            messageBox.classList.remove('hidden');
         }
 
         /**
          * Calls the Gemini API to generate an image.
          */
-        async function generateImage(promptText, apiKey, imgId, loaderId, buttonId) {
+        async function generateImage(promptText, imgId, loaderId, buttonId) {
             clearMessage();
             const imgElement = document.getElementById(imgId);
             const loaderElement = document.getElementById(loaderId);
             const buttonElement = document.getElementById(buttonId);
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${genModel}:generateContent?key=${apiKey}`;
 
             loaderElement.classList.remove('hidden');
             buttonElement.disabled = true;
+            nextBtn.disabled = true;
+            prevBtn.disabled = true;
             buttonElement.textContent = 'Generating...';
             downloadBtn.classList.add('hidden');
             imgElement.style.opacity = '0.5';
@@ -281,21 +223,15 @@
             };
 
             try {
-                // *** WRAPPED fetch IN exponentialBackoff ***
-                const response = await exponentialBackoff(async () => {
-                    return fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
+                // Simple fetch, no exponential backoff
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
 
                 if (!response.ok) {
-                    // *** ADDED SPECIFIC 429 MESSAGE ***
-                    if (response.status === 429) {
-                        throw new Error("Too many requests. You're generating images too fast! Please wait a minute and try again.");
-                    }
-                    throw new Error(`API request failed with status ${response.status}. Check your API key.`);
+                    throw new Error(`API request failed with status ${response.status}.`);
                 }
 
                 const result = await response.json();
@@ -309,21 +245,23 @@
                 imgElement.src = dataUrl;
                 downloadBtn.href = dataUrl;
                 
-                // *** BUG FIX: CORRECTED VARIABLE NAME ***
-                // Replaces spaces with underscores and makes it lowercase for a clean filename
+                // *** THE FUCKING FIX ***
+                // Replaces spaces with underscores and makes it lowercase
                 const mascotFileName = all211s[currentMascotIndex].mascotName.replace(/ /g, '_').toLowerCase();
                 downloadBtn.download = `${mascotFileName}.png`; // Set unique, friendly download name
                 
                 downloadBtn.classList.remove('hidden');
 
-            } catch (error) {
-                console.error('Error generating image:', error);
-                showMessage(`Error: ${error.message}`);
+            } catch (error) { 
+                showMessage(error.message); // Pass only the message
                 imgElement.src = `https://placehold.co/400x300/b91c1c/f8fafc?text=Error`;
             } finally {
+                // Re-enable buttons
                 loaderElement.classList.add('hidden');
                 buttonElement.disabled = false;
                 buttonElement.textContent = 'Generate';
+                nextBtn.disabled = false;
+                prevBtn.disabled = false;
                 imgElement.style.opacity = '1';
             }
         }
@@ -335,7 +273,7 @@
             // --- Event Listeners ---
             generateBtn.addEventListener('click', startGeneration);
             nextBtn.addEventListener('click', nextMascot);
-            prevBtn.addEventListener('click', prevMascot); // *** FIXED TYPO HERE ***
+            prevBtn.addEventListener('click', prevMascot);
         });
         
     </script>
