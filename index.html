@@ -81,8 +81,8 @@
             </div>
 
             <!-- Message Box -->
-            <div id="message-box" class="hidden mt-6 max-w-md mx-auto p-4 rounded-lg bg-red-800 text-red-200">
-                <h3 class="font-semibold">Error</h3>
+            <div id="message-box" class="hidden mt-6 max-w-md mx-auto p-4 rounded-lg">
+                <h3 class="font-semibold" id="message-title">Message</h3>
                 <p id="message-text"></p>
             </div>
         </section>
@@ -94,6 +94,9 @@
         const apiKey = ""; // This will be auto-injected by the environment
         const genModel = "gemini-2.5-flash-image-preview";
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${genModel}:generateContent?key=${apiKey}`;
+        
+        // --- Client-Side Image Generator Configuration ---
+        const USE_CLIENT_SIDE_GENERATOR = !apiKey; // Auto-enable if no API key
         
         // --- 13 MAIN 211s (FROM YOUR NEW LIST) ---
         const all211s = [
@@ -117,6 +120,7 @@
         // --- DOM Elements ---
         const messageBox = document.getElementById('message-box');
         const messageText = document.getElementById('message-text');
+        const messageTitle = document.getElementById('message-title');
         const mascotTracker = document.getElementById('mascot-tracker');
         const mascotName = document.getElementById('mascot-name');
         const customPrompt = document.getElementById('custom-prompt');
@@ -186,10 +190,24 @@
         }
 
         /**
-         * Shows an error message.
-         * @param {string} message - The error message to display.
+         * Shows a message (error or success).
+         * @param {string} message - The message to display.
+         * @param {string} type - Message type: 'error', 'success', or 'info' (default: 'error')
          */
-        function showMessage(message) {
+        function showMessage(message, type = 'error') {
+            // Set styling based on type
+            if (type === 'success') {
+                messageBox.className = 'mt-6 max-w-md mx-auto p-4 rounded-lg bg-green-800 text-green-200';
+                messageTitle.textContent = 'Success';
+            } else if (type === 'info') {
+                messageBox.className = 'mt-6 max-w-md mx-auto p-4 rounded-lg bg-blue-800 text-blue-200';
+                messageTitle.textContent = 'Info';
+            } else {
+                messageBox.className = 'mt-6 max-w-md mx-auto p-4 rounded-lg bg-red-800 text-red-200';
+                messageTitle.textContent = 'Error';
+            }
+            
+            // Handle specific error codes
             if (message.includes("429")) {
                 messageText.innerHTML = "<strong>API Limit Reached!</strong><br>The free tier is strict. Please wait 60 seconds and try again.";
             } else if (message.includes("403")) {
@@ -201,7 +219,82 @@
         }
 
         /**
-         * Calls the Gemini API to generate an image.
+         * Generates an image using client-side Canvas API.
+         * Creates a colorful, simple placeholder image based on the mascot data.
+         */
+        function generateClientSideImage(mascotData) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 800;
+            canvas.height = 600;
+            
+            // Background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Generate a unique color based on mascot ID
+            const colors = [
+                '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', 
+                '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2',
+                '#F8B88B', '#FAD7A1', '#AED581', '#4DB6AC'
+            ];
+            const colorIndex = Math.abs(mascotData.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)) % colors.length;
+            const primaryColor = colors[colorIndex];
+            
+            // Draw a large circle as the main mascot body
+            ctx.fillStyle = primaryColor;
+            ctx.beginPath();
+            ctx.arc(400, 300, 150, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Draw eyes
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(360, 270, 25, 0, Math.PI * 2);
+            ctx.arc(440, 270, 25, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.arc(365, 275, 12, 0, Math.PI * 2);
+            ctx.arc(445, 275, 12, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Draw a smile
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(400, 300, 80, 0.2 * Math.PI, 0.8 * Math.PI);
+            ctx.stroke();
+            
+            // Draw headset
+            ctx.strokeStyle = '#333333';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.arc(400, 300, 180, 1.1 * Math.PI, 1.9 * Math.PI);
+            ctx.stroke();
+            
+            // Draw headset earpieces
+            ctx.fillStyle = '#333333';
+            ctx.fillRect(220, 280, 30, 40);
+            ctx.fillRect(550, 280, 30, 40);
+            
+            // Add mascot name text
+            ctx.fillStyle = '#333333';
+            ctx.font = 'bold 32px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(mascotData.mascotName, 400, 520);
+            
+            // Add location name
+            ctx.font = '24px Inter, sans-serif';
+            ctx.fillStyle = '#666666';
+            ctx.fillText(mascotData.name, 400, 555);
+            
+            return canvas.toDataURL('image/png');
+        }
+
+        /**
+         * Calls the Gemini API to generate an image or uses client-side generator as fallback.
          */
         async function generateImage(promptText, imgId, loaderId, buttonId) {
             clearMessage();
@@ -217,6 +310,38 @@
             downloadBtn.classList.add('hidden');
             imgElement.style.opacity = '0.5';
 
+            // Use client-side generator if no API key or if explicitly enabled
+            if (USE_CLIENT_SIDE_GENERATOR) {
+                try {
+                    // Simulate some delay for better UX
+                    await new Promise(resolve => setTimeout(resolve, 800));
+                    
+                    const mascotData = all211s[currentMascotIndex];
+                    const dataUrl = generateClientSideImage(mascotData);
+                    
+                    imgElement.src = dataUrl;
+                    downloadBtn.href = dataUrl;
+                    
+                    const mascotFileName = mascotData.mascotName.replace(/ /g, '_').toLowerCase();
+                    downloadBtn.download = `${mascotFileName}.png`;
+                    
+                    downloadBtn.classList.remove('hidden');
+                    showMessage('✨ Generated using client-side Canvas generator (fallback mode)', 'info');
+                } catch (error) {
+                    showMessage('Client-side generation failed: ' + error.message);
+                    imgElement.src = `https://placehold.co/400x300/b91c1c/f8fafc?text=Error`;
+                } finally {
+                    loaderElement.classList.add('hidden');
+                    buttonElement.disabled = false;
+                    buttonElement.textContent = 'Generate';
+                    nextBtn.disabled = false;
+                    prevBtn.disabled = false;
+                    imgElement.style.opacity = '1';
+                }
+                return;
+            }
+
+            // Try Gemini API
             const payload = {
                 contents: [{ parts: [{ text: promptText }] }],
                 generationConfig: { responseModalities: ['IMAGE'] },
@@ -253,8 +378,19 @@
                 downloadBtn.classList.remove('hidden');
 
             } catch (error) { 
-                showMessage(error.message); // Pass only the message
-                imgElement.src = `https://placehold.co/400x300/b91c1c/f8fafc?text=Error`;
+                // Fallback to client-side generator on API error
+                showMessage('API failed, using client-side generator: ' + error.message);
+                try {
+                    const mascotData = all211s[currentMascotIndex];
+                    const dataUrl = generateClientSideImage(mascotData);
+                    imgElement.src = dataUrl;
+                    downloadBtn.href = dataUrl;
+                    const mascotFileName = mascotData.mascotName.replace(/ /g, '_').toLowerCase();
+                    downloadBtn.download = `${mascotFileName}.png`;
+                    downloadBtn.classList.remove('hidden');
+                } catch (fallbackError) {
+                    imgElement.src = `https://placehold.co/400x300/b91c1c/f8fafc?text=Error`;
+                }
             } finally {
                 // Re-enable buttons
                 loaderElement.classList.add('hidden');
