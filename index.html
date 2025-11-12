@@ -90,13 +90,8 @@
     </div>
 
     <script>
-        // --- Gemini API Configuration ---
-        const apiKey = ""; // This will be auto-injected by the environment
-        const genModel = "gemini-2.5-flash-image-preview";
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${genModel}:generateContent?key=${apiKey}`;
-        
         // --- Client-Side Image Generator Configuration ---
-        const USE_CLIENT_SIDE_GENERATOR = !apiKey; // Auto-enable if no API key
+        const USE_CLIENT_SIDE_GENERATOR = true; // Always use client-side generator
         
         // --- 13 MAIN 211s (FROM YOUR NEW LIST) ---
         const all211s = [
@@ -220,7 +215,7 @@
 
         /**
          * Generates an image using client-side Canvas API.
-         * Creates a colorful, simple placeholder image based on the mascot data.
+         * Creates different images based on prompt keywords to match the mascot concept.
          */
         function generateClientSideImage(mascotData) {
             const canvas = document.createElement('canvas');
@@ -232,52 +227,68 @@
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Generate a unique color based on mascot ID
-            const colors = [
-                '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', 
-                '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2',
-                '#F8B88B', '#FAD7A1', '#AED581', '#4DB6AC'
-            ];
-            const colorIndex = Math.abs(mascotData.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)) % colors.length;
-            const primaryColor = colors[colorIndex];
+            const prompt = mascotData.prompt.toLowerCase();
             
-            // Draw a large circle as the main mascot body
-            ctx.fillStyle = primaryColor;
-            ctx.beginPath();
-            ctx.arc(400, 300, 150, 0, Math.PI * 2);
-            ctx.fill();
+            // Generate colors based on mascot type
+            let primaryColor = '#4ECDC4';
+            let secondaryColor = '#FF6B6B';
             
-            // Draw eyes
-            ctx.fillStyle = '#ffffff';
-            ctx.beginPath();
-            ctx.arc(360, 270, 25, 0, Math.PI * 2);
-            ctx.arc(440, 270, 25, 0, Math.PI * 2);
-            ctx.fill();
+            // Analyze prompt for theme-based styling
+            if (prompt.includes('star') || prompt.includes('hollywood')) {
+                primaryColor = '#FFD700'; // Gold
+                secondaryColor = '#FF69B4'; // Pink
+                drawStar(ctx, 400, 300, 120, primaryColor);
+            } else if (prompt.includes('bridge')) {
+                primaryColor = '#FF4500'; // Orange Red
+                secondaryColor = '#4682B4'; // Steel Blue
+                drawBridge(ctx, primaryColor);
+            } else if (prompt.includes('tower') || prompt.includes('balboa')) {
+                primaryColor = '#8B4513'; // Saddle Brown
+                secondaryColor = '#228B22'; // Forest Green
+                drawTower(ctx, primaryColor);
+            } else if (prompt.includes('tree') || prompt.includes('joshua')) {
+                primaryColor = '#228B22'; // Forest Green
+                secondaryColor = '#8B4513'; // Brown
+                drawTree(ctx, primaryColor, secondaryColor);
+            } else if (prompt.includes('orange') || prompt.includes('oc')) {
+                primaryColor = '#FFA500'; // Orange
+                secondaryColor = '#FF8C00'; // Dark Orange
+                drawOrange(ctx, primaryColor);
+            } else if (prompt.includes('pier')) {
+                primaryColor = '#8B4513'; // Brown
+                secondaryColor = '#4682B4'; // Steel Blue
+                drawPier(ctx, primaryColor, secondaryColor);
+            } else if (prompt.includes('oak')) {
+                primaryColor = '#228B22'; // Forest Green
+                secondaryColor = '#8B4513'; // Brown
+                drawOakTree(ctx, primaryColor, secondaryColor);
+            } else if (prompt.includes('boat') || prompt.includes('riverboat')) {
+                primaryColor = '#4682B4'; // Steel Blue
+                secondaryColor = '#8B4513'; // Brown
+                drawBoat(ctx, primaryColor, secondaryColor);
+            } else if (prompt.includes('capitol') || prompt.includes('dome')) {
+                primaryColor = '#C0C0C0'; // Silver
+                secondaryColor = '#FFD700'; // Gold
+                drawCapitol(ctx, primaryColor, secondaryColor);
+            } else if (prompt.includes('gold') || prompt.includes('nugget')) {
+                primaryColor = '#FFD700'; // Gold
+                secondaryColor = '#C0C0C0'; // Silver
+                drawGoldNugget(ctx, primaryColor);
+            } else if (prompt.includes('grape') || prompt.includes('vine')) {
+                primaryColor = '#800080'; // Purple
+                secondaryColor = '#228B22'; // Green
+                drawGrapes(ctx, primaryColor, secondaryColor);
+            } else if (prompt.includes('mountain') || prompt.includes('diablo')) {
+                primaryColor = '#8B4513'; // Brown
+                secondaryColor = '#228B22'; // Green
+                drawMountain(ctx, primaryColor, secondaryColor);
+            } else {
+                // Default generic mascot
+                drawGenericMascot(ctx, primaryColor);
+            }
             
-            ctx.fillStyle = '#000000';
-            ctx.beginPath();
-            ctx.arc(365, 275, 12, 0, Math.PI * 2);
-            ctx.arc(445, 275, 12, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Draw a smile
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.arc(400, 300, 80, 0.2 * Math.PI, 0.8 * Math.PI);
-            ctx.stroke();
-            
-            // Draw headset
-            ctx.strokeStyle = '#333333';
-            ctx.lineWidth = 6;
-            ctx.beginPath();
-            ctx.arc(400, 300, 180, 1.1 * Math.PI, 1.9 * Math.PI);
-            ctx.stroke();
-            
-            // Draw headset earpieces
-            ctx.fillStyle = '#333333';
-            ctx.fillRect(220, 280, 30, 40);
-            ctx.fillRect(550, 280, 30, 40);
+            // Always add headset
+            drawHeadset(ctx);
             
             // Add mascot name text
             ctx.fillStyle = '#333333';
@@ -293,8 +304,294 @@
             return canvas.toDataURL('image/png');
         }
 
+        // Helper drawing functions for different mascot types
+        function drawStar(ctx, x, y, size, color) {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            for (let i = 0; i < 5; i++) {
+                const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
+                const x1 = x + Math.cos(angle) * size;
+                const y1 = y + Math.sin(angle) * size;
+                if (i === 0) ctx.moveTo(x1, y1);
+                else ctx.lineTo(x1, y1);
+            }
+            ctx.closePath();
+            ctx.fill();
+            
+            // Add sunglasses
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(x - 40, y - 20, 30, 15);
+            ctx.fillRect(x + 10, y - 20, 30, 15);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(x - 10, y - 12);
+            ctx.lineTo(x + 10, y - 12);
+            ctx.stroke();
+        }
+
+        function drawBridge(ctx, color) {
+            ctx.fillStyle = color;
+            // Bridge towers
+            ctx.fillRect(200, 200, 40, 200);
+            ctx.fillRect(560, 200, 40, 200);
+            // Bridge deck
+            ctx.fillRect(100, 350, 600, 20);
+            // Cables
+            ctx.strokeStyle = '#666666';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 10; i++) {
+                ctx.beginPath();
+                ctx.moveTo(220, 200);
+                ctx.lineTo(120 + i * 50, 350);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(580, 200);
+                ctx.lineTo(420 + i * 50, 350);
+                ctx.stroke();
+            }
+            // Smiley face on bridge
+            drawGenericFace(ctx, 400, 275);
+        }
+
+        function drawTower(ctx, color) {
+            ctx.fillStyle = color;
+            // Tower base
+            ctx.fillRect(350, 250, 100, 150);
+            // Tower top
+            ctx.fillRect(360, 200, 80, 50);
+            // Tower dome
+            ctx.beginPath();
+            ctx.arc(400, 200, 40, Math.PI, 0);
+            ctx.fill();
+            // Face
+            drawGenericFace(ctx, 400, 300);
+        }
+
+        function drawTree(ctx, greenColor, brownColor) {
+            // Trunk
+            ctx.fillStyle = brownColor;
+            ctx.fillRect(380, 300, 40, 100);
+            // Leaves (spiky for Joshua tree)
+            ctx.fillStyle = greenColor;
+            for (let i = 0; i < 8; i++) {
+                const angle = (i * Math.PI) / 4;
+                const x = 400 + Math.cos(angle) * 80;
+                const y = 280 + Math.sin(angle) * 60;
+                ctx.beginPath();
+                ctx.arc(x, y, 30, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            // Face on trunk
+            drawGenericFace(ctx, 400, 350);
+        }
+
+        function drawOrange(ctx, color) {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(400, 300, 100, 0, Math.PI * 2);
+            ctx.fill();
+            // Orange texture lines
+            ctx.strokeStyle = '#FF8C00';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 8; i++) {
+                const angle = (i * Math.PI) / 4;
+                ctx.beginPath();
+                ctx.moveTo(400, 300);
+                ctx.lineTo(400 + Math.cos(angle) * 100, 300 + Math.sin(angle) * 100);
+                ctx.stroke();
+            }
+            // Surfboard
+            ctx.fillStyle = '#87CEEB';
+            ctx.fillRect(320, 180, 20, 80);
+            // Face
+            drawGenericFace(ctx, 400, 300);
+        }
+
+        function drawPier(ctx, brownColor, blueColor) {
+            // Pier deck
+            ctx.fillStyle = brownColor;
+            ctx.fillRect(200, 320, 400, 40);
+            // Pier supports
+            for (let i = 0; i < 5; i++) {
+                ctx.fillRect(220 + i * 80, 360, 10, 60);
+            }
+            // Water
+            ctx.fillStyle = blueColor;
+            ctx.fillRect(0, 420, 800, 180);
+            // Face on pier
+            drawGenericFace(ctx, 400, 300);
+        }
+
+        function drawOakTree(ctx, greenColor, brownColor) {
+            // Trunk
+            ctx.fillStyle = brownColor;
+            ctx.fillRect(370, 250, 60, 150);
+            // Crown
+            ctx.fillStyle = greenColor;
+            ctx.beginPath();
+            ctx.arc(400, 250, 120, 0, Math.PI * 2);
+            ctx.fill();
+            // Face on trunk
+            drawGenericFace(ctx, 400, 325);
+        }
+
+        function drawBoat(ctx, blueColor, brownColor) {
+            // Boat hull
+            ctx.fillStyle = brownColor;
+            ctx.beginPath();
+            ctx.moveTo(300, 350);
+            ctx.lineTo(500, 350);
+            ctx.lineTo(480, 400);
+            ctx.lineTo(320, 400);
+            ctx.closePath();
+            ctx.fill();
+            // Smokestack
+            ctx.fillRect(380, 300, 40, 50);
+            // Captain's hat
+            ctx.fillStyle = '#000080';
+            ctx.fillRect(370, 250, 60, 30);
+            ctx.beginPath();
+            ctx.arc(400, 250, 35, Math.PI, 0);
+            ctx.fill();
+            // Face
+            drawGenericFace(ctx, 400, 325);
+        }
+
+        function drawCapitol(ctx, silverColor, goldColor) {
+            // Base
+            ctx.fillStyle = silverColor;
+            ctx.fillRect(300, 300, 200, 100);
+            // Dome
+            ctx.beginPath();
+            ctx.arc(400, 300, 80, Math.PI, 0);
+            ctx.fill();
+            // Top
+            ctx.fillStyle = goldColor;
+            ctx.fillRect(390, 220, 20, 80);
+            ctx.beginPath();
+            ctx.arc(400, 220, 15, 0, Math.PI * 2);
+            ctx.fill();
+            // Face
+            drawGenericFace(ctx, 400, 350);
+        }
+
+        function drawGoldNugget(ctx, goldColor) {
+            // Irregular gold shape
+            ctx.fillStyle = goldColor;
+            ctx.beginPath();
+            ctx.moveTo(350, 280);
+            ctx.lineTo(450, 270);
+            ctx.lineTo(470, 320);
+            ctx.lineTo(420, 370);
+            ctx.lineTo(330, 350);
+            ctx.lineTo(320, 300);
+            ctx.closePath();
+            ctx.fill();
+            // Sparkles
+            ctx.fillStyle = '#FFFF00';
+            drawStar(ctx, 380, 300, 15, '#FFFF00');
+            drawStar(ctx, 420, 320, 10, '#FFFF00');
+            // Face
+            drawGenericFace(ctx, 400, 320);
+        }
+
+        function drawGrapes(ctx, purpleColor, greenColor) {
+            // Grape bunch
+            ctx.fillStyle = purpleColor;
+            for (let row = 0; row < 5; row++) {
+                for (let col = 0; col < 4 - Math.abs(row - 2); col++) {
+                    const x = 370 + col * 30 + (Math.abs(row - 2) * 15);
+                    const y = 250 + row * 25;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 12, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            // Leaf
+            ctx.fillStyle = greenColor;
+            ctx.beginPath();
+            ctx.arc(400, 220, 20, 0, Math.PI * 2);
+            ctx.fill();
+            // Sunglasses
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(370, 280, 25, 12);
+            ctx.fillRect(405, 280, 25, 12);
+        }
+
+        function drawMountain(ctx, brownColor, greenColor) {
+            // Mountain
+            ctx.fillStyle = brownColor;
+            ctx.beginPath();
+            ctx.moveTo(400, 200);
+            ctx.lineTo(500, 400);
+            ctx.lineTo(300, 400);
+            ctx.closePath();
+            ctx.fill();
+            // Trees on mountain
+            ctx.fillStyle = greenColor;
+            for (let i = 0; i < 3; i++) {
+                ctx.beginPath();
+                ctx.arc(340 + i * 40, 380, 15, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            // Ranger hat
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(370, 250, 60, 30);
+            ctx.beginPath();
+            ctx.arc(400, 250, 35, Math.PI, 0);
+            ctx.fill();
+            // Face
+            drawGenericFace(ctx, 400, 300);
+        }
+
+        function drawGenericMascot(ctx, color) {
+            // Default circle mascot
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(400, 300, 100, 0, Math.PI * 2);
+            ctx.fill();
+            drawGenericFace(ctx, 400, 300);
+        }
+
+        function drawGenericFace(ctx, x, y) {
+            // Eyes
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(x - 30, y - 20, 20, 0, Math.PI * 2);
+            ctx.arc(x + 30, y - 20, 20, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.arc(x - 25, y - 15, 10, 0, Math.PI * 2);
+            ctx.arc(x + 35, y - 15, 10, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Smile
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(x, y, 50, 0.2 * Math.PI, 0.8 * Math.PI);
+            ctx.stroke();
+        }
+
+        function drawHeadset(ctx) {
+            // Headset band
+            ctx.strokeStyle = '#333333';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.arc(400, 300, 140, 1.1 * Math.PI, 1.9 * Math.PI);
+            ctx.stroke();
+            
+            // Headset earpieces
+            ctx.fillStyle = '#333333';
+            ctx.fillRect(260, 280, 25, 35);
+            ctx.fillRect(515, 280, 25, 35);
+        }
+
         /**
-         * Calls the Gemini API to generate an image or uses client-side generator as fallback.
+         * Initiates the image generation process using the client-side generator.
          */
         async function generateImage(promptText, imgId, loaderId, buttonId) {
             clearMessage();
@@ -310,89 +607,25 @@
             downloadBtn.classList.add('hidden');
             imgElement.style.opacity = '0.5';
 
-            // Use client-side generator if no API key or if explicitly enabled
-            if (USE_CLIENT_SIDE_GENERATOR) {
-                try {
-                    // Simulate some delay for better UX
-                    await new Promise(resolve => setTimeout(resolve, 800));
-                    
-                    const mascotData = all211s[currentMascotIndex];
-                    const dataUrl = generateClientSideImage(mascotData);
-                    
-                    imgElement.src = dataUrl;
-                    downloadBtn.href = dataUrl;
-                    
-                    const mascotFileName = mascotData.mascotName.replace(/ /g, '_').toLowerCase();
-                    downloadBtn.download = `${mascotFileName}.png`;
-                    
-                    downloadBtn.classList.remove('hidden');
-                    showMessage('✨ Generated using client-side Canvas generator (fallback mode)', 'info');
-                } catch (error) {
-                    showMessage('Client-side generation failed: ' + error.message);
-                    imgElement.src = `https://placehold.co/400x300/b91c1c/f8fafc?text=Error`;
-                } finally {
-                    loaderElement.classList.add('hidden');
-                    buttonElement.disabled = false;
-                    buttonElement.textContent = 'Generate';
-                    nextBtn.disabled = false;
-                    prevBtn.disabled = false;
-                    imgElement.style.opacity = '1';
-                }
-                return;
-            }
-
-            // Try Gemini API
-            const payload = {
-                contents: [{ parts: [{ text: promptText }] }],
-                generationConfig: { responseModalities: ['IMAGE'] },
-            };
-
             try {
-                // Simple fetch, no exponential backoff
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`API request failed with status ${response.status}.`);
-                }
-
-                const result = await response.json();
-                const base64Data = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
-
-                if (!base64Data) {
-                    throw new Error('No image data found in API response.');
-                }
-
-                const dataUrl = `data:image/png;base64,${base64Data}`;
+                // Simulate some delay for better UX
+                await new Promise(resolve => setTimeout(resolve, 800));
+                
+                const mascotData = all211s[currentMascotIndex];
+                const dataUrl = generateClientSideImage(mascotData);
+                
                 imgElement.src = dataUrl;
                 downloadBtn.href = dataUrl;
                 
-                // *** THE FUCKING FIX ***
-                // Replaces spaces with underscores and makes it lowercase
-                const mascotFileName = all211s[currentMascotIndex].mascotName.replace(/ /g, '_').toLowerCase();
-                downloadBtn.download = `${mascotFileName}.png`; // Set unique, friendly download name
+                const mascotFileName = mascotData.mascotName.replace(/ /g, '_').toLowerCase();
+                downloadBtn.download = `${mascotFileName}.png`;
                 
                 downloadBtn.classList.remove('hidden');
-
-            } catch (error) { 
-                // Fallback to client-side generator on API error
-                showMessage('API failed, using client-side generator: ' + error.message);
-                try {
-                    const mascotData = all211s[currentMascotIndex];
-                    const dataUrl = generateClientSideImage(mascotData);
-                    imgElement.src = dataUrl;
-                    downloadBtn.href = dataUrl;
-                    const mascotFileName = mascotData.mascotName.replace(/ /g, '_').toLowerCase();
-                    downloadBtn.download = `${mascotFileName}.png`;
-                    downloadBtn.classList.remove('hidden');
-                } catch (fallbackError) {
-                    imgElement.src = `https://placehold.co/400x300/b91c1c/f8fafc?text=Error`;
-                }
+                showMessage('✨ Generated using client-side Canvas generator', 'success');
+            } catch (error) {
+                showMessage('Generation failed: ' + error.message);
+                imgElement.src = `https://placehold.co/400x300/b91c1c/f8fafc?text=Error`;
             } finally {
-                // Re-enable buttons
                 loaderElement.classList.add('hidden');
                 buttonElement.disabled = false;
                 buttonElement.textContent = 'Generate';
