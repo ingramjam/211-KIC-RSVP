@@ -214,8 +214,7 @@
         }
 
         /**
-         * Generates an image using client-side Canvas API.
-         * Creates different images based on prompt keywords to match the mascot concept.
+         * Generates a high-quality cartoon mascot image based on mascot type.
          */
         function generateClientSideImage(mascotData) {
             const canvas = document.createElement('canvas');
@@ -223,372 +222,779 @@
             canvas.width = 800;
             canvas.height = 600;
             
-            // Background
-            ctx.fillStyle = '#ffffff';
+            // Light background
+            ctx.fillStyle = '#f5f5f5';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             const prompt = mascotData.prompt.toLowerCase();
             
-            // Generate colors based on mascot type
-            let primaryColor = '#4ECDC4';
-            let secondaryColor = '#FF6B6B';
-            
-            // Analyze prompt for theme-based styling
+            // Route to correct drawing function based on prompt
             if (prompt.includes('star') || prompt.includes('hollywood')) {
-                primaryColor = '#FFD700'; // Gold
-                secondaryColor = '#FF69B4'; // Pink
-                drawStar(ctx, 400, 300, 120, primaryColor);
+                drawHollywoodStar(ctx);
             } else if (prompt.includes('bridge')) {
-                primaryColor = '#FF4500'; // Orange Red
-                secondaryColor = '#4682B4'; // Steel Blue
-                drawBridge(ctx, primaryColor);
+                drawBayBridge(ctx);
             } else if (prompt.includes('tower') || prompt.includes('balboa')) {
-                primaryColor = '#8B4513'; // Saddle Brown
-                secondaryColor = '#228B22'; // Forest Green
-                drawTower(ctx, primaryColor);
-            } else if (prompt.includes('tree') || prompt.includes('joshua')) {
-                primaryColor = '#228B22'; // Forest Green
-                secondaryColor = '#8B4513'; // Brown
-                drawTree(ctx, primaryColor, secondaryColor);
-            } else if (prompt.includes('orange') || prompt.includes('oc')) {
-                primaryColor = '#FFA500'; // Orange
-                secondaryColor = '#FF8C00'; // Dark Orange
-                drawOrange(ctx, primaryColor);
+                drawBalboaTower(ctx);
+            } else if (prompt.includes('joshua') || prompt.includes('route')) {
+                drawJoshuaTree(ctx);
+            } else if (prompt.includes('orange')) {
+                drawOrangeOC(ctx);
             } else if (prompt.includes('pier')) {
-                primaryColor = '#8B4513'; // Brown
-                secondaryColor = '#4682B4'; // Steel Blue
-                drawPier(ctx, primaryColor, secondaryColor);
+                drawVenturaPier(ctx);
             } else if (prompt.includes('oak')) {
-                primaryColor = '#228B22'; // Forest Green
-                secondaryColor = '#8B4513'; // Brown
-                drawOakTree(ctx, primaryColor, secondaryColor);
-            } else if (prompt.includes('boat') || prompt.includes('riverboat')) {
-                primaryColor = '#4682B4'; // Steel Blue
-                secondaryColor = '#8B4513'; // Brown
-                drawBoat(ctx, primaryColor, secondaryColor);
+                drawOakland(ctx);
+            } else if (prompt.includes('riverboat') || prompt.includes('delta')) {
+                drawDeltaKing(ctx);
             } else if (prompt.includes('capitol') || prompt.includes('dome')) {
-                primaryColor = '#C0C0C0'; // Silver
-                secondaryColor = '#FFD700'; // Gold
-                drawCapitol(ctx, primaryColor, secondaryColor);
+                drawCapitolConnector(ctx);
             } else if (prompt.includes('gold') || prompt.includes('nugget')) {
-                primaryColor = '#FFD700'; // Gold
-                secondaryColor = '#C0C0C0'; // Silver
-                drawGoldNugget(ctx, primaryColor);
+                drawTahoeGold(ctx);
             } else if (prompt.includes('grape') || prompt.includes('vine')) {
-                primaryColor = '#800080'; // Purple
-                secondaryColor = '#228B22'; // Green
-                drawGrapes(ctx, primaryColor, secondaryColor);
-            } else if (prompt.includes('mountain') || prompt.includes('diablo')) {
-                primaryColor = '#8B4513'; // Brown
-                secondaryColor = '#228B22'; // Green
-                drawMountain(ctx, primaryColor, secondaryColor);
+                drawCentralValleyGrapes(ctx);
+            } else if (prompt.includes('diablo') || prompt.includes('mountain')) {
+                drawDiabloPeak(ctx);
+            } else if (prompt.includes('covered') || prompt.includes('bridge')) {
+                drawChicoBridge(ctx);
             } else {
-                // Default generic mascot
-                drawGenericMascot(ctx, primaryColor);
+                drawGenericMascot(ctx);
             }
-            
-            // Always add headset
-            drawHeadset(ctx);
-            
-            // Add mascot name text
-            ctx.fillStyle = '#333333';
-            ctx.font = 'bold 32px Inter, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText(mascotData.mascotName, 400, 520);
-            
-            // Add location name
-            ctx.font = '24px Inter, sans-serif';
-            ctx.fillStyle = '#666666';
-            ctx.fillText(mascotData.name, 400, 555);
             
             return canvas.toDataURL('image/png');
         }
 
-        // Helper drawing functions for different mascot types
-        function drawStar(ctx, x, y, size, color) {
-            ctx.fillStyle = color;
+        // High-quality drawing functions for each mascot
+        function drawHollywoodStar(ctx) {
+            // Gold star with personality
+            const centerX = 400, centerY = 280;
+            drawFilledStar(ctx, centerX, centerY, 5, 100, 60, '#FFD700');
+            
+            // Star outline
+            ctx.strokeStyle = '#B8860B';
+            ctx.lineWidth = 3;
+            drawStarPath(ctx, centerX, centerY, 5, 100, 60);
+            ctx.stroke();
+            
+            // Sunglasses
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(centerX - 80, centerY - 40, 35, 25);
+            ctx.fillRect(centerX + 45, centerY - 40, 35, 25);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(centerX - 75, centerY - 35, 25, 15);
+            ctx.fillRect(centerX + 50, centerY - 35, 25, 15);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
             ctx.beginPath();
-            for (let i = 0; i < 5; i++) {
-                const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
-                const x1 = x + Math.cos(angle) * size;
-                const y1 = y + Math.sin(angle) * size;
-                if (i === 0) ctx.moveTo(x1, y1);
-                else ctx.lineTo(x1, y1);
+            ctx.moveTo(centerX - 45, centerY - 27);
+            ctx.lineTo(centerX + 45, centerY - 27);
+            ctx.stroke();
+            
+            // Face features
+            drawFace(ctx, centerX, centerY + 20, true);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX - 5, centerY - 60);
+            
+            // Sparkles
+            drawSparkles(ctx, centerX - 100, centerY - 100, 3);
+        }
+
+        function drawBayBridge(ctx) {
+            const centerX = 400, centerY = 280;
+            
+            // Bridge body as main character
+            ctx.fillStyle = '#4682B4';
+            ctx.fillRect(centerX - 80, centerY - 60, 160, 120);
+            
+            // Tower outlines
+            ctx.strokeStyle = '#1C3A70';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(centerX - 80, centerY - 60, 160, 120);
+            
+            // Bridge towers
+            ctx.fillStyle = '#1C3A70';
+            ctx.fillRect(centerX - 70, centerY - 90, 15, 40);
+            ctx.fillRect(centerX + 55, centerY - 90, 15, 40);
+            
+            // Bridge deck
+            ctx.fillStyle = '#5B9BD5';
+            ctx.fillRect(centerX - 80, centerY + 20, 160, 20);
+            
+            // Cables
+            ctx.strokeStyle = '#CCCCCC';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 6; i++) {
+                ctx.beginPath();
+                ctx.moveTo(centerX - 70 + i * 30, centerY - 90);
+                ctx.lineTo(centerX - 80 + i * 30, centerY + 20);
+                ctx.stroke();
             }
+            
+            // Face on bridge
+            drawFace(ctx, centerX, centerY + 10, true);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX, centerY - 80);
+            
+            // Legs
+            ctx.fillStyle = '#4682B4';
+            ctx.fillRect(centerX - 40, centerY + 50, 20, 50);
+            ctx.fillRect(centerX + 20, centerY + 50, 20, 50);
+            ctx.fillStyle = '#333333';
+            ctx.fillRect(centerX - 40, centerY + 100, 20, 20);
+            ctx.fillRect(centerX + 20, centerY + 100, 20, 20);
+        }
+
+        function drawBalboaTower(ctx) {
+            const centerX = 400, centerY = 260;
+            
+            // Tower structure
+            ctx.fillStyle = '#D2A679';
+            ctx.fillRect(centerX - 60, centerY - 80, 120, 160);
+            
+            // Tower outline
+            ctx.strokeStyle = '#8B5A3C';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(centerX - 60, centerY - 80, 120, 160);
+            
+            // Dome
+            ctx.fillStyle = '#87CEEB';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY - 80, 45, Math.PI, 0);
+            ctx.fill();
+            
+            // Dome outline
+            ctx.strokeStyle = '#4682B4';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY - 80, 45, Math.PI, 0);
+            ctx.stroke();
+            
+            // Arches
+            for (let i = 0; i < 3; i++) {
+                ctx.strokeStyle = '#8B5A3C';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(centerX - 40 + i * 40, centerY - 20, 25, 0, Math.PI);
+                ctx.stroke();
+            }
+            
+            // Face
+            drawFace(ctx, centerX, centerY + 30, true);
+            
+            // Sunglasses
+            drawSunglasses(ctx, centerX, centerY + 20);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX, centerY - 100);
+        }
+
+        function drawJoshuaTree(ctx) {
+            const centerX = 400, centerY = 300;
+            
+            // Trunk
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(centerX - 30, centerY - 20, 60, 100);
+            ctx.strokeStyle = '#654321';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(centerX - 30, centerY - 20, 60, 100);
+            
+            // Spiky branches
+            ctx.fillStyle = '#228B22';
+            ctx.strokeStyle = '#1a6b1a';
+            ctx.lineWidth = 3;
+            
+            for (let i = 0; i < 8; i++) {
+                const angle = (i * Math.PI) / 4;
+                const tipX = centerX + Math.cos(angle) * 100;
+                const tipY = centerY - 40 + Math.sin(angle) * 80;
+                
+                ctx.fillStyle = '#228B22';
+                ctx.beginPath();
+                ctx.arc(tipX, tipY, 18, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.strokeStyle = '#1a6b1a';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(tipX, tipY, 18, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // Face
+            drawFace(ctx, centerX, centerY + 40, true);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX, centerY - 70);
+        }
+
+        function drawOrangeOC(ctx) {
+            const centerX = 400, centerY = 280;
+            
+            // Orange body
+            ctx.fillStyle = '#FFA500';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 80, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Orange outline
+            ctx.strokeStyle = '#FF8C00';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 80, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Orange texture lines
+            ctx.strokeStyle = '#FF8C00';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 8; i++) {
+                const angle = (i * Math.PI) / 4;
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(centerX + Math.cos(angle) * 80, centerY + Math.sin(angle) * 80);
+                ctx.stroke();
+            }
+            
+            // Face
+            drawFace(ctx, centerX, centerY + 5, true);
+            
+            // Sunglasses
+            drawSunglasses(ctx, centerX, centerY - 10);
+            
+            // Surfboard
+            ctx.fillStyle = '#87CEEB';
+            ctx.fillRect(centerX - 100, centerY - 120, 30, 80);
+            ctx.strokeStyle = '#4682B4';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(centerX - 100, centerY - 120, 30, 80);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX, centerY - 100);
+        }
+
+        function drawVenturaPier(ctx) {
+            const centerX = 400, centerY = 280;
+            
+            // Pier structure
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(centerX - 100, centerY - 40, 200, 80);
+            ctx.strokeStyle = '#654321';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(centerX - 100, centerY - 40, 200, 80);
+            
+            // Pier supports
+            for (let i = 0; i < 5; i++) {
+                ctx.fillStyle = '#654321';
+                ctx.fillRect(centerX - 80 + i * 40, centerY + 40, 12, 60);
+            }
+            
+            // Water
+            ctx.fillStyle = '#4682B4';
+            ctx.fillRect(centerX - 150, centerY + 100, 300, 80);
+            ctx.strokeStyle = '#1C3A70';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 20; i++) {
+                ctx.beginPath();
+                ctx.moveTo(centerX - 150 + i * 20, centerY + 110);
+                ctx.lineTo(centerX - 140 + i * 20, centerY + 115);
+                ctx.stroke();
+            }
+            
+            // Face on pier
+            drawFace(ctx, centerX, centerY, true);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX, centerY - 80);
+        }
+
+        function drawOakland(ctx) {
+            const centerX = 400, centerY = 280;
+            
+            // Trunk
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(centerX - 35, centerY + 20, 70, 100);
+            ctx.strokeStyle = '#654321';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(centerX - 35, centerY + 20, 70, 100);
+            
+            // Roots
+            ctx.strokeStyle = '#654321';
+            ctx.lineWidth = 3;
+            for (let i = 0; i < 3; i++) {
+                const angle = (Math.PI / 2) + (i - 1) * 0.3;
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY + 20);
+                ctx.quadraticCurveTo(
+                    centerX + Math.cos(angle) * 40,
+                    centerY + 40 + Math.sin(angle) * 60,
+                    centerX + Math.cos(angle) * 50,
+                    centerY + 120
+                );
+                ctx.stroke();
+            }
+            
+            // Crown - large circle
+            ctx.fillStyle = '#228B22';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY - 40, 110, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.strokeStyle = '#1a6b1a';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY - 40, 110, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Face
+            drawFace(ctx, centerX, centerY + 60, true);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX, centerY - 120);
+        }
+
+        function drawDeltaKing(ctx) {
+            const centerX = 400, centerY = 280;
+            
+            // Boat hull
+            ctx.fillStyle = '#8B4513';
+            ctx.beginPath();
+            ctx.moveTo(centerX - 80, centerY);
+            ctx.lineTo(centerX + 80, centerY);
+            ctx.lineTo(centerX + 70, centerY + 60);
+            ctx.lineTo(centerX - 70, centerY + 60);
             ctx.closePath();
             ctx.fill();
             
-            // Add sunglasses
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(x - 40, y - 20, 30, 15);
-            ctx.fillRect(x + 10, y - 20, 30, 15);
-            ctx.strokeStyle = '#000000';
+            ctx.strokeStyle = '#654321';
             ctx.lineWidth = 3;
             ctx.beginPath();
-            ctx.moveTo(x - 10, y - 12);
-            ctx.lineTo(x + 10, y - 12);
-            ctx.stroke();
-        }
-
-        function drawBridge(ctx, color) {
-            ctx.fillStyle = color;
-            // Bridge towers
-            ctx.fillRect(200, 200, 40, 200);
-            ctx.fillRect(560, 200, 40, 200);
-            // Bridge deck
-            ctx.fillRect(100, 350, 600, 20);
-            // Cables
-            ctx.strokeStyle = '#666666';
-            ctx.lineWidth = 2;
-            for (let i = 0; i < 10; i++) {
-                ctx.beginPath();
-                ctx.moveTo(220, 200);
-                ctx.lineTo(120 + i * 50, 350);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(580, 200);
-                ctx.lineTo(420 + i * 50, 350);
-                ctx.stroke();
-            }
-            // Smiley face on bridge
-            drawGenericFace(ctx, 400, 275);
-        }
-
-        function drawTower(ctx, color) {
-            ctx.fillStyle = color;
-            // Tower base
-            ctx.fillRect(350, 250, 100, 150);
-            // Tower top
-            ctx.fillRect(360, 200, 80, 50);
-            // Tower dome
-            ctx.beginPath();
-            ctx.arc(400, 200, 40, Math.PI, 0);
-            ctx.fill();
-            // Face
-            drawGenericFace(ctx, 400, 300);
-        }
-
-        function drawTree(ctx, greenColor, brownColor) {
-            // Trunk
-            ctx.fillStyle = brownColor;
-            ctx.fillRect(380, 300, 40, 100);
-            // Leaves (spiky for Joshua tree)
-            ctx.fillStyle = greenColor;
-            for (let i = 0; i < 8; i++) {
-                const angle = (i * Math.PI) / 4;
-                const x = 400 + Math.cos(angle) * 80;
-                const y = 280 + Math.sin(angle) * 60;
-                ctx.beginPath();
-                ctx.arc(x, y, 30, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            // Face on trunk
-            drawGenericFace(ctx, 400, 350);
-        }
-
-        function drawOrange(ctx, color) {
-            ctx.fillStyle = color;
-            ctx.beginPath();
-            ctx.arc(400, 300, 100, 0, Math.PI * 2);
-            ctx.fill();
-            // Orange texture lines
-            ctx.strokeStyle = '#FF8C00';
-            ctx.lineWidth = 2;
-            for (let i = 0; i < 8; i++) {
-                const angle = (i * Math.PI) / 4;
-                ctx.beginPath();
-                ctx.moveTo(400, 300);
-                ctx.lineTo(400 + Math.cos(angle) * 100, 300 + Math.sin(angle) * 100);
-                ctx.stroke();
-            }
-            // Surfboard
-            ctx.fillStyle = '#87CEEB';
-            ctx.fillRect(320, 180, 20, 80);
-            // Face
-            drawGenericFace(ctx, 400, 300);
-        }
-
-        function drawPier(ctx, brownColor, blueColor) {
-            // Pier deck
-            ctx.fillStyle = brownColor;
-            ctx.fillRect(200, 320, 400, 40);
-            // Pier supports
-            for (let i = 0; i < 5; i++) {
-                ctx.fillRect(220 + i * 80, 360, 10, 60);
-            }
-            // Water
-            ctx.fillStyle = blueColor;
-            ctx.fillRect(0, 420, 800, 180);
-            // Face on pier
-            drawGenericFace(ctx, 400, 300);
-        }
-
-        function drawOakTree(ctx, greenColor, brownColor) {
-            // Trunk
-            ctx.fillStyle = brownColor;
-            ctx.fillRect(370, 250, 60, 150);
-            // Crown
-            ctx.fillStyle = greenColor;
-            ctx.beginPath();
-            ctx.arc(400, 250, 120, 0, Math.PI * 2);
-            ctx.fill();
-            // Face on trunk
-            drawGenericFace(ctx, 400, 325);
-        }
-
-        function drawBoat(ctx, blueColor, brownColor) {
-            // Boat hull
-            ctx.fillStyle = brownColor;
-            ctx.beginPath();
-            ctx.moveTo(300, 350);
-            ctx.lineTo(500, 350);
-            ctx.lineTo(480, 400);
-            ctx.lineTo(320, 400);
+            ctx.moveTo(centerX - 80, centerY);
+            ctx.lineTo(centerX + 80, centerY);
+            ctx.lineTo(centerX + 70, centerY + 60);
+            ctx.lineTo(centerX - 70, centerY + 60);
             ctx.closePath();
+            ctx.stroke();
+            
+            // Paddle wheel
+            ctx.fillStyle = '#C0C0C0';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY + 50, 35, 0, Math.PI * 2);
             ctx.fill();
+            
+            ctx.strokeStyle = '#808080';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY + 50, 35, 0, Math.PI * 2);
+            ctx.stroke();
+            
             // Smokestack
-            ctx.fillRect(380, 300, 40, 50);
+            ctx.fillStyle = '#333333';
+            ctx.fillRect(centerX - 15, centerY - 80, 30, 80);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(centerX - 15, centerY - 80, 30, 80);
+            
+            // Face
+            drawFace(ctx, centerX, centerY - 20, true);
+            
             // Captain's hat
             ctx.fillStyle = '#000080';
-            ctx.fillRect(370, 250, 60, 30);
+            ctx.fillRect(centerX - 50, centerY - 100, 100, 30);
             ctx.beginPath();
-            ctx.arc(400, 250, 35, Math.PI, 0);
+            ctx.arc(centerX, centerY - 100, 55, Math.PI, 0);
             ctx.fill();
-            // Face
-            drawGenericFace(ctx, 400, 325);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX, centerY - 120);
         }
 
-        function drawCapitol(ctx, silverColor, goldColor) {
-            // Base
-            ctx.fillStyle = silverColor;
-            ctx.fillRect(300, 300, 200, 100);
+        function drawCapitolConnector(ctx) {
+            const centerX = 400, centerY = 260;
+            
+            // Building base
+            ctx.fillStyle = '#D2A679';
+            ctx.fillRect(centerX - 70, centerY + 40, 140, 80);
+            
+            // Main dome body
+            ctx.fillStyle = '#B8860B';
+            ctx.fillRect(centerX - 60, centerY - 20, 120, 60);
+            ctx.strokeStyle = '#8B5A3C';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(centerX - 60, centerY - 20, 120, 60);
+            
             // Dome
+            ctx.fillStyle = '#FFD700';
             ctx.beginPath();
-            ctx.arc(400, 300, 80, Math.PI, 0);
+            ctx.arc(centerX, centerY - 20, 65, Math.PI, 0);
             ctx.fill();
-            // Top
-            ctx.fillStyle = goldColor;
-            ctx.fillRect(390, 220, 20, 80);
+            
+            ctx.strokeStyle = '#B8860B';
+            ctx.lineWidth = 3;
             ctx.beginPath();
-            ctx.arc(400, 220, 15, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.arc(centerX, centerY - 20, 65, Math.PI, 0);
+            ctx.stroke();
+            
+            // Small tower on top
+            ctx.fillStyle = '#8B5A3C';
+            ctx.fillRect(centerX - 10, centerY - 100, 20, 80);
+            
+            // Arches on building
+            for (let i = 0; i < 3; i++) {
+                ctx.strokeStyle = '#8B5A3C';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(centerX - 40 + i * 40, centerY, 25, 0, Math.PI);
+                ctx.stroke();
+            }
+            
             // Face
-            drawGenericFace(ctx, 400, 350);
+            drawFace(ctx, centerX, centerY + 20, true);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX, centerY - 110);
+            
+            // Banner
+            ctx.fillStyle = '#F5DEB3';
+            ctx.fillRect(centerX - 80, centerY + 120, 160, 30);
+            ctx.strokeStyle = '#8B5A3C';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(centerX - 80, centerY + 120, 160, 30);
         }
 
-        function drawGoldNugget(ctx, goldColor) {
-            // Irregular gold shape
-            ctx.fillStyle = goldColor;
+        function drawTahoeGold(ctx) {
+            const centerX = 400, centerY = 280;
+            
+            // Gold nugget shape
+            ctx.fillStyle = '#FFD700';
             ctx.beginPath();
-            ctx.moveTo(350, 280);
-            ctx.lineTo(450, 270);
-            ctx.lineTo(470, 320);
-            ctx.lineTo(420, 370);
-            ctx.lineTo(330, 350);
-            ctx.lineTo(320, 300);
+            ctx.moveTo(centerX - 50, centerY);
+            ctx.quadraticCurveTo(centerX - 70, centerY - 50, centerX - 40, centerY - 80);
+            ctx.quadraticCurveTo(centerX, centerY - 90, centerX + 40, centerY - 80);
+            ctx.quadraticCurveTo(centerX + 70, centerY - 50, centerX + 50, centerY);
+            ctx.quadraticCurveTo(centerX + 60, centerY + 50, centerX, centerY + 80);
+            ctx.quadraticCurveTo(centerX - 60, centerY + 50, centerX - 50, centerY);
             ctx.closePath();
             ctx.fill();
-            // Sparkles
-            ctx.fillStyle = '#FFFF00';
-            drawStar(ctx, 380, 300, 15, '#FFFF00');
-            drawStar(ctx, 420, 320, 10, '#FFFF00');
+            
+            ctx.strokeStyle = '#B8860B';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Gold highlights
+            ctx.fillStyle = '#FFFF99';
+            ctx.fillRect(centerX - 30, centerY - 40, 30, 25);
+            
             // Face
-            drawGenericFace(ctx, 400, 320);
+            drawFace(ctx, centerX, centerY + 20, true);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX, centerY - 100);
+            
+            // Snow around it
+            ctx.fillStyle = '#E8F4F8';
+            ctx.beginPath();
+            ctx.arc(centerX - 100, centerY + 80, 30, 0, Math.PI * 2);
+            ctx.arc(centerX + 100, centerY + 80, 30, 0, Math.PI * 2);
+            ctx.fill();
         }
 
-        function drawGrapes(ctx, purpleColor, greenColor) {
-            // Grape bunch
-            ctx.fillStyle = purpleColor;
-            for (let row = 0; row < 5; row++) {
-                for (let col = 0; col < 4 - Math.abs(row - 2); col++) {
-                    const x = 370 + col * 30 + (Math.abs(row - 2) * 15);
-                    const y = 250 + row * 25;
+        function drawCentralValleyGrapes(ctx) {
+            const centerX = 400, centerY = 280;
+            
+            // Bunch of grapes
+            ctx.fillStyle = '#800080';
+            for (let row = 0; row < 6; row++) {
+                const itemsInRow = 5 - Math.abs(row - 2.5);
+                for (let col = 0; col < itemsInRow; col++) {
+                    const x = centerX - 40 + col * 30 + (3 - itemsInRow) * 15;
+                    const y = centerY - 80 + row * 25;
                     ctx.beginPath();
-                    ctx.arc(x, y, 12, 0, Math.PI * 2);
+                    ctx.arc(x, y, 15, 0, Math.PI * 2);
                     ctx.fill();
+                    
+                    ctx.strokeStyle = '#660066';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
                 }
             }
-            // Leaf
-            ctx.fillStyle = greenColor;
+            
+            // Vine/stem
+            ctx.strokeStyle = '#228B22';
+            ctx.lineWidth = 4;
             ctx.beginPath();
-            ctx.arc(400, 220, 20, 0, Math.PI * 2);
+            ctx.moveTo(centerX + 40, centerY - 100);
+            ctx.quadraticCurveTo(centerX + 60, centerY - 140, centerX + 30, centerY - 160);
+            ctx.stroke();
+            
+            // Leaves
+            ctx.fillStyle = '#228B22';
+            ctx.beginPath();
+            ctx.arc(centerX + 30, centerY - 160, 20, 0, Math.PI * 2);
             ctx.fill();
+            
+            // Face
+            drawFace(ctx, centerX, centerY + 60, true);
+            
             // Sunglasses
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(370, 280, 25, 12);
-            ctx.fillRect(405, 280, 25, 12);
+            drawSunglasses(ctx, centerX, centerY + 45);
+            
+            // Thumbs up hand
+            drawThumbsUp(ctx, centerX + 80, centerY + 40);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX, centerY - 110);
         }
 
-        function drawMountain(ctx, brownColor, greenColor) {
+        function drawDiabloPeak(ctx) {
+            const centerX = 400, centerY = 280;
+            
             // Mountain
-            ctx.fillStyle = brownColor;
+            ctx.fillStyle = '#8B4513';
             ctx.beginPath();
-            ctx.moveTo(400, 200);
-            ctx.lineTo(500, 400);
-            ctx.lineTo(300, 400);
+            ctx.moveTo(centerX, centerY - 100);
+            ctx.lineTo(centerX + 120, centerY + 80);
+            ctx.lineTo(centerX - 120, centerY + 80);
             ctx.closePath();
             ctx.fill();
-            // Trees on mountain
-            ctx.fillStyle = greenColor;
-            for (let i = 0; i < 3; i++) {
-                ctx.beginPath();
-                ctx.arc(340 + i * 40, 380, 15, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            
+            ctx.strokeStyle = '#654321';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY - 100);
+            ctx.lineTo(centerX + 120, centerY + 80);
+            ctx.lineTo(centerX - 120, centerY + 80);
+            ctx.closePath();
+            ctx.stroke();
+            
+            // Snow cap
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY - 100);
+            ctx.lineTo(centerX + 40, centerY - 20);
+            ctx.lineTo(centerX - 40, centerY - 20);
+            ctx.closePath();
+            ctx.fill();
+            
             // Ranger hat
-            ctx.fillStyle = '#8B4513';
-            ctx.fillRect(370, 250, 60, 30);
+            ctx.fillStyle = '#228B22';
+            ctx.fillRect(centerX - 45, centerY - 120, 90, 25);
             ctx.beginPath();
-            ctx.arc(400, 250, 35, Math.PI, 0);
+            ctx.arc(centerX, centerY - 120, 50, Math.PI, 0);
             ctx.fill();
+            
             // Face
-            drawGenericFace(ctx, 400, 300);
+            drawFace(ctx, centerX, centerY + 20, true);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX, centerY - 130);
         }
 
-        function drawGenericMascot(ctx, color) {
-            // Default circle mascot
-            ctx.fillStyle = color;
+        function drawChicoBridge(ctx) {
+            const centerX = 400, centerY = 280;
+            
+            // Covered bridge structure (red)
+            ctx.fillStyle = '#CC3333';
+            ctx.fillRect(centerX - 90, centerY - 60, 180, 100);
+            
+            // Covered bridge details
+            ctx.strokeStyle = '#990000';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(centerX - 90, centerY - 60, 180, 100);
+            
+            // Wood trusses
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 4; i++) {
+                const x = centerX - 70 + i * 45;
+                ctx.beginPath();
+                ctx.moveTo(x, centerY - 60);
+                ctx.lineTo(x + 20, centerY + 40);
+                ctx.moveTo(x + 20, centerY - 60);
+                ctx.lineTo(x, centerY + 40);
+                ctx.stroke();
+            }
+            
+            // Roof
+            ctx.fillStyle = '#999999';
             ctx.beginPath();
-            ctx.arc(400, 300, 100, 0, Math.PI * 2);
+            ctx.moveTo(centerX - 90, centerY - 60);
+            ctx.lineTo(centerX, centerY - 100);
+            ctx.lineTo(centerX + 90, centerY - 60);
+            ctx.closePath();
             ctx.fill();
-            drawGenericFace(ctx, 400, 300);
+            
+            // Face
+            drawFace(ctx, centerX, centerY, true);
+            
+            // Headset
+            drawHeadsetOnMascot(ctx, centerX, centerY - 100);
         }
 
-        function drawGenericFace(ctx, x, y) {
-            // Eyes
-            ctx.fillStyle = '#ffffff';
+        function drawGenericMascot(ctx) {
+            const centerX = 400, centerY = 280;
+            
+            ctx.fillStyle = '#4ECDC4';
             ctx.beginPath();
-            ctx.arc(x - 30, y - 20, 20, 0, Math.PI * 2);
-            ctx.arc(x + 30, y - 20, 20, 0, Math.PI * 2);
+            ctx.arc(centerX, centerY, 80, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.strokeStyle = '#2C8C84';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 80, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            drawFace(ctx, centerX, centerY, true);
+            drawHeadsetOnMascot(ctx, centerX, centerY - 100);
+        }
+
+        // Helper functions
+        function drawFace(ctx, x, y, withSmile = true) {
+            // Eyes
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.arc(x - 25, y - 15, 18, 0, Math.PI * 2);
+            ctx.arc(x + 25, y - 15, 18, 0, Math.PI * 2);
             ctx.fill();
             
             ctx.fillStyle = '#000000';
             ctx.beginPath();
             ctx.arc(x - 25, y - 15, 10, 0, Math.PI * 2);
-            ctx.arc(x + 35, y - 15, 10, 0, Math.PI * 2);
+            ctx.arc(x + 25, y - 15, 10, 0, Math.PI * 2);
             ctx.fill();
             
-            // Smile
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = 4;
+            ctx.fillStyle = '#FFFFFF';
             ctx.beginPath();
-            ctx.arc(x, y, 50, 0.2 * Math.PI, 0.8 * Math.PI);
+            ctx.arc(x - 22, y - 18, 4, 0, Math.PI * 2);
+            ctx.arc(x + 28, y - 18, 4, 0, Math.PI * 2);
+            ctx.fill();
+            
+            if (withSmile) {
+                // Big smile
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(x, y + 10, 30, 0.2 * Math.PI, 0.8 * Math.PI);
+                ctx.stroke();
+                
+                // Mouth fill
+                ctx.fillStyle = '#FF6B9D';
+                ctx.beginPath();
+                ctx.arc(x, y + 10, 28, 0.2 * Math.PI, 0.8 * Math.PI);
+                ctx.fill();
+            }
+        }
+
+        function drawSunglasses(ctx, x, y) {
+            // Left lens
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(x - 45, y - 12, 30, 18);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(x - 42, y - 10, 24, 14);
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x - 42, y - 10, 24, 14);
+            
+            // Right lens
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(x + 15, y - 12, 30, 18);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(x + 18, y - 10, 24, 14);
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x + 18, y - 10, 24, 14);
+            
+            // Bridge
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x - 15, y - 3);
+            ctx.lineTo(x + 15, y - 3);
             ctx.stroke();
         }
 
-        function drawHeadset(ctx) {
+        function drawHeadsetOnMascot(ctx, x, y) {
             // Headset band
             ctx.strokeStyle = '#333333';
-            ctx.lineWidth = 6;
+            ctx.lineWidth = 5;
             ctx.beginPath();
-            ctx.arc(400, 300, 140, 1.1 * Math.PI, 1.9 * Math.PI);
+            ctx.arc(x, y, 80, 1.2 * Math.PI, 1.8 * Math.PI);
             ctx.stroke();
             
-            // Headset earpieces
-            ctx.fillStyle = '#333333';
-            ctx.fillRect(260, 280, 25, 35);
-            ctx.fillRect(515, 280, 25, 35);
+            // Left ear cup
+            ctx.fillStyle = '#444444';
+            ctx.beginPath();
+            ctx.arc(x - 75, y - 20, 22, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#222222';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Right ear cup
+            ctx.fillStyle = '#444444';
+            ctx.beginPath();
+            ctx.arc(x + 75, y - 20, 22, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#222222';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Microphone
+            ctx.strokeStyle = '#333333';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(x - 60, y);
+            ctx.quadraticCurveTo(x - 70, y + 30, x - 50, y + 50);
+            ctx.stroke();
+            
+            ctx.fillStyle = '#555555';
+            ctx.beginPath();
+            ctx.arc(x - 50, y + 50, 10, 0, Math.PI * 2);
+            ctx.fill();
         }
+
+        function drawThumbsUp(ctx, x, y) {
+            // Hand/thumb
+            ctx.fillStyle = '#F5DEB3';
+            ctx.fillRect(x - 15, y, 30, 50);
+            
+            // Thumb
+            ctx.fillStyle = '#F5DEB3';
+            ctx.fillRect(x - 30, y - 20, 20, 40);
+            
+            ctx.strokeStyle = '#D2B48C';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x - 15, y, 30, 50);
+            ctx.strokeRect(x - 30, y - 20, 20, 40);
+        }
+
+        function drawSparkles(ctx, x, y, count = 3) {
+            for (let i = 0; i < count; i++) {
+                const offsetX = (Math.random() - 0.5) * 100;
+                const offsetY = (Math.random() - 0.5) * 100;
+                drawFilledStar(ctx, x + offsetX, y + offsetY, 4, 12, 6, '#FFD700');
+            }
+        }
+
+        function drawFilledStar(ctx, x, y, points, outerRadius, innerRadius, color) {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            drawStarPath(ctx, x, y, points, outerRadius, innerRadius);
+            ctx.fill();
+        }
+
+        function drawStarPath(ctx, x, y, points, outerRadius, innerRadius) {
+            let angle = -Math.PI / 2;
+            const angleStep = Math.PI / points;
+            ctx.moveTo(x + Math.cos(angle) * outerRadius, y + Math.sin(angle) * outerRadius);
+            
+            for (let i = 0; i < points * 2; i++) {
+                angle += angleStep;
+                const radius = i % 2 === 0 ? outerRadius : innerRadius;
+                ctx.lineTo(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius);
+            }
+            ctx.closePath();
+        }
+
 
         /**
          * Initiates the image generation process using the client-side generator.
