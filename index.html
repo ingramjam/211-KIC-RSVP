@@ -13,7 +13,7 @@
         body { font-family: 'Inter', sans-serif; }
         .loader {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #2563eb; /* blue-600 */
+            border-top: 4px solid #2563eb;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -40,99 +40,57 @@
 </head>
 <body class="bg-gray-800 min-h-screen p-4 md:p-8 text-gray-200">
     <div class="max-w-2xl mx-auto bg-gray-900 rounded-lg shadow-xl overflow-hidden my-8">
-        
         <header class="bg-gray-700 p-6">
             <h1 class="text-3xl font-bold text-white">ADMIN Mascot Factory</h1>
-            <p class="text-gray-400">Use this tool to generate and save your 13 main 211 mascot images.</p>
+            <p class="text-gray-400">Generate beautiful 211 mascots - no API keys needed!</p>
         </header>
-
-        <!-- Generator Section -->
         <section class="p-6 md:p-8">
-            <h2 class="text-xl font-semibold text-orange-400 mb-4">Generate Mascots (One by One)</h2>
-            
+            <h2 class="text-xl font-semibold text-orange-400 mb-4">Generate Mascots</h2>
             <div class="mb-4 p-4 bg-gray-800 rounded-lg">
-                <h3 class="text-lg font-bold text-white" id="mascot-tracker">Mascot 0 of 13: ---</h3>
+                <h3 class="text-lg font-bold text-white" id="mascot-tracker">Mascot 1 of 13</h3>
                 <p class="text-gray-400" id="mascot-name">---</p>
             </div>
-
-            <!-- Custom Prompt Text Area -->
             <div class="mb-4">
                 <label for="custom-prompt" class="block text-sm font-medium text-gray-400 mb-2">Image Prompt:</label>
-                <textarea id="custom-prompt" rows="3" class="form-input bg-gray-800 border-gray-600 text-white" placeholder="A fun, friendly vector illustration mascot of..."></textarea>
+                <textarea id="custom-prompt" rows="3" class="form-input bg-gray-800 border-gray-600 text-white" placeholder="A fun, friendly mascot..."></textarea>
             </div>
-
-            <!-- Card -->
             <div class="max-w-md mx-auto bg-gray-700 border border-gray-600 rounded-lg shadow-lg overflow-hidden">
                 <div class="h-80 bg-gray-800 flex items-center justify-center relative">
-                    <img id="mascot-image" class="w-full h-full object-contain" src="https://placehold.co/400x300/374151/9ca3af?text=Image+Will+Appear+Here" alt="Generated Mascot">
+                    <img id="mascot-image" class="w-full h-full object-contain" src="https://placehold.co/400x300/374151/9ca3af?text=Click+Generate" alt="Generated Mascot">
                     <div id="mascot-loader" class="loader absolute hidden"></div>
                 </div>
                 <div class="p-4 bg-gray-600 grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    <button id="prev-btn" class="btn-gray">
-                        Previous
-                    </button>
-                    <button id="next-btn" class="btn-gray">
-                        Next
-                    </button>
-                    <button id="generate-btn" class="btn-blue col-span-2 sm:col-span-1">
-                        Generate
-                    </button>
-                    <a id="download-btn" class="btn-green text-center col-span-3 hidden" href="#" download="mascot.png">
-                        Download Image
-                    </a>
+                    <button id="prev-btn" class="btn-gray">Previous</button>
+                    <button id="next-btn" class="btn-gray">Next</button>
+                    <button id="generate-btn" class="btn-blue col-span-2 sm:col-span-1">Generate</button>
+                    <a id="download-btn" class="btn-green text-center col-span-3 hidden" href="#" download="mascot.png">Download</a>
                 </div>
             </div>
-
-            <!-- Message Box -->
             <div id="message-box" class="hidden mt-6 max-w-md mx-auto p-4 rounded-lg">
                 <h3 class="font-semibold" id="message-title">Message</h3>
                 <p id="message-text"></p>
             </div>
         </section>
-
     </div>
 
     <script>
-        // --- Client-Side Image Generator using ML5.js (No API Keys Required) ---
-        const USE_HF_API = false;
-        let styleTransferModel = null;
-        let isModelLoading = false;
-        
-        /**
-         * Initialize the style transfer model on first use
-         */
-        async function initializeModel() {
-            if (styleTransferModel || isModelLoading) return;
-            isModelLoading = true;
-            
-            try {
-                styleTransferModel = await ml5.styleTransfer('https://cdn.jsdelivr.net/npm/ml5@0.12.0/models/style-transfer/arbitrary-transfer');
-            } catch (error) {
-                console.error('Error loading model:', error);
-                isModelLoading = false;
-            }
-        }
-        
-        // --- 13 MAIN 211s (FROM YOUR NEW LIST) ---
         const all211s = [
-            { id: 'la', name: '211 LA County', mascotName: 'The Hollywood Star', prompt: "A smiling, confident vector art star from the Walk of Fame, wearing a headset and sunglasses. Clean white background." },
-            { id: 'bay', name: '211 Bay Area', mascotName: 'The Bay Bridge Connector', prompt: "A smiling vector art mascot of the Bay Bridge, wearing a headset. Clean white background." },
-            { id: 'sd', name: '211 San Diego County', mascotName: 'The Balboa Park Pal', prompt: "A happy vector art version of the Balboa Park Tower, wearing cool sunglasses and a headset. Clean white background." },
-            { id: 'ie', name: '211 Inland Empire', mascotName: 'The IE Route Rocker', prompt: "A stylish vector art mascot combining a Joshua Tree and a Route 66 sign, wearing a headset. Clean white background." },
-            { id: 'oc', name: '211 Orange County', mascotName: 'The OC Operator', prompt: "A happy vector art cartoon orange, wearing a headset and carrying a surfboard. Clean white background." },
-            { id: 'ven', name: '211 Ventura County', mascotName: 'The Pier-to-Peer Pal', prompt: "A happy vector art Ventura Pier, with cartoon eyes and a smile, wearing a headset. Clean white background." },
-            { id: 'ala', name: '211 Alameda County', mascotName: 'The Oakland Oak', prompt: "A friendly, wise vector art oak tree with deep roots, wearing a headset. Clean white background." },
-            { id: 'sj', name: '211 San Joaquin County', mascotName: 'The Delta King', prompt: "A friendly vector art riverboat, paddling down the delta and wearing a captain's hat with a headset. Clean white background." },
-            { id: 'sac', name: '211 Sacramento County', mascotName: 'The Capital Connector', prompt: "A proud vector art California State Capitol Dome, smiling and wearing a headset like a crown. Clean white background." },
-            { id: 'nevpla', name: '211 Nevada/Placer', mascotName: 'The Tahoe Gold Miner', prompt: "A friendly vector art gold nugget, wearing a headset and peeking out from a snowy Lake Tahoe. Clean white background." },
-            { id: 'frema', name: '211 Fresno/Madera', mascotName: 'The Central Valley Vine', prompt: "A cool vector art bunch of grapes, wearing sunglasses and a headset, giving a thumbs up. Clean white background." },
-            { id: 'ccc', name: '211 Contra Costa County', mascotName: 'The Diablo Peak Performer', prompt: "A smiling vector art mascot of Mount Diablo's summit, wearing a ranger hat and a headset. Clean white background." },
-            { id: 'butgle', name: '211 Butte/Glenn', mascotName: 'The Chico Bridge Builder', prompt: "A happy vector art character of a covered bridge, smiling and wearing a headset. Clean white background." }
+            { id: 'la', name: '211 LA', mascotName: 'Hollywood Star', prompt: "A smiling star from Walk of Fame wearing sunglasses and headset" },
+            { id: 'bay', name: '211 Bay', mascotName: 'Bay Bridge', prompt: "A smiling Bay Bridge wearing a headset" },
+            { id: 'sd', name: '211 SD', mascotName: 'Balboa Tower', prompt: "A happy Balboa Park Tower with sunglasses and headset" },
+            { id: 'ie', name: '211 IE', mascotName: 'Joshua Tree', prompt: "A stylish Joshua Tree and Route 66 sign mascot with headset" },
+            { id: 'oc', name: '211 OC', mascotName: 'Orange', prompt: "A happy orange wearing sunglasses, headset and carrying surfboard" },
+            { id: 'ven', name: '211 Ventura', mascotName: 'Ventura Pier', prompt: "A happy Ventura Pier with cartoon eyes, smile and headset" },
+            { id: 'ala', name: '211 Alameda', mascotName: 'Oak Tree', prompt: "A friendly wise oak tree with deep roots and headset" },
+            { id: 'sj', name: '211 SJ', mascotName: 'Riverboat', prompt: "A friendly riverboat with captain hat and headset on the delta" },
+            { id: 'sac', name: '211 Sacramento', mascotName: 'Capitol Dome', prompt: "A proud California State Capitol Dome smiling with headset crown" },
+            { id: 'nevpla', name: '211 Nevada', mascotName: 'Gold Nugget', prompt: "A friendly gold nugget with headset from Lake Tahoe" },
+            { id: 'frema', name: '211 Fresno', mascotName: 'Grapes', prompt: "A cool bunch of grapes with sunglasses, headset, giving thumbs up" },
+            { id: 'ccc', name: '211 CCC', mascotName: 'Mt Diablo', prompt: "A smiling Mt Diablo summit with ranger hat and headset" },
+            { id: 'butgle', name: '211 Butte', mascotName: 'Covered Bridge', prompt: "A happy covered bridge character smiling and wearing headset" }
         ];
         
         let currentMascotIndex = 0;
-
-        // --- DOM Elements ---
         const messageBox = document.getElementById('message-box');
         const messageText = document.getElementById('message-text');
         const messageTitle = document.getElementById('message-title');
@@ -146,71 +104,41 @@
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
 
-        /**
-         * Loads the mascot prompt for the current index.
-         */
         function loadMascot(index) {
             clearMessage();
             const mascotData = all211s[index];
-            
             mascotTracker.textContent = `Mascot ${index + 1} of ${all211s.length}`;
             mascotName.textContent = mascotData.mascotName;
             customPrompt.value = mascotData.prompt;
             cardImage.src = `https://placehold.co/400x300/374151/9ca3af?text=${mascotData.mascotName.replace(/ /g, '+')}`;
-            
             downloadBtn.classList.add('hidden');
             generateBtn.disabled = false;
         }
 
-        /**
-         * Moves to the next mascot in the list.
-         */
         function nextMascot() {
-            currentMascotIndex++;
-            if (currentMascotIndex >= all211s.length) {
-                currentMascotIndex = 0; // Loop back to start
-            }
+            currentMascotIndex = (currentMascotIndex + 1) % all211s.length;
             loadMascot(currentMascotIndex);
         }
 
-        /**
-         * Moves to the previous mascot in the list.
-         */
         function prevMascot() {
-            currentMascotIndex--;
-            if (currentMascotIndex < 0) {
-                currentMascotIndex = all211s.length - 1; // Loop to end
-            }
+            currentMascotIndex = (currentMascotIndex - 1 + all211s.length) % all211s.length;
             loadMascot(currentMascotIndex);
         }
 
-        /**
-         * Initiates the image generation process.
-         */
         function startGeneration() {
             const promptText = customPrompt.value;
             if (promptText) {
-                generateImage(promptText, 'mascot-image', 'mascot-loader', 'generate-btn');
+                generateImage(promptText);
             } else {
-                showMessage("Please enter a prompt in the text area.");
+                showMessage("Please enter a prompt");
             }
         }
 
-        /**
-         * Hides any error messages.
-         */
         function clearMessage() {
             messageBox.classList.add('hidden');
-            messageText.textContent = '';
         }
 
-        /**
-         * Shows a message (error or success).
-         * @param {string} message - The message to display.
-         * @param {string} type - Message type: 'error', 'success', or 'info' (default: 'error')
-         */
         function showMessage(message, type = 'error') {
-            // Set styling based on type
             if (type === 'success') {
                 messageBox.className = 'mt-6 max-w-md mx-auto p-4 rounded-lg bg-green-800 text-green-200';
                 messageTitle.textContent = 'Success';
@@ -221,104 +149,72 @@
                 messageBox.className = 'mt-6 max-w-md mx-auto p-4 rounded-lg bg-red-800 text-red-200';
                 messageTitle.textContent = 'Error';
             }
-            
             messageText.textContent = message;
             messageBox.classList.remove('hidden');
         }
 
-        /**
-         * Generates a mascot image using client-side generative approach.
-         */
-        async function generateImage(promptText, imgId, loaderId, buttonId) {
+        async function generateImage(promptText) {
             clearMessage();
-            const imgElement = document.getElementById(imgId);
-            const loaderElement = document.getElementById(loaderId);
-            const buttonElement = document.getElementById(buttonId);
-
-            loaderElement.classList.remove('hidden');
-            buttonElement.disabled = true;
+            cardLoader.classList.remove('hidden');
+            generateBtn.disabled = true;
             nextBtn.disabled = true;
             prevBtn.disabled = true;
-            buttonElement.textContent = 'Generating...';
+            generateBtn.textContent = 'Generating...';
             downloadBtn.classList.add('hidden');
-            imgElement.style.opacity = '0.5';
+            cardImage.style.opacity = '0.5';
 
             try {
-                // Initialize model if needed
-                await initializeModel();
-                
-                // Generate a base mascot using procedural generation
+                await new Promise(resolve => setTimeout(resolve, 300));
                 const canvas = createMascotBase(currentMascotIndex);
-                
-                // Convert to image data
                 const imageData = canvas.toDataURL('image/png');
-                imgElement.src = imageData;
+                cardImage.src = imageData;
                 downloadBtn.href = imageData;
-                
                 const mascotFileName = all211s[currentMascotIndex].mascotName.replace(/ /g, '_').toLowerCase();
                 downloadBtn.download = `${mascotFileName}.png`;
-                
                 downloadBtn.classList.remove('hidden');
-                showMessage('✨ Generated locally with ML! Unique mascot created.', 'success');
-                
+                showMessage('✨ Mascot generated! Ready to download.', 'success');
             } catch (error) {
-                showMessage(`Generation error: ${error.message}`);
-                imgElement.src = `https://placehold.co/400x300/b91c1c/f8fafc?text=Error`;
+                showMessage(`Error: ${error.message}`);
+                cardImage.src = `https://placehold.co/400x300/b91c1c/f8fafc?text=Error`;
             } finally {
-                loaderElement.classList.add('hidden');
-                buttonElement.disabled = false;
-                buttonElement.textContent = 'Generate';
+                cardLoader.classList.add('hidden');
+                generateBtn.disabled = false;
+                generateBtn.textContent = 'Generate';
                 nextBtn.disabled = false;
                 prevBtn.disabled = false;
-                imgElement.style.opacity = '1';
+                cardImage.style.opacity = '1';
             }
         }
         
-        /**
-         * Creates an advanced mascot using procedural and ML-enhanced generation
-         */
         function createMascotBase(index) {
             const canvas = document.createElement('canvas');
             canvas.width = 400;
             canvas.height = 300;
             const ctx = canvas.getContext('2d');
             
-            // Color schemes
             const colorSchemes = [
-                { bg: '#FFF8E7', primary: '#FF6B6B', secondary: '#FFE66D', accent: '#FF9999' }, // LA
-                { bg: '#E8F8F5', primary: '#4ECDC4', secondary: '#FF6B9D', accent: '#95E1D3' }, // Bay
-                { bg: '#F0F9FF', primary: '#95E1D3', secondary: '#F38181', accent: '#AA96DA' }, // SD
-                { bg: '#FAF0FF', primary: '#AA96DA', secondary: '#FCBAD3', accent: '#C39BD3' }, // IE
-                { bg: '#FFF5E6', primary: '#F7A072', secondary: '#FFE66D', accent: '#FFB84D' }, // OC
-                { bg: '#E1F5FE', primary: '#A8D8EA', secondary: '#AA96DA', accent: '#7FB3D5' }, // Ventura
-                { bg: '#F1F8E9', primary: '#5D9E60', secondary: '#B4D7A8', accent: '#81C784' }, // Alameda
-                { bg: '#F3E5F5', primary: '#6C5B7B', secondary: '#C06C84', accent: '#8B7BA8' }, // SJ
-                { bg: '#FFF3E0', primary: '#D4A574', secondary: '#F0E5CF', accent: '#E8D4B8' }, // Sacramento
-                { bg: '#F3E5F5', primary: '#EFDBEF', secondary: '#BFB5D6', accent: '#D7C4E8' }, // Nevada
-                { bg: '#FAFAF0', primary: '#C7B3A8', secondary: '#8B5E3C', accent: '#D4A574' }, // Fresno
-                { bg: '#EEEEEE', primary: '#707070', secondary: '#C1C1C1', accent: '#999999' }, // Contra Costa
-                { bg: '#F5F1E8', primary: '#8B6F47', secondary: '#D4A574', accent: '#A0826D' }  // Butte
+                { bg: '#FFF8E7', primary: '#FF6B6B', secondary: '#FFE66D' },
+                { bg: '#E8F8F5', primary: '#4ECDC4', secondary: '#FF6B9D' },
+                { bg: '#F0F9FF', primary: '#95E1D3', secondary: '#F38181' },
+                { bg: '#FAF0FF', primary: '#AA96DA', secondary: '#FCBAD3' },
+                { bg: '#FFF5E6', primary: '#F7A072', secondary: '#FFE66D' },
+                { bg: '#E1F5FE', primary: '#A8D8EA', secondary: '#AA96DA' },
+                { bg: '#F1F8E9', primary: '#5D9E60', secondary: '#B4D7A8' },
+                { bg: '#F3E5F5', primary: '#6C5B7B', secondary: '#C06C84' },
+                { bg: '#FFF3E0', primary: '#D4A574', secondary: '#F0E5CF' },
+                { bg: '#F3E5F5', primary: '#EFDBEF', secondary: '#BFB5D6' },
+                { bg: '#FAFAF0', primary: '#C7B3A8', secondary: '#8B5E3C' },
+                { bg: '#EEEEEE', primary: '#707070', secondary: '#C1C1C1' },
+                { bg: '#F5F1E8', primary: '#8B6F47', secondary: '#D4A574' }
             ];
             
             const scheme = colorSchemes[index % colorSchemes.length];
-            
-            // Draw gradient background
             const gradient = ctx.createLinearGradient(0, 0, 400, 300);
             gradient.addColorStop(0, scheme.bg);
             gradient.addColorStop(1, scheme.secondary);
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 400, 300);
             
-            // Add decorative elements
-            addDecorativeBg(ctx, scheme);
-            
-            // Draw mascot based on type
-            drawAdvancedMascot(ctx, index, scheme);
-            
-            return canvas;
-        }
-        
-        function addDecorativeBg(ctx, scheme) {
             ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
             ctx.beginPath();
             ctx.arc(380, 30, 40, 0, Math.PI * 2);
@@ -326,6 +222,15 @@
             ctx.beginPath();
             ctx.arc(20, 280, 30, 0, Math.PI * 2);
             ctx.fill();
+            
+            drawAdvancedMascot(ctx, index, scheme);
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.beginPath();
+            ctx.arc(200 - 15, 140 - 20, 20, 0, Math.PI * 2);
+            ctx.fill();
+            
+            return canvas;
         }
         
         function drawAdvancedMascot(ctx, index, scheme) {
@@ -347,257 +252,566 @@
                 case 'ccc': drawMountain(ctx, centerX, centerY, scheme); break;
                 case 'butgle': drawCoveredBridge(ctx, centerX, centerY, scheme); break;
             }
-            
-            // Add shine effect
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.beginPath();
-            ctx.arc(centerX - 15, centerY - 20, 20, 0, Math.PI * 2);
-            ctx.fill();
         }
         
         function drawHollywoodStar(ctx, x, y, scheme) {
             ctx.fillStyle = scheme.primary;
             ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 3;
-            drawStar(ctx, x, y, 5, 60);
+            ctx.lineWidth = 4;
+            drawStar(ctx, x, y, 5, 70);
             ctx.fill();
             ctx.stroke();
-            // Eyes
+            ctx.fillStyle = scheme.secondary;
+            ctx.beginPath();
+            ctx.arc(x, y, 30, 0, Math.PI * 2);
+            ctx.fill();
             ctx.fillStyle = '#000';
-            ctx.beginPath(); ctx.arc(x - 20, y - 15, 8, 0, Math.PI * 2); ctx.fill();
-            ctx.beginPath(); ctx.arc(x + 20, y - 15, 8, 0, Math.PI * 2); ctx.fill();
-            // Smile
+            ctx.beginPath(); ctx.arc(x - 25, y - 20, 10, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(x + 25, y - 20, 10, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.beginPath(); ctx.arc(x - 22, y - 22, 3, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(x + 28, y - 22, 3, 0, Math.PI * 2); ctx.fill();
             ctx.strokeStyle = '#000';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(x, y + 15, 25, 0, Math.PI);
+            ctx.stroke();
+            ctx.strokeStyle = '#FFD700';
             ctx.lineWidth = 3;
             ctx.beginPath();
-            ctx.arc(x, y + 10, 20, 0, Math.PI);
+            ctx.rect(x - 35, y - 25, 20, 18);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.rect(x + 15, y - 25, 20, 18);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x - 15, y - 16);
+            ctx.lineTo(x + 15, y - 16);
             ctx.stroke();
         }
         
         function drawBayBridge(ctx, x, y, scheme) {
-            // Bridge cable
-            ctx.strokeStyle = scheme.primary;
-            ctx.lineWidth = 8;
-            ctx.beginPath();
-            ctx.moveTo(x - 60, y - 50);
-            ctx.quadraticCurveTo(x, y - 80, x + 60, y - 50);
-            ctx.stroke();
-            // Bridge deck
-            ctx.fillStyle = scheme.primary;
-            ctx.fillRect(x - 80, y, 160, 30);
             ctx.fillStyle = scheme.secondary;
-            for (let i = 0; i < 8; i++) {
-                ctx.fillRect(x - 70 + i * 20, y - 40, 8, 40);
+            ctx.fillRect(x - 50, y - 65, 12, 75);
+            ctx.fillRect(x + 38, y - 65, 12, 75);
+            ctx.strokeStyle = scheme.primary;
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(x - 44, y - 65);
+            ctx.quadraticCurveTo(x, y - 95, x + 44, y - 65);
+            ctx.stroke();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = scheme.secondary;
+            for(let i = -40; i <= 40; i += 15) {
+                ctx.beginPath();
+                ctx.moveTo(x + i, y - 65);
+                ctx.lineTo(x + i - 5, y + 5);
+                ctx.stroke();
             }
-            // Face
+            ctx.fillStyle = scheme.primary;
+            ctx.fillRect(x - 65, y + 5, 130, 25);
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            for(let i = 0; i < 10; i++) {
+                ctx.beginPath();
+                ctx.moveTo(x - 60 + i * 13, y + 10);
+                ctx.lineTo(x - 55 + i * 13, y + 28);
+                ctx.stroke();
+            }
+            ctx.fillStyle = scheme.primary;
+            ctx.beginPath();
+            ctx.arc(x, y + 45, 15, 0, Math.PI * 2);
+            ctx.fill();
             ctx.fillStyle = '#000';
-            ctx.beginPath(); ctx.arc(x - 20, y - 20, 8, 0, Math.PI * 2); ctx.fill();
-            ctx.beginPath(); ctx.arc(x + 20, y - 20, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(x - 8, y + 40, 4, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(x + 8, y + 40, 4, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(x, y + 48, 8, 0, Math.PI);
+            ctx.stroke();
         }
         
         function drawBalboaTower(ctx, x, y, scheme) {
             ctx.fillStyle = scheme.primary;
-            // Base
             ctx.beginPath();
-            ctx.moveTo(x - 40, y + 40);
-            ctx.lineTo(x - 15, y - 60);
-            ctx.lineTo(x + 15, y - 60);
-            ctx.lineTo(x + 40, y + 40);
+            ctx.moveTo(x - 45, y + 45);
+            ctx.lineTo(x - 18, y - 55);
+            ctx.lineTo(x + 18, y - 55);
+            ctx.lineTo(x + 45, y + 45);
             ctx.closePath();
             ctx.fill();
-            // Dome
+            ctx.strokeStyle = scheme.secondary;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.fillStyle = '#FFD700';
+            for(let row = 0; row < 4; row++) {
+                for(let col = 0; col < 2; col++) {
+                    const wx = x - 20 + col * 40;
+                    const wy = y - 30 + row * 18;
+                    ctx.fillRect(wx, wy, 8, 8);
+                }
+            }
             ctx.fillStyle = scheme.secondary;
             ctx.beginPath();
-            ctx.arc(x, y - 70, 20, Math.PI, Math.PI * 2);
+            ctx.arc(x, y - 60, 22, Math.PI, Math.PI * 2);
             ctx.fill();
-            ctx.fillStyle = scheme.primary;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
             ctx.beginPath();
-            ctx.arc(x, y - 70, 25, Math.PI, Math.PI * 2);
-            ctx.stroke();
-            ctx.lineWidth = 2;
+            ctx.arc(x - 8, y - 65, 8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = scheme.secondary;
+            ctx.beginPath();
+            ctx.moveTo(x, y - 70);
+            ctx.lineTo(x - 4, y - 80);
+            ctx.lineTo(x + 4, y - 80);
+            ctx.closePath();
+            ctx.fill();
+            ctx.fillRect(x - 50, y + 45, 100, 8);
         }
         
         function drawJoshuaTree(ctx, x, y, scheme) {
             ctx.fillStyle = scheme.primary;
-            // Trunk
-            ctx.fillRect(x - 8, y - 20, 16, 80);
-            // Branches
+            ctx.fillRect(x - 10, y - 10, 20, 70);
+            ctx.strokeStyle = scheme.primary;
+            ctx.lineWidth = 12;
             ctx.beginPath();
-            ctx.moveTo(x, y);
-            ctx.lineTo(x - 50, y - 30);
-            ctx.moveTo(x, y);
-            ctx.lineTo(x + 50, y - 30);
-            ctx.lineWidth = 10;
+            ctx.moveTo(x, y - 10);
+            ctx.quadraticCurveTo(x - 30, y - 35, x - 55, y - 45);
             ctx.stroke();
-            // More branches
             ctx.beginPath();
-            ctx.moveTo(x - 50, y - 30);
-            ctx.lineTo(x - 70, y - 60);
-            ctx.moveTo(x + 50, y - 30);
-            ctx.lineTo(x + 70, y - 60);
-            ctx.lineWidth = 6;
+            ctx.moveTo(x, y - 10);
+            ctx.quadraticCurveTo(x + 30, y - 35, x + 55, y - 45);
             ctx.stroke();
+            ctx.lineWidth = 9;
+            ctx.beginPath();
+            ctx.moveTo(x, y + 15);
+            ctx.quadraticCurveTo(x - 35, y - 5, x - 65, y - 10);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y + 15);
+            ctx.quadraticCurveTo(x + 35, y - 5, x + 65, y - 10);
+            ctx.stroke();
+            ctx.lineWidth = 7;
+            ctx.beginPath();
+            ctx.moveTo(x - 5, y + 40);
+            ctx.quadraticCurveTo(x - 40, y + 25, x - 70, y + 20);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x + 5, y + 40);
+            ctx.quadraticCurveTo(x + 40, y + 25, x + 70, y + 20);
+            ctx.stroke();
+            ctx.fillStyle = scheme.primary;
+            const branches = [{x: x - 55, y: y - 45}, {x: x + 55, y: y - 45}, {x: x - 65, y: y - 10}, {x: x + 65, y: y - 10}, {x: x - 70, y: y + 20}, {x: x + 70, y: y + 20}];
+            branches.forEach(b => {
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, 12, 0, Math.PI * 2);
+                ctx.fill();
+            });
         }
         
         function drawOrange(ctx, x, y, scheme) {
             ctx.fillStyle = scheme.primary;
             ctx.beginPath();
-            ctx.arc(x, y, 55, 0, Math.PI * 2);
+            ctx.arc(x, y, 50, 0, Math.PI * 2);
             ctx.fill();
-            // Orange segments
-            ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+            ctx.strokeStyle = scheme.secondary;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.strokeStyle = 'rgba(0,0,0,0.2)';
             ctx.lineWidth = 2;
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 12; i++) {
                 ctx.beginPath();
                 ctx.moveTo(x, y);
-                const angle = (Math.PI * 2 / 8) * i;
-                ctx.lineTo(x + Math.cos(angle) * 55, y + Math.sin(angle) * 55);
+                const angle = (Math.PI * 2 / 12) * i;
+                ctx.lineTo(x + Math.cos(angle) * 50, y + Math.sin(angle) * 50);
                 ctx.stroke();
             }
-            // Eyes
+            ctx.beginPath();
+            ctx.arc(x, y, 35, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.fillStyle = '#2d7e2d';
+            ctx.beginPath();
+            ctx.ellipse(x - 8, y - 55, 8, 16, -0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#3da83d';
+            ctx.beginPath();
+            ctx.ellipse(x + 8, y - 55, 8, 16, 0.4, 0, Math.PI * 2);
+            ctx.fill();
             ctx.fillStyle = '#000';
-            ctx.beginPath(); ctx.arc(x - 20, y - 15, 10, 0, Math.PI * 2); ctx.fill();
-            ctx.beginPath(); ctx.arc(x + 20, y - 15, 10, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(x - 18, y - 12, 12, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(x + 18, y - 12, 12, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.beginPath(); ctx.arc(x - 14, y - 14, 4, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(x + 22, y - 14, 4, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(x, y + 18, 22, 0, Math.PI);
+            ctx.stroke();
         }
         
         function drawPier(ctx, x, y, scheme) {
             ctx.fillStyle = scheme.primary;
-            ctx.fillRect(x - 70, y - 10, 140, 25);
-            ctx.fillStyle = scheme.secondary;
-            for (let i = 0; i < 5; i++) {
-                ctx.fillRect(x - 60 + i * 30, y + 15, 15, 50);
+            ctx.fillRect(x - 75, y - 8, 150, 20);
+            ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+            ctx.lineWidth = 1;
+            for(let i = 0; i < 8; i++) {
+                ctx.beginPath();
+                ctx.moveTo(x - 75, y - 8 + i * 3);
+                ctx.lineTo(x + 75, y - 8 + i * 3);
+                ctx.stroke();
             }
-            // Railings
-            ctx.strokeStyle = scheme.primary;
-            ctx.lineWidth = 3;
+            ctx.fillStyle = scheme.secondary;
+            for (let i = 0; i < 6; i++) {
+                ctx.fillRect(x - 60 + i * 24, y + 12, 12, 55);
+            }
+            ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+            ctx.lineWidth = 1;
+            for(let i = 0; i < 6; i++) {
+                const px = x - 60 + i * 24 + 6;
+                ctx.beginPath();
+                ctx.moveTo(px - 10, y + 30);
+                ctx.lineTo(px + 10, y + 30);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(px - 10, y + 45);
+                ctx.lineTo(px + 10, y + 45);
+                ctx.stroke();
+            }
+            ctx.strokeStyle = scheme.secondary;
+            ctx.lineWidth = 4;
             ctx.beginPath();
-            ctx.moveTo(x - 70, y + 5);
-            ctx.lineTo(x + 70, y + 5);
+            ctx.moveTo(x - 75, y - 10);
+            ctx.lineTo(x + 75, y - 10);
             ctx.stroke();
+            ctx.lineWidth = 2;
+            for(let i = 0; i < 9; i++) {
+                ctx.beginPath();
+                ctx.moveTo(x - 75 + i * 20, y - 10);
+                ctx.lineTo(x - 75 + i * 20, y - 22);
+                ctx.stroke();
+            }
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(x + 50, y - 35, 8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#000';
+            ctx.beginPath(); ctx.arc(x + 47, y - 36, 2, 0, Math.PI * 2); ctx.fill();
         }
         
         function drawOakTree(ctx, x, y, scheme) {
-            ctx.fillStyle = '#6B4423';
-            ctx.fillRect(x - 10, y + 20, 20, 60);
+            ctx.fillStyle = '#5c3d2e';
+            ctx.fillRect(x - 12, y + 15, 24, 70);
+            ctx.strokeStyle = '#3d2817';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x - 12, y + 15, 24, 70);
+            ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+            ctx.lineWidth = 1;
+            for(let i = 0; i < 7; i++) {
+                ctx.beginPath();
+                ctx.moveTo(x - 12, y + 25 + i * 10);
+                ctx.lineTo(x + 12, y + 25 + i * 10);
+                ctx.stroke();
+            }
             ctx.fillStyle = scheme.primary;
             ctx.beginPath();
-            ctx.arc(x, y - 10, 70, 0, Math.PI * 2);
+            ctx.arc(x, y - 15, 75, 0, Math.PI * 2);
             ctx.fill();
-            // Roots
-            ctx.strokeStyle = '#6B4423';
-            ctx.lineWidth = 6;
             ctx.beginPath();
-            ctx.moveTo(x - 10, y + 80);
-            ctx.lineTo(x - 40, y + 100);
-            ctx.moveTo(x + 10, y + 80);
-            ctx.lineTo(x + 40, y + 100);
+            ctx.arc(x - 50, y + 5, 45, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(x + 50, y + 5, 45, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = scheme.secondary;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(x, y - 15, 75, 0, Math.PI * 2);
             ctx.stroke();
+            ctx.strokeStyle = '#5c3d2e';
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            const roots = [{startX: x - 8, startY: y + 85, endX: x - 45, endY: y + 110}, {startX: x + 8, startY: y + 85, endX: x + 45, endY: y + 110}, {startX: x - 4, startY: y + 85, endX: x - 25, endY: y + 115}, {startX: x + 4, startY: y + 85, endX: x + 25, endY: y + 115}];
+            roots.forEach(root => {
+                ctx.beginPath();
+                ctx.moveTo(root.startX, root.startY);
+                ctx.quadraticCurveTo(root.startX + (root.endX - root.startX) * 0.5, y + 95, root.endX, root.endY);
+                ctx.stroke();
+            });
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.beginPath();
+            ctx.arc(x - 25, y - 30, 25, 0, Math.PI * 2);
+            ctx.fill();
         }
         
         function drawRiverboat(ctx, x, y, scheme) {
+            ctx.fillStyle = 'rgba(100, 150, 200, 0.15)';
+            ctx.fillRect(x - 80, y + 60, 160, 30);
             ctx.fillStyle = scheme.primary;
             ctx.beginPath();
-            ctx.ellipse(x, y + 30, 70, 25, 0, 0, Math.PI * 2);
+            ctx.ellipse(x, y + 35, 75, 28, 0, 0, Math.PI * 2);
             ctx.fill();
-            // Cabin
-            ctx.fillRect(x - 35, y - 20, 70, 50);
-            ctx.fillStyle = scheme.secondary;
-            ctx.fillRect(x - 30, y - 15, 15, 20);
-            ctx.fillRect(x + 15, y - 15, 15, 20);
-            // Paddle wheel
             ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 6;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = scheme.primary;
+            ctx.fillRect(x - 40, y - 15, 80, 55);
+            ctx.strokeStyle = scheme.secondary;
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x - 40, y - 15, 80, 55);
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath(); ctx.arc(x - 20, y + 5, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(x + 20, y + 5, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = scheme.secondary;
             ctx.beginPath();
-            ctx.arc(x + 80, y + 30, 25, 0, Math.PI * 2);
+            ctx.moveTo(x - 40, y - 15);
+            ctx.lineTo(x - 45, y - 25);
+            ctx.lineTo(x + 45, y - 25);
+            ctx.lineTo(x + 40, y - 15);
+            ctx.closePath();
+            ctx.fill();
+            ctx.fillStyle = '#333';
+            ctx.fillRect(x - 8, y - 35, 16, 25);
+            ctx.fillStyle = '#555';
+            ctx.fillRect(x - 6, y - 38, 12, 3);
+            ctx.strokeStyle = scheme.secondary;
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(x + 88, y + 35, 28, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.lineWidth = 2;
+            for(let i = 0; i < 8; i++) {
+                const angle = (Math.PI * 2 / 8) * i;
+                ctx.beginPath();
+                ctx.moveTo(x + 88, y + 35);
+                ctx.lineTo(x + 88 + Math.cos(angle) * 28, y + 35 + Math.sin(angle) * 28);
+                ctx.stroke();
+            }
+            ctx.strokeStyle = scheme.primary;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(x - 75, y + 20);
+            ctx.lineTo(x + 75, y + 20);
             ctx.stroke();
         }
         
         function drawCapitolDome(ctx, x, y, scheme) {
             ctx.fillStyle = scheme.primary;
+            ctx.fillRect(x - 65, y + 10, 130, 45);
             ctx.beginPath();
-            ctx.arc(x, y - 50, 50, Math.PI, 0);
+            ctx.arc(x, y - 45, 55, Math.PI, 0);
             ctx.fill();
-            ctx.fillRect(x - 60, y, 120, 50);
-            // Columns
-            ctx.fillStyle = scheme.secondary;
-            for (let i = -4; i <= 4; i++) {
-                ctx.fillRect(x + i * 18 - 4, y - 10, 8, 60);
+            ctx.strokeStyle = scheme.secondary;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+            ctx.lineWidth = 1;
+            for(let i = 0; i < 12; i++) {
+                const angle = (Math.PI / 12) * i;
+                ctx.beginPath();
+                ctx.moveTo(x, y - 45);
+                ctx.lineTo(x + Math.cos(angle + Math.PI) * 55, y - 45 + Math.sin(angle + Math.PI) * 55);
+                ctx.stroke();
             }
+            ctx.fillStyle = scheme.secondary;
+            ctx.beginPath();
+            ctx.moveTo(x, y - 100);
+            ctx.lineTo(x - 6, y - 92);
+            ctx.lineTo(x + 6, y - 92);
+            ctx.closePath();
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(x, y - 92, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = scheme.secondary;
+            const columnPositions = [-50, -30, -10, 10, 30, 50];
+            columnPositions.forEach(pos => {
+                ctx.fillRect(x + pos - 5, y - 5, 10, 50);
+                ctx.fillRect(x + pos - 8, y - 8, 16, 3);
+                ctx.fillRect(x + pos - 8, y + 42, 16, 3);
+            });
+            ctx.fillStyle = scheme.secondary;
+            for(let i = 0; i < 3; i++) {
+                ctx.fillRect(x - 65 + i * 5, y + 55 - i * 5, 130 - i * 10, 5);
+            }
+            ctx.strokeStyle = scheme.primary;
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x - 65, y + 10, 130, 45);
         }
         
         function drawGoldNugget(ctx, x, y, scheme) {
             ctx.fillStyle = scheme.primary;
             ctx.beginPath();
             ctx.moveTo(x - 50, y);
-            ctx.quadraticCurveTo(x - 40, y - 50, x - 10, y - 60);
-            ctx.quadraticCurveTo(x + 30, y - 50, x + 40, y);
-            ctx.quadraticCurveTo(x + 30, y + 40, x, y + 50);
-            ctx.quadraticCurveTo(x - 30, y + 40, x - 50, y);
+            ctx.quadraticCurveTo(x - 45, y - 55, x - 15, y - 65);
+            ctx.quadraticCurveTo(x + 10, y - 70, x + 45, y - 30);
+            ctx.quadraticCurveTo(x + 55, y + 10, x + 40, y + 45);
+            ctx.quadraticCurveTo(x + 20, y + 60, x - 15, y + 50);
+            ctx.quadraticCurveTo(x - 45, y + 40, x - 50, y);
             ctx.closePath();
             ctx.fill();
-            // Highlight
-            ctx.fillStyle = scheme.secondary;
+            ctx.strokeStyle = scheme.secondary;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+            ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.arc(x - 20, y - 25, 25, 0, Math.PI * 2);
+            ctx.moveTo(x - 20, y - 30);
+            ctx.quadraticCurveTo(x, y - 10, x + 15, y + 20);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x - 30, y + 10);
+            ctx.quadraticCurveTo(x - 5, y + 15, x + 20, y + 10);
+            ctx.stroke();
+            ctx.fillStyle = 'rgba(255, 255, 200, 0.5)';
+            ctx.beginPath();
+            ctx.arc(x - 20, y - 25, 20, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = 'rgba(255, 255, 100, 0.3)';
+            ctx.beginPath();
+            ctx.arc(x + 25, y - 15, 15, 0, Math.PI * 2);
             ctx.fill();
         }
         
         function drawGrapes(ctx, x, y, scheme) {
             ctx.fillStyle = scheme.primary;
-            const rows = 5, cols = 3;
-            for (let row = 0; row < rows; row++) {
-                for (let col = 0; col < cols; col++) {
-                    const px = x - 25 + col * 25;
-                    const py = y - 40 + row * 25;
-                    ctx.beginPath();
-                    ctx.arc(px, py, 12, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-            // Stem
-            ctx.strokeStyle = '#228B22';
-            ctx.lineWidth = 5;
+            const grapePositions = [{x: 0, y: -50}, {x: -20, y: -35}, {x: 20, y: -35}, {x: -35, y: -18}, {x: 0, y: -18}, {x: 35, y: -18}, {x: -30, y: 0}, {x: 15, y: 0}, {x: -10, y: 20}, {x: 25, y: 10}];
+            grapePositions.forEach(pos => {
+                ctx.beginPath();
+                ctx.arc(x + pos.x, y + pos.y, 14, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = scheme.secondary;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                ctx.fillStyle = 'rgba(255, 255, 200, 0.4)';
+                ctx.beginPath();
+                ctx.arc(x + pos.x - 4, y + pos.y - 4, 4, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = scheme.primary;
+            });
+            ctx.strokeStyle = '#2d5a2d';
+            ctx.lineWidth = 6;
             ctx.beginPath();
-            ctx.moveTo(x, y - 45);
-            ctx.quadraticCurveTo(x - 20, y - 100, x - 30, y - 130);
+            ctx.moveTo(x, y - 50);
+            ctx.quadraticCurveTo(x - 15, y - 90, x - 25, y - 130);
             ctx.stroke();
+            ctx.strokeStyle = '#1a3a1a';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = '#2d7e2d';
+            ctx.beginPath();
+            ctx.ellipse(x - 35, y - 100, 18, 25, -0.3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#3da83d';
+            ctx.beginPath();
+            ctx.ellipse(x + 5, y - 110, 18, 25, 0.3, 0, Math.PI * 2);
+            ctx.fill();
         }
         
         function drawMountain(ctx, x, y, scheme) {
             ctx.fillStyle = scheme.primary;
             ctx.beginPath();
-            ctx.moveTo(x - 80, y + 40);
-            ctx.lineTo(x - 20, y - 40);
-            ctx.lineTo(x + 20, y + 20);
-            ctx.lineTo(x + 80, y + 40);
+            ctx.moveTo(x - 85, y + 45);
+            ctx.lineTo(x - 20, y - 50);
+            ctx.lineTo(x + 15, y + 15);
+            ctx.lineTo(x + 90, y + 45);
             ctx.closePath();
             ctx.fill();
-            // Snow
-            ctx.fillStyle = '#FFF';
+            ctx.strokeStyle = scheme.secondary;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = scheme.secondary;
             ctx.beginPath();
-            ctx.moveTo(x - 20, y - 40);
-            ctx.lineTo(x - 5, y - 10);
-            ctx.lineTo(x + 5, y - 10);
+            ctx.moveTo(x - 20, y - 50);
+            ctx.lineTo(x + 15, y + 15);
+            ctx.lineTo(x + 25, y + 5);
+            ctx.lineTo(x, y - 40);
+            ctx.closePath();
+            ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.moveTo(x - 20, y - 50);
+            ctx.lineTo(x - 8, y - 20);
+            ctx.lineTo(x + 8, y - 20);
+            ctx.lineTo(x, y - 50);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            ctx.fillStyle = 'rgba(0,0,0,0.1)';
+            for(let i = 0; i < 8; i++) {
+                const rockX = x - 70 + Math.random() * 150;
+                const rockY = y - 30 + Math.random() * 60;
+                ctx.beginPath();
+                ctx.arc(rockX, rockY, Math.random() * 4 + 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.fillStyle = '#2d5a2d';
+            ctx.beginPath();
+            ctx.moveTo(x - 85, y + 45);
+            ctx.quadraticCurveTo(x - 35, y + 15, x + 15, y + 15);
+            ctx.lineTo(x + 15, y + 50);
+            ctx.lineTo(x - 85, y + 50);
             ctx.closePath();
             ctx.fill();
         }
         
         function drawCoveredBridge(ctx, x, y, scheme) {
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(x - 85, y + 25, 170, 25);
+            ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+            ctx.lineWidth = 1;
+            for(let i = 0; i < 7; i++) {
+                ctx.beginPath();
+                ctx.moveTo(x - 85, y + 25 + i * 4);
+                ctx.lineTo(x + 85, y + 25 + i * 4);
+                ctx.stroke();
+            }
             ctx.fillStyle = scheme.primary;
-            ctx.fillRect(x - 80, y + 20, 160, 30);
             ctx.beginPath();
-            ctx.moveTo(x - 80, y + 20);
-            ctx.lineTo(x - 40, y - 40);
-            ctx.lineTo(x + 40, y - 40);
-            ctx.lineTo(x + 80, y + 20);
+            ctx.moveTo(x - 85, y + 25);
+            ctx.lineTo(x - 60, y - 35);
+            ctx.lineTo(x - 20, y - 45);
+            ctx.lineTo(x + 20, y - 45);
+            ctx.lineTo(x + 60, y - 35);
+            ctx.lineTo(x + 85, y + 25);
             ctx.closePath();
             ctx.fill();
-            // Entrance arch
+            ctx.strokeStyle = scheme.secondary;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = scheme.secondary;
+            for(let i = 0; i < 5; i++) {
+                ctx.fillRect(x - 70 + i * 35, y - 42, 8, 67);
+            }
+            ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+            ctx.lineWidth = 1;
+            for(let i = 0; i < 5; i++) {
+                ctx.beginPath();
+                ctx.moveTo(x - 85 + i * 8, y + 25);
+                ctx.lineTo(x - 55 + i * 8, y - 32);
+                ctx.stroke();
+            }
+            for(let i = 0; i < 5; i++) {
+                ctx.beginPath();
+                ctx.moveTo(x + 85 - i * 8, y + 25);
+                ctx.lineTo(x + 55 - i * 8, y - 32);
+                ctx.stroke();
+            }
             ctx.strokeStyle = '#000';
             ctx.lineWidth = 3;
             ctx.beginPath();
-            ctx.arc(x, y + 20, 35, 0, Math.PI);
+            ctx.arc(x, y + 25, 40, 0, Math.PI);
             ctx.stroke();
+            ctx.fillStyle = 'rgba(0,0,0,0.15)';
+            ctx.beginPath();
+            ctx.arc(x, y + 25, 38, 0, Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#654321';
+            ctx.fillRect(x - 30, y + 50, 12, 30);
+            ctx.fillRect(x + 18, y + 50, 12, 30);
         }
         
         function drawStar(ctx, cx, cy, points, outerRadius) {
@@ -616,11 +830,8 @@
             ctx.closePath();
         }
 
-        // --- Initialize the Page ---
         document.addEventListener('DOMContentLoaded', () => {
-            loadMascot(currentMascotIndex); // Load the first mascot
-            
-            // --- Event Listeners ---
+            loadMascot(currentMascotIndex);
             generateBtn.addEventListener('click', startGeneration);
             nextBtn.addEventListener('click', nextMascot);
             prevBtn.addEventListener('click', prevMascot);
