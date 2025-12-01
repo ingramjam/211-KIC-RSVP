@@ -16,22 +16,17 @@
             theme: {
                 extend: {
                     colors: {
-                        'midnight': '#0f172a',
+                        'navy-deep': '#0a1128',
+                        'navy': '#1b2845',
+                        'navy-light': '#2e4057',
+                        'blue': '#4a6fa5',
+                        'blue-light': '#7895b2',
                         'gold': '#d4af37',
                         'gold-light': '#f3e5ab',
-                        'motown-orange': '#ff6b35',
-                        'motown-yellow': '#f7931e',
-                        'motown-red': '#c1272d',
-                        'motown-blue': '#0077c8',
-                        'soul-purple': '#6b2d5c',
                     },
                     fontFamily: {
                         'serif': ['"Playfair Display"', 'serif'],
                         'sans': ['"Lato"', 'sans-serif'],
-                    },
-                    backgroundImage: {
-                        'star-pattern': "radial-gradient(white 1px, transparent 1px)",
-                        'vinyl-texture': "repeating-radial-gradient(circle at center, transparent 0, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px)",
                     }
                 }
             }
@@ -39,7 +34,7 @@
     </script>
     <style>
         body {
-            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(135deg, #0a1128 0%, #1b2845 50%, #2e4057 100%);
             color: #f8fafc;
             position: relative;
         }
@@ -49,118 +44,143 @@
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                repeating-radial-gradient(circle at center, transparent 0, transparent 2px, rgba(255,255,255,.02) 2px, rgba(255,255,255,.02) 4px);
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(74, 111, 165, 0.03) 0%, transparent 50%);
             pointer-events: none;
+            z-index: 0;
         }
         
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
         .text-gold-gradient {
-            background: linear-gradient(45deg, #ff6b35, #f7931e, #ffd700, #ff6b35);
+            background: linear-gradient(135deg, #d4af37, #f3e5ab, #d4af37);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shimmer 3s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
         }
 
         .gold-border {
-            border: 2px solid #f7931e;
-            box-shadow: 
-                0 0 20px rgba(247, 147, 30, 0.4),
-                inset 0 0 20px rgba(247, 147, 30, 0.1);
+            border: 2px solid #d4af37;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Polaroid Gallery Styles */
+        .polaroid-card {
+            background: #fff;
+            padding: 12px 12px 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            transform-origin: center;
+        }
+
+        .polaroid-card:nth-child(1) { transform: rotate(-3deg); }
+        .polaroid-card:nth-child(2) { transform: rotate(2deg); }
+        .polaroid-card:nth-child(3) { transform: rotate(-2deg); }
+        .polaroid-card:nth-child(4) { transform: rotate(3deg); }
+        .polaroid-card:nth-child(5) { transform: rotate(-1deg); }
+        .polaroid-card:nth-child(6) { transform: rotate(2deg); }
+        .polaroid-card:nth-child(7) { transform: rotate(-3deg); }
+        .polaroid-card:nth-child(8) { transform: rotate(1deg); }
+        .polaroid-card:nth-child(9) { transform: rotate(-2deg); }
+        .polaroid-card:nth-child(10) { transform: rotate(3deg); }
+        .polaroid-card:nth-child(11) { transform: rotate(-1deg); }
+        .polaroid-card:nth-child(12) { transform: rotate(2deg); }
+        .polaroid-card:nth-child(13) { transform: rotate(-2deg); }
+
+        .polaroid-card:hover {
+            transform: rotate(0deg) scale(1.15) translateY(-15px) !important;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            z-index: 10;
+        }
+
+        .polaroid-caption {
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #333;
+            font-weight: 600;
         }
 
         .vinyl-record {
-            background: radial-gradient(circle, #1a1a1a 30%, #000 70%);
+            width: 48px;
+            height: 48px;
+            background: radial-gradient(circle, #1a1a1a 20%, #333 21%, #111 40%, #333 41%, #000 100%);
             border-radius: 50%;
             position: relative;
         }
 
-        .vinyl-record::before {
+        .vinyl-record::after {
             content: '';
             position: absolute;
-            inset: 0;
-            background: repeating-radial-gradient(
-                circle at center,
-                transparent 0,
-                transparent 3px,
-                rgba(255,255,255,0.03) 3px,
-                rgba(255,255,255,0.03) 4px
-            );
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: #d4af37;
             border-radius: 50%;
         }
 
-        .retro-badge {
-            background: linear-gradient(135deg, #f7931e 0%, #ff6b35 100%);
-            box-shadow: 0 4px 15px rgba(247, 147, 30, 0.5);
+        .audio-player {
+            background: linear-gradient(135deg, #1b2845 0%, #2e4057 100%);
+            border: 2px solid #d4af37;
         }
 
-        /* HubSpot Form Customization - Motown Style */
+        /* HubSpot Form Customization */
         .hbspt-form label {
-            color: #ffd700 !important;
+            color: #ffffff !important;
             font-family: 'Lato', sans-serif !important;
-            font-weight: 700 !important;
-            margin-bottom: 5px !important;
+            font-weight: 600 !important;
+            margin-bottom: 6px !important;
             display: block !important;
-            text-transform: uppercase !important;
-            letter-spacing: 1px !important;
         }
         .hbspt-form .hs-input {
             width: 100% !important;
-            background-color: #1a0a2e !important;
-            border: 2px solid #f7931e !important;
-            color: white !important;
-            padding: 14px !important;
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid #d4af37 !important;
+            color: #ffffff !important;
+            padding: 12px !important;
             border-radius: 6px !important;
             transition: all 0.3s ease !important;
         }
+        .hbspt-form .hs-input::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
         .hbspt-form .hs-input:focus {
-            border-color: #ff6b35 !important;
-            box-shadow: 0 0 15px rgba(247, 147, 30, 0.4) !important;
+            border-color: #f3e5ab !important;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.3) !important;
             outline: none !important;
+            background-color: rgba(255, 255, 255, 0.15) !important;
         }
         .hbspt-form .hs-button {
-            background: linear-gradient(135deg, #f7931e 0%, #ff6b35 100%) !important;
-            color: #000 !important;
+            background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 100%) !important;
+            color: #0a1128 !important;
             border: none !important;
-            padding: 16px 40px !important;
+            padding: 14px 36px !important;
             font-family: 'Playfair Display', serif !important;
             font-weight: 700 !important;
-            text-transform: uppercase !important;
-            letter-spacing: 2px !important;
             cursor: pointer !important;
             margin-top: 20px !important;
             width: 100% !important;
-            border-radius: 50px !important;
-            box-shadow: 0 4px 15px rgba(247, 147, 30, 0.5) !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
             transition: all 0.3s ease !important;
         }
         .hbspt-form .hs-button:hover {
             transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(247, 147, 30, 0.6) !important;
-        }
-
-        .mascot-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background: linear-gradient(135deg, rgba(26, 10, 46, 0.6), rgba(22, 33, 62, 0.6));
-            backdrop-filter: blur(10px);
-        }
-        .mascot-card:hover {
-            transform: translateY(-10px) rotate(2deg);
-            box-shadow: 0 15px 40px rgba(247, 147, 30, 0.4);
-            border-color: #ff6b35 !important;
-        }
-
-        .audio-player {
-            background: linear-gradient(135deg, rgba(26, 10, 46, 0.9), rgba(22, 33, 62, 0.9));
-            backdrop-filter: blur(10px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5) !important;
         }
 
         /* Animated music notes */
@@ -181,19 +201,14 @@
         <img src="https://211sj.org/wp-content/themes/yootheme/cache/71/new-kick-it-ca-1-7122e420.webp" alt="Kick It California Logo" class="h-12 md:h-16 w-auto object-contain drop-shadow-lg">
     </div>
 
-    <!-- Audio Player - Motown Style -->
+    <!-- Audio Player -->
     <div class="max-w-4xl mx-auto px-4 mb-8">
-        <div class="audio-player border-2 border-motown-orange rounded-2xl p-6 shadow-2xl">
+        <div class="audio-player rounded-xl p-5 shadow-lg">
             <div class="flex items-center gap-4">
-                <div class="vinyl-record w-16 h-16 flex-shrink-0 relative">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="w-4 h-4 bg-motown-yellow rounded-full"></div>
-                    </div>
-                    <i class="fas fa-music absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-motown-orange text-xs music-note"></i>
-                </div>
+                <div class="vinyl-record w-12 h-12 flex-shrink-0"></div>
                 <div class="flex-1">
-                    <p class="text-motown-yellow font-bold text-sm uppercase tracking-wider mb-1">Now Playing</p>
-                    <p class="text-white font-serif text-lg">KIC and 211: Help and Hope</p>
+                    <p class="text-gold font-semibold text-sm uppercase tracking-wide mb-1">Now Playing</p>
+                    <p class="text-white font-serif text-base">KIC and 211: Help and Hope</p>
                 </div>
                 <audio id="motownAudio" class="flex-1" controls>
                     <source src="KIC and 211_ Help and Hope.mp3" type="audio/mpeg">
@@ -204,196 +219,174 @@
     </div>
 
     <!-- Hero Section -->
-    <main class="container mx-auto px-4 max-w-5xl relative">
-        <!-- Decorative music notes -->
-        <div class="absolute top-0 left-10 text-motown-orange text-2xl opacity-30 music-note">♪</div>
-        <div class="absolute top-20 right-20 text-motown-yellow text-3xl opacity-20 music-note" style="animation-delay: 0.5s;">♫</div>
+    <main class="container mx-auto px-4 max-w-5xl relative content-wrapper">
         
         <div class="text-center mb-16">
-            <h2 class="text-motown-orange tracking-[0.3em] uppercase text-sm md:text-base font-sans mb-4 font-bold">You Are Cordially Invited</h2>
+            <h2 class="text-blue-light tracking-[0.3em] uppercase text-sm md:text-base font-sans mb-4 font-semibold">You Are Cordially Invited</h2>
             <h1 class="text-5xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight">
                 When Resources Align,<br>
                 <span class="text-gold-gradient">Communities Thrive</span>
             </h1>
             <p class="text-slate-200 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-                A celebration of the historic partnership between <strong class="text-motown-yellow">211</strong> and <strong class="text-motown-orange">Kick It California</strong>. Join us to honor our shared success and explore the future of a healthier California.
+                A celebration of the historic partnership between <strong class="text-gold">211</strong> and <strong class="text-gold-light">Kick It California</strong>. Join us to honor our shared success and explore the future of a healthier California.
             </p>
         </div>
 
         <!-- Invitation Video Placeholder -->
-        <div class="relative w-full aspect-video bg-gradient-to-br from-soul-purple to-motown-blue rounded-2xl gold-border overflow-hidden shadow-2xl mb-16 group cursor-pointer">
-            <!-- Background Image Placeholder (Darkened) -->
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-70"></div>
-            
-            <!-- Retro sunburst pattern -->
-            <div class="absolute inset-0 opacity-10" style="background: repeating-conic-gradient(from 0deg, transparent 0deg 10deg, rgba(255,107,53,0.3) 10deg 20deg);"></div>
+        <div class="relative w-full aspect-video bg-gradient-to-br from-navy to-blue rounded-xl gold-border overflow-hidden shadow-2xl mb-16 group cursor-pointer">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-60"></div>
             
             <!-- Play Button -->
             <div class="absolute inset-0 flex items-center justify-center">
-                <div class="w-24 h-24 retro-badge rounded-full flex items-center justify-center pl-2 group-hover:scale-110 transition-transform duration-300">
-                    <i class="fas fa-play text-black text-4xl"></i>
+                <div class="w-20 h-20 bg-gold rounded-full flex items-center justify-center pl-2 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <i class="fas fa-play text-navy-deep text-3xl"></i>
                 </div>
             </div>
 
             <!-- Video Text Overlay -->
             <div class="absolute bottom-0 left-0 w-full p-8 text-center md:text-left">
-                <h3 class="text-3xl font-serif text-motown-yellow mb-2 font-bold">The Invitation</h3>
-                <p class="text-slate-200 font-sans text-base">"More connection. More support. More impact."</p>
+                <h3 class="text-2xl md:text-3xl font-serif text-gold mb-2 font-bold">The Invitation</h3>
+                <p class="text-slate-200 font-sans text-sm md:text-base">"More connection. More support. More impact."</p>
             </div>
         </div>
 
         <!-- Save The Date Banner -->
-        <div class="bg-gradient-to-r from-motown-red via-motown-orange to-motown-yellow border-y-4 border-motown-orange py-12 px-4 mb-20 shadow-2xl relative overflow-hidden">
-            <!-- Retro pattern overlay -->
-            <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,.1) 10px, rgba(0,0,0,.1) 20px);"></div>
-            
-            <div class="flex flex-col md:flex-row justify-between items-center max-w-4xl mx-auto gap-8 md:gap-0 relative z-10">
+        <div class="bg-gradient-to-r from-navy to-blue border-y-2 border-gold py-10 px-4 mb-20 shadow-xl">
+            <div class="flex flex-col md:flex-row justify-between items-center max-w-4xl mx-auto gap-8 md:gap-0">
                 <div class="text-center md:text-left">
-                    <p class="text-black uppercase tracking-widest text-xs font-black mb-2">Date</p>
-                    <p class="text-3xl md:text-4xl font-serif text-white font-bold drop-shadow-lg">February 12, 2026</p>
+                    <p class="text-gold uppercase tracking-widest text-xs font-semibold mb-2">Date</p>
+                    <p class="text-2xl md:text-3xl font-serif text-white font-bold">February 12, 2026</p>
                 </div>
-                <div class="hidden md:block w-1 h-16 bg-white/50"></div>
+                <div class="hidden md:block w-px h-12 bg-gold/30"></div>
                 <div class="text-center md:text-left">
-                    <p class="text-black uppercase tracking-widest text-xs font-black mb-2">Time</p>
-                    <p class="text-3xl md:text-4xl font-serif text-white font-bold drop-shadow-lg">10:00 – 11:00 AM PST</p>
+                    <p class="text-gold uppercase tracking-widest text-xs font-semibold mb-2">Time</p>
+                    <p class="text-2xl md:text-3xl font-serif text-white font-bold">10:00 – 11:00 AM PST</p>
                 </div>
-                <div class="hidden md:block w-1 h-16 bg-white/50"></div>
+                <div class="hidden md:block w-px h-12 bg-gold/30"></div>
                 <div class="text-center md:text-left">
-                    <p class="text-black uppercase tracking-widest text-xs font-black mb-2">Where</p>
-                    <a href="https://ucsd.zoom.us/j/99908877877" class="text-3xl md:text-4xl font-serif text-white font-bold underline decoration-2 hover:text-black transition drop-shadow-lg">Via Zoom</a>
+                    <p class="text-gold uppercase tracking-widest text-xs font-semibold mb-2">Where</p>
+                    <a href="https://ucsd.zoom.us/j/99908877877" class="text-2xl md:text-3xl font-serif text-gold-light font-bold underline decoration-2 hover:text-white transition">Via Zoom</a>
                 </div>
             </div>
         </div>
 
-        <!-- Mascots "Red Carpet" Section -->
+        <!-- Mascots Polaroid Gallery Section -->
         <div class="mb-20 text-center">
-            <h3 class="text-4xl font-serif text-white mb-2"><span class="border-b-4 border-motown-orange pb-2 font-bold">Featuring The 211 All-Stars</span></h3>
-            <p class="text-motown-yellow mb-10 max-w-2xl mx-auto text-lg font-semibold">Meet the faces of California's 211 network - each representing the unique communities they serve across the Golden State.</p>
+            <h3 class="text-4xl font-serif text-white mb-3 font-bold">Featuring The 211 All-Stars</h3>
+            <p class="text-slate-300 mb-12 max-w-2xl mx-auto text-lg">Meet the faces of California's 211 network - each representing the unique communities they serve across the Golden State.</p>
             
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto px-4">
                 <!-- The Hollywood Star -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_hollywood_star.png" alt="The Hollywood Star" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">LA County</p>
-                    <p class="text-slate-300 text-xs">Hollywood Star</p>
+                    <p class="polaroid-caption">LA County - Hollywood Star</p>
                 </div>
 
                 <!-- The Bay Bridge Connector -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_bay_bridge_connector.png" alt="The Bay Bridge Connector" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">Bay Area</p>
-                    <p class="text-slate-300 text-xs">Bay Bridge Connector</p>
+                    <p class="polaroid-caption">Bay Area - Bay Bridge Connector</p>
                 </div>
 
                 <!-- The Balboa Park Pal -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_balboa_park_pal.png" alt="The Balboa Park Pal" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">San Diego</p>
-                    <p class="text-slate-300 text-xs">Balboa Park Pal</p>
+                    <p class="polaroid-caption">San Diego - Balboa Park Pal</p>
                 </div>
 
                 <!-- The IE Route Rocker -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_ie_route_rocker.png" alt="The IE Route Rocker" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">Inland Empire</p>
-                    <p class="text-slate-300 text-xs">IE Route Rocker</p>
+                    <p class="polaroid-caption">Inland Empire - IE Route Rocker</p>
                 </div>
 
                 <!-- The OC Operator -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_oc_operator.png" alt="The OC Operator" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">Orange County</p>
-                    <p class="text-slate-300 text-xs">OC Operator</p>
+                    <p class="polaroid-caption">Orange County - OC Operator</p>
                 </div>
 
                 <!-- The Pier-to-Peer Pal -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_pier-to-peer_pal.png" alt="The Pier-to-Peer Pal" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">Ventura County</p>
-                    <p class="text-slate-300 text-xs">Pier-to-Peer Pal</p>
+                    <p class="polaroid-caption">Ventura County - Pier-to-Peer Pal</p>
                 </div>
 
                 <!-- The Oakland Oak -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_oakland_oak.png" alt="The Oakland Oak" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">Alameda County</p>
-                    <p class="text-slate-300 text-xs">Oakland Oak</p>
+                    <p class="polaroid-caption">Alameda County - Oakland Oak</p>
                 </div>
 
                 <!-- The Delta King -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_delta_king.png" alt="The Delta King" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">San Joaquin</p>
-                    <p class="text-slate-300 text-xs">Delta King</p>
+                    <p class="polaroid-caption">San Joaquin - Delta King</p>
                 </div>
 
                 <!-- The Capital Connector -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_capital_connector.png" alt="The Capital Connector" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">Sacramento</p>
-                    <p class="text-slate-300 text-xs">Capital Connector</p>
+                    <p class="polaroid-caption">Sacramento - Capital Connector</p>
                 </div>
 
                 <!-- The Tahoe Gold Miner -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_tahoe_gold_miner.png" alt="The Tahoe Gold Miner" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">Nevada/Placer</p>
-                    <p class="text-slate-300 text-xs">Tahoe Gold Miner</p>
+                    <p class="polaroid-caption">Nevada/Placer - Tahoe Gold Miner</p>
                 </div>
 
                 <!-- The Central Valley Vine -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_central_valley_vine.png" alt="The Central Valley Vine" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">Fresno/Madera</p>
-                    <p class="text-slate-300 text-xs">Central Valley Vine</p>
+                    <p class="polaroid-caption">Fresno/Madera - Central Valley Vine</p>
                 </div>
 
                 <!-- The Diablo Peak Performer -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_diablo_peak_performer.png" alt="The Diablo Peak Performer" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">Contra Costa</p>
-                    <p class="text-slate-300 text-xs">Diablo Peak Performer</p>
+                    <p class="polaroid-caption">Contra Costa - Diablo Peak Performer</p>
                 </div>
 
                 <!-- The Chico Bridge Builder -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
-                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
+                <div class="polaroid-card">
+                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
                         <img src="the_chico_bridge_builder.png" alt="The Chico Bridge Builder" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-motown-yellow font-serif text-lg font-bold">Butte/Glenn</p>
-                    <p class="text-slate-300 text-xs">Chico Bridge Builder</p>
+                    <p class="polaroid-caption">Butte/Glenn - Chico Bridge Builder</p>
                 </div>
             </div>
         </div>
 
         <!-- RSVP Form Section -->
-        <div id="rsvp" class="max-w-2xl mx-auto audio-player p-8 md:p-12 rounded-2xl shadow-2xl border-2 border-motown-orange mb-20 relative">
-            <div class="absolute -top-6 left-1/2 -translate-x-1/2 retro-badge text-black font-black px-8 py-3 rounded-full uppercase tracking-wider text-sm">
-                Secure Your Spot
+        <div id="rsvp" class="max-w-2xl mx-auto bg-navy-light/40 p-8 md:p-12 rounded-xl shadow-2xl gold-border mb-20">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl font-serif text-gold mb-3 font-bold">Confirm Your Attendance</h2>
+                <p class="text-slate-300">Please fill out the form below to confirm your attendance.</p>
             </div>
             
             <div class="text-center mb-8">
@@ -421,758 +414,10 @@
 
     </main>
 
-    <footer class="text-center py-8 text-slate-400 text-sm bg-gradient-to-r from-soul-purple to-motown-blue border-t-2 border-motown-orange">
+    <footer class="text-center py-8 text-slate-400 text-sm bg-gradient-to-r from-navy to-navy-light border-t border-gold">
         <p>&copy; 2025 Kick It California. All rights reserved.</p>
-        <p class="text-motown-yellow text-xs mt-2">♫ Powered by the Sound of California ♫</p>
+        <p class="text-gold-light text-xs mt-2">211 x Kick It California Partnership</p>
     </footer>
 
-</body>
-</html>
-        const messageText = document.getElementById('message-text');
-        const messageTitle = document.getElementById('message-title');
-        const mascotTracker = document.getElementById('mascot-tracker');
-        const mascotName = document.getElementById('mascot-name');
-        const customPrompt = document.getElementById('custom-prompt');
-        const cardImage = document.getElementById('mascot-image');
-        const cardLoader = document.getElementById('mascot-loader');
-        const generateBtn = document.getElementById('generate-btn');
-        const downloadBtn = document.getElementById('download-btn');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-
-        function loadMascot(index) {
-            clearMessage();
-            const mascotData = all211s[index];
-            mascotTracker.textContent = `Mascot ${index + 1} of ${all211s.length}`;
-            mascotName.textContent = mascotData.mascotName;
-            customPrompt.value = mascotData.prompt;
-            cardImage.src = `https://placehold.co/400x300/374151/9ca3af?text=${mascotData.mascotName.replace(/ /g, '+')}`;
-            downloadBtn.classList.add('hidden');
-            generateBtn.disabled = false;
-        }
-
-        function nextMascot() {
-            currentMascotIndex = (currentMascotIndex + 1) % all211s.length;
-            loadMascot(currentMascotIndex);
-        }
-
-        function prevMascot() {
-            currentMascotIndex = (currentMascotIndex - 1 + all211s.length) % all211s.length;
-            loadMascot(currentMascotIndex);
-        }
-
-        function startGeneration() {
-            const promptText = customPrompt.value;
-            if (promptText) {
-                generateImage(promptText);
-            } else {
-                showMessage("Please enter a prompt");
-            }
-        }
-
-        function clearMessage() {
-            messageBox.classList.add('hidden');
-        }
-
-        function showMessage(message, type = 'error') {
-            if (type === 'success') {
-                messageBox.className = 'mt-6 max-w-md mx-auto p-4 rounded-lg bg-green-800 text-green-200';
-                messageTitle.textContent = 'Success';
-            } else if (type === 'info') {
-                messageBox.className = 'mt-6 max-w-md mx-auto p-4 rounded-lg bg-blue-800 text-blue-200';
-                messageTitle.textContent = 'Info';
-            } else {
-                messageBox.className = 'mt-6 max-w-md mx-auto p-4 rounded-lg bg-red-800 text-red-200';
-                messageTitle.textContent = 'Error';
-            }
-            messageText.textContent = message;
-            messageBox.classList.remove('hidden');
-        }
-
-        async function generateImage(promptText) {
-            clearMessage();
-            cardLoader.classList.remove('hidden');
-            generateBtn.disabled = true;
-            nextBtn.disabled = true;
-            prevBtn.disabled = true;
-            generateBtn.textContent = 'Generating...';
-            downloadBtn.classList.add('hidden');
-            cardImage.style.opacity = '0.5';
-
-            try {
-                await new Promise(resolve => setTimeout(resolve, 300));
-                const canvas = createMascotBase(currentMascotIndex);
-                const imageData = canvas.toDataURL('image/png');
-                cardImage.src = imageData;
-                downloadBtn.href = imageData;
-                const mascotFileName = all211s[currentMascotIndex].mascotName.replace(/ /g, '_').toLowerCase();
-                downloadBtn.download = `${mascotFileName}.png`;
-                downloadBtn.classList.remove('hidden');
-                showMessage('✨ Mascot generated! Ready to download.', 'success');
-            } catch (error) {
-                showMessage(`Error: ${error.message}`);
-                cardImage.src = `https://placehold.co/400x300/b91c1c/f8fafc?text=Error`;
-            } finally {
-                cardLoader.classList.add('hidden');
-                generateBtn.disabled = false;
-                generateBtn.textContent = 'Generate';
-                nextBtn.disabled = false;
-                prevBtn.disabled = false;
-                cardImage.style.opacity = '1';
-            }
-        }
-        
-        function createMascotBase(index) {
-            const canvas = document.createElement('canvas');
-            canvas.width = 400;
-            canvas.height = 300;
-            const ctx = canvas.getContext('2d');
-            
-            const colorSchemes = [
-                { bg: '#FFF8E7', primary: '#FF6B6B', secondary: '#FFE66D' },
-                { bg: '#E8F8F5', primary: '#4ECDC4', secondary: '#FF6B9D' },
-                { bg: '#F0F9FF', primary: '#95E1D3', secondary: '#F38181' },
-                { bg: '#FAF0FF', primary: '#AA96DA', secondary: '#FCBAD3' },
-                { bg: '#FFF5E6', primary: '#F7A072', secondary: '#FFE66D' },
-                { bg: '#E1F5FE', primary: '#A8D8EA', secondary: '#AA96DA' },
-                { bg: '#F1F8E9', primary: '#5D9E60', secondary: '#B4D7A8' },
-                { bg: '#F3E5F5', primary: '#6C5B7B', secondary: '#C06C84' },
-                { bg: '#FFF3E0', primary: '#D4A574', secondary: '#F0E5CF' },
-                { bg: '#F3E5F5', primary: '#EFDBEF', secondary: '#BFB5D6' },
-                { bg: '#FAFAF0', primary: '#C7B3A8', secondary: '#8B5E3C' },
-                { bg: '#EEEEEE', primary: '#707070', secondary: '#C1C1C1' },
-                { bg: '#F5F1E8', primary: '#8B6F47', secondary: '#D4A574' }
-            ];
-            
-            const scheme = colorSchemes[index % colorSchemes.length];
-            const gradient = ctx.createLinearGradient(0, 0, 400, 300);
-            gradient.addColorStop(0, scheme.bg);
-            gradient.addColorStop(1, scheme.secondary);
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, 400, 300);
-            
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-            ctx.beginPath();
-            ctx.arc(380, 30, 40, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(20, 280, 30, 0, Math.PI * 2);
-            ctx.fill();
-            
-            drawAdvancedMascot(ctx, index, scheme);
-            
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.beginPath();
-            ctx.arc(200 - 15, 140 - 20, 20, 0, Math.PI * 2);
-            ctx.fill();
-            
-            return canvas;
-        }
-        
-        function drawAdvancedMascot(ctx, index, scheme) {
-            const mascotId = all211s[index].id;
-            const centerX = 200, centerY = 140;
-            
-            switch(mascotId) {
-                case 'la': drawHollywoodStar(ctx, centerX, centerY, scheme); break;
-                case 'bay': drawBayBridge(ctx, centerX, centerY, scheme); break;
-                case 'sd': drawBalboaTower(ctx, centerX, centerY, scheme); break;
-                case 'ie': drawJoshuaTree(ctx, centerX, centerY, scheme); break;
-                case 'oc': drawOrange(ctx, centerX, centerY, scheme); break;
-                case 'ven': drawPier(ctx, centerX, centerY, scheme); break;
-                case 'ala': drawOakTree(ctx, centerX, centerY, scheme); break;
-                case 'sj': drawRiverboat(ctx, centerX, centerY, scheme); break;
-                case 'sac': drawCapitolDome(ctx, centerX, centerY, scheme); break;
-                case 'nevpla': drawGoldNugget(ctx, centerX, centerY, scheme); break;
-                case 'frema': drawGrapes(ctx, centerX, centerY, scheme); break;
-                case 'ccc': drawMountain(ctx, centerX, centerY, scheme); break;
-                case 'butgle': drawCoveredBridge(ctx, centerX, centerY, scheme); break;
-            }
-        }
-        
-        function drawHollywoodStar(ctx, x, y, scheme) {
-            ctx.fillStyle = scheme.primary;
-            ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 4;
-            drawStar(ctx, x, y, 5, 70);
-            ctx.fill();
-            ctx.stroke();
-            ctx.fillStyle = scheme.secondary;
-            ctx.beginPath();
-            ctx.arc(x, y, 30, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#000';
-            ctx.beginPath(); ctx.arc(x - 25, y - 20, 10, 0, Math.PI * 2); ctx.fill();
-            ctx.beginPath(); ctx.arc(x + 25, y - 20, 10, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = '#fff';
-            ctx.beginPath(); ctx.arc(x - 22, y - 22, 3, 0, Math.PI * 2); ctx.fill();
-            ctx.beginPath(); ctx.arc(x + 28, y - 22, 3, 0, Math.PI * 2); ctx.fill();
-            ctx.strokeStyle = '#000';
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.arc(x, y + 15, 25, 0, Math.PI);
-            ctx.stroke();
-            ctx.strokeStyle = '#FFD700';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.rect(x - 35, y - 25, 20, 18);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.rect(x + 15, y - 25, 20, 18);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x - 15, y - 16);
-            ctx.lineTo(x + 15, y - 16);
-            ctx.stroke();
-        }
-        
-        function drawBayBridge(ctx, x, y, scheme) {
-            ctx.fillStyle = scheme.secondary;
-            ctx.fillRect(x - 50, y - 65, 12, 75);
-            ctx.fillRect(x + 38, y - 65, 12, 75);
-            ctx.strokeStyle = scheme.primary;
-            ctx.lineWidth = 5;
-            ctx.beginPath();
-            ctx.moveTo(x - 44, y - 65);
-            ctx.quadraticCurveTo(x, y - 95, x + 44, y - 65);
-            ctx.stroke();
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = scheme.secondary;
-            for(let i = -40; i <= 40; i += 15) {
-                ctx.beginPath();
-                ctx.moveTo(x + i, y - 65);
-                ctx.lineTo(x + i - 5, y + 5);
-                ctx.stroke();
-            }
-            ctx.fillStyle = scheme.primary;
-            ctx.fillRect(x - 65, y + 5, 130, 25);
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 2;
-            for(let i = 0; i < 10; i++) {
-                ctx.beginPath();
-                ctx.moveTo(x - 60 + i * 13, y + 10);
-                ctx.lineTo(x - 55 + i * 13, y + 28);
-                ctx.stroke();
-            }
-            ctx.fillStyle = scheme.primary;
-            ctx.beginPath();
-            ctx.arc(x, y + 45, 15, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#000';
-            ctx.beginPath(); ctx.arc(x - 8, y + 40, 4, 0, Math.PI * 2); ctx.fill();
-            ctx.beginPath(); ctx.arc(x + 8, y + 40, 4, 0, Math.PI * 2); ctx.fill();
-            ctx.strokeStyle = '#000';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(x, y + 48, 8, 0, Math.PI);
-            ctx.stroke();
-        }
-        
-        function drawBalboaTower(ctx, x, y, scheme) {
-            ctx.fillStyle = scheme.primary;
-            ctx.beginPath();
-            ctx.moveTo(x - 45, y + 45);
-            ctx.lineTo(x - 18, y - 55);
-            ctx.lineTo(x + 18, y - 55);
-            ctx.lineTo(x + 45, y + 45);
-            ctx.closePath();
-            ctx.fill();
-            ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 3;
-            ctx.stroke();
-            ctx.fillStyle = '#FFD700';
-            for(let row = 0; row < 4; row++) {
-                for(let col = 0; col < 2; col++) {
-                    const wx = x - 20 + col * 40;
-                    const wy = y - 30 + row * 18;
-                    ctx.fillRect(wx, wy, 8, 8);
-                }
-            }
-            ctx.fillStyle = scheme.secondary;
-            ctx.beginPath();
-            ctx.arc(x, y - 60, 22, Math.PI, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-            ctx.beginPath();
-            ctx.arc(x - 8, y - 65, 8, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = scheme.secondary;
-            ctx.beginPath();
-            ctx.moveTo(x, y - 70);
-            ctx.lineTo(x - 4, y - 80);
-            ctx.lineTo(x + 4, y - 80);
-            ctx.closePath();
-            ctx.fill();
-            ctx.fillRect(x - 50, y + 45, 100, 8);
-        }
-        
-        function drawJoshuaTree(ctx, x, y, scheme) {
-            ctx.fillStyle = scheme.primary;
-            ctx.fillRect(x - 10, y - 10, 20, 70);
-            ctx.strokeStyle = scheme.primary;
-            ctx.lineWidth = 12;
-            ctx.beginPath();
-            ctx.moveTo(x, y - 10);
-            ctx.quadraticCurveTo(x - 30, y - 35, x - 55, y - 45);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y - 10);
-            ctx.quadraticCurveTo(x + 30, y - 35, x + 55, y - 45);
-            ctx.stroke();
-            ctx.lineWidth = 9;
-            ctx.beginPath();
-            ctx.moveTo(x, y + 15);
-            ctx.quadraticCurveTo(x - 35, y - 5, x - 65, y - 10);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y + 15);
-            ctx.quadraticCurveTo(x + 35, y - 5, x + 65, y - 10);
-            ctx.stroke();
-            ctx.lineWidth = 7;
-            ctx.beginPath();
-            ctx.moveTo(x - 5, y + 40);
-            ctx.quadraticCurveTo(x - 40, y + 25, x - 70, y + 20);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x + 5, y + 40);
-            ctx.quadraticCurveTo(x + 40, y + 25, x + 70, y + 20);
-            ctx.stroke();
-            ctx.fillStyle = scheme.primary;
-            const branches = [{x: x - 55, y: y - 45}, {x: x + 55, y: y - 45}, {x: x - 65, y: y - 10}, {x: x + 65, y: y - 10}, {x: x - 70, y: y + 20}, {x: x + 70, y: y + 20}];
-            branches.forEach(b => {
-                ctx.beginPath();
-                ctx.arc(b.x, b.y, 12, 0, Math.PI * 2);
-                ctx.fill();
-            });
-        }
-        
-        function drawOrange(ctx, x, y, scheme) {
-            ctx.fillStyle = scheme.primary;
-            ctx.beginPath();
-            ctx.arc(x, y, 50, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 3;
-            ctx.stroke();
-            ctx.strokeStyle = 'rgba(0,0,0,0.2)';
-            ctx.lineWidth = 2;
-            for (let i = 0; i < 12; i++) {
-                ctx.beginPath();
-                ctx.moveTo(x, y);
-                const angle = (Math.PI * 2 / 12) * i;
-                ctx.lineTo(x + Math.cos(angle) * 50, y + Math.sin(angle) * 50);
-                ctx.stroke();
-            }
-            ctx.beginPath();
-            ctx.arc(x, y, 35, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.fillStyle = '#2d7e2d';
-            ctx.beginPath();
-            ctx.ellipse(x - 8, y - 55, 8, 16, -0.4, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#3da83d';
-            ctx.beginPath();
-            ctx.ellipse(x + 8, y - 55, 8, 16, 0.4, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#000';
-            ctx.beginPath(); ctx.arc(x - 18, y - 12, 12, 0, Math.PI * 2); ctx.fill();
-            ctx.beginPath(); ctx.arc(x + 18, y - 12, 12, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = '#fff';
-            ctx.beginPath(); ctx.arc(x - 14, y - 14, 4, 0, Math.PI * 2); ctx.fill();
-            ctx.beginPath(); ctx.arc(x + 22, y - 14, 4, 0, Math.PI * 2); ctx.fill();
-            ctx.strokeStyle = '#000';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(x, y + 18, 22, 0, Math.PI);
-            ctx.stroke();
-        }
-        
-        function drawPier(ctx, x, y, scheme) {
-            ctx.fillStyle = scheme.primary;
-            ctx.fillRect(x - 75, y - 8, 150, 20);
-            ctx.strokeStyle = 'rgba(0,0,0,0.2)';
-            ctx.lineWidth = 1;
-            for(let i = 0; i < 8; i++) {
-                ctx.beginPath();
-                ctx.moveTo(x - 75, y - 8 + i * 3);
-                ctx.lineTo(x + 75, y - 8 + i * 3);
-                ctx.stroke();
-            }
-            ctx.fillStyle = scheme.secondary;
-            for (let i = 0; i < 6; i++) {
-                ctx.fillRect(x - 60 + i * 24, y + 12, 12, 55);
-            }
-            ctx.strokeStyle = 'rgba(0,0,0,0.15)';
-            ctx.lineWidth = 1;
-            for(let i = 0; i < 6; i++) {
-                const px = x - 60 + i * 24 + 6;
-                ctx.beginPath();
-                ctx.moveTo(px - 10, y + 30);
-                ctx.lineTo(px + 10, y + 30);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(px - 10, y + 45);
-                ctx.lineTo(px + 10, y + 45);
-                ctx.stroke();
-            }
-            ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.moveTo(x - 75, y - 10);
-            ctx.lineTo(x + 75, y - 10);
-            ctx.stroke();
-            ctx.lineWidth = 2;
-            for(let i = 0; i < 9; i++) {
-                ctx.beginPath();
-                ctx.moveTo(x - 75 + i * 20, y - 10);
-                ctx.lineTo(x - 75 + i * 20, y - 22);
-                ctx.stroke();
-            }
-            ctx.fillStyle = '#fff';
-            ctx.beginPath();
-            ctx.arc(x + 50, y - 35, 8, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#000';
-            ctx.beginPath(); ctx.arc(x + 47, y - 36, 2, 0, Math.PI * 2); ctx.fill();
-        }
-        
-        function drawOakTree(ctx, x, y, scheme) {
-            ctx.fillStyle = '#5c3d2e';
-            ctx.fillRect(x - 12, y + 15, 24, 70);
-            ctx.strokeStyle = '#3d2817';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(x - 12, y + 15, 24, 70);
-            ctx.strokeStyle = 'rgba(0,0,0,0.15)';
-            ctx.lineWidth = 1;
-            for(let i = 0; i < 7; i++) {
-                ctx.beginPath();
-                ctx.moveTo(x - 12, y + 25 + i * 10);
-                ctx.lineTo(x + 12, y + 25 + i * 10);
-                ctx.stroke();
-            }
-            ctx.fillStyle = scheme.primary;
-            ctx.beginPath();
-            ctx.arc(x, y - 15, 75, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(x - 50, y + 5, 45, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(x + 50, y + 5, 45, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(x, y - 15, 75, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.strokeStyle = '#5c3d2e';
-            ctx.lineWidth = 5;
-            ctx.lineCap = 'round';
-            const roots = [{startX: x - 8, startY: y + 85, endX: x - 45, endY: y + 110}, {startX: x + 8, startY: y + 85, endX: x + 45, endY: y + 110}, {startX: x - 4, startY: y + 85, endX: x - 25, endY: y + 115}, {startX: x + 4, startY: y + 85, endX: x + 25, endY: y + 115}];
-            roots.forEach(root => {
-                ctx.beginPath();
-                ctx.moveTo(root.startX, root.startY);
-                ctx.quadraticCurveTo(root.startX + (root.endX - root.startX) * 0.5, y + 95, root.endX, root.endY);
-                ctx.stroke();
-            });
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-            ctx.beginPath();
-            ctx.arc(x - 25, y - 30, 25, 0, Math.PI * 2);
-            ctx.fill();
-        }
-        
-        function drawRiverboat(ctx, x, y, scheme) {
-            ctx.fillStyle = 'rgba(100, 150, 200, 0.15)';
-            ctx.fillRect(x - 80, y + 60, 160, 30);
-            ctx.fillStyle = scheme.primary;
-            ctx.beginPath();
-            ctx.ellipse(x, y + 35, 75, 28, 0, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.fillStyle = scheme.primary;
-            ctx.fillRect(x - 40, y - 15, 80, 55);
-            ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 2;
-            ctx.strokeRect(x - 40, y - 15, 80, 55);
-            ctx.fillStyle = '#FFD700';
-            ctx.beginPath(); ctx.arc(x - 20, y + 5, 8, 0, Math.PI * 2); ctx.fill();
-            ctx.beginPath(); ctx.arc(x + 20, y + 5, 8, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = scheme.secondary;
-            ctx.beginPath();
-            ctx.moveTo(x - 40, y - 15);
-            ctx.lineTo(x - 45, y - 25);
-            ctx.lineTo(x + 45, y - 25);
-            ctx.lineTo(x + 40, y - 15);
-            ctx.closePath();
-            ctx.fill();
-            ctx.fillStyle = '#333';
-            ctx.fillRect(x - 8, y - 35, 16, 25);
-            ctx.fillStyle = '#555';
-            ctx.fillRect(x - 6, y - 38, 12, 3);
-            ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.arc(x + 88, y + 35, 28, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.lineWidth = 2;
-            for(let i = 0; i < 8; i++) {
-                const angle = (Math.PI * 2 / 8) * i;
-                ctx.beginPath();
-                ctx.moveTo(x + 88, y + 35);
-                ctx.lineTo(x + 88 + Math.cos(angle) * 28, y + 35 + Math.sin(angle) * 28);
-                ctx.stroke();
-            }
-            ctx.strokeStyle = scheme.primary;
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(x - 75, y + 20);
-            ctx.lineTo(x + 75, y + 20);
-            ctx.stroke();
-        }
-        
-        function drawCapitolDome(ctx, x, y, scheme) {
-            ctx.fillStyle = scheme.primary;
-            ctx.fillRect(x - 65, y + 10, 130, 45);
-            ctx.beginPath();
-            ctx.arc(x, y - 45, 55, Math.PI, 0);
-            ctx.fill();
-            ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.strokeStyle = 'rgba(0,0,0,0.15)';
-            ctx.lineWidth = 1;
-            for(let i = 0; i < 12; i++) {
-                const angle = (Math.PI / 12) * i;
-                ctx.beginPath();
-                ctx.moveTo(x, y - 45);
-                ctx.lineTo(x + Math.cos(angle + Math.PI) * 55, y - 45 + Math.sin(angle + Math.PI) * 55);
-                ctx.stroke();
-            }
-            ctx.fillStyle = scheme.secondary;
-            ctx.beginPath();
-            ctx.moveTo(x, y - 100);
-            ctx.lineTo(x - 6, y - 92);
-            ctx.lineTo(x + 6, y - 92);
-            ctx.closePath();
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(x, y - 92, 5, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = scheme.secondary;
-            const columnPositions = [-50, -30, -10, 10, 30, 50];
-            columnPositions.forEach(pos => {
-                ctx.fillRect(x + pos - 5, y - 5, 10, 50);
-                ctx.fillRect(x + pos - 8, y - 8, 16, 3);
-                ctx.fillRect(x + pos - 8, y + 42, 16, 3);
-            });
-            ctx.fillStyle = scheme.secondary;
-            for(let i = 0; i < 3; i++) {
-                ctx.fillRect(x - 65 + i * 5, y + 55 - i * 5, 130 - i * 10, 5);
-            }
-            ctx.strokeStyle = scheme.primary;
-            ctx.lineWidth = 2;
-            ctx.strokeRect(x - 65, y + 10, 130, 45);
-        }
-        
-        function drawGoldNugget(ctx, x, y, scheme) {
-            ctx.fillStyle = scheme.primary;
-            ctx.beginPath();
-            ctx.moveTo(x - 50, y);
-            ctx.quadraticCurveTo(x - 45, y - 55, x - 15, y - 65);
-            ctx.quadraticCurveTo(x + 10, y - 70, x + 45, y - 30);
-            ctx.quadraticCurveTo(x + 55, y + 10, x + 40, y + 45);
-            ctx.quadraticCurveTo(x + 20, y + 60, x - 15, y + 50);
-            ctx.quadraticCurveTo(x - 45, y + 40, x - 50, y);
-            ctx.closePath();
-            ctx.fill();
-            ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.strokeStyle = 'rgba(0,0,0,0.1)';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(x - 20, y - 30);
-            ctx.quadraticCurveTo(x, y - 10, x + 15, y + 20);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x - 30, y + 10);
-            ctx.quadraticCurveTo(x - 5, y + 15, x + 20, y + 10);
-            ctx.stroke();
-            ctx.fillStyle = 'rgba(255, 255, 200, 0.5)';
-            ctx.beginPath();
-            ctx.arc(x - 20, y - 25, 20, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = 'rgba(255, 255, 100, 0.3)';
-            ctx.beginPath();
-            ctx.arc(x + 25, y - 15, 15, 0, Math.PI * 2);
-            ctx.fill();
-        }
-        
-        function drawGrapes(ctx, x, y, scheme) {
-            ctx.fillStyle = scheme.primary;
-            const grapePositions = [{x: 0, y: -50}, {x: -20, y: -35}, {x: 20, y: -35}, {x: -35, y: -18}, {x: 0, y: -18}, {x: 35, y: -18}, {x: -30, y: 0}, {x: 15, y: 0}, {x: -10, y: 20}, {x: 25, y: 10}];
-            grapePositions.forEach(pos => {
-                ctx.beginPath();
-                ctx.arc(x + pos.x, y + pos.y, 14, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.strokeStyle = scheme.secondary;
-                ctx.lineWidth = 1;
-                ctx.stroke();
-                ctx.fillStyle = 'rgba(255, 255, 200, 0.4)';
-                ctx.beginPath();
-                ctx.arc(x + pos.x - 4, y + pos.y - 4, 4, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.fillStyle = scheme.primary;
-            });
-            ctx.strokeStyle = '#2d5a2d';
-            ctx.lineWidth = 6;
-            ctx.beginPath();
-            ctx.moveTo(x, y - 50);
-            ctx.quadraticCurveTo(x - 15, y - 90, x - 25, y - 130);
-            ctx.stroke();
-            ctx.strokeStyle = '#1a3a1a';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.fillStyle = '#2d7e2d';
-            ctx.beginPath();
-            ctx.ellipse(x - 35, y - 100, 18, 25, -0.3, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#3da83d';
-            ctx.beginPath();
-            ctx.ellipse(x + 5, y - 110, 18, 25, 0.3, 0, Math.PI * 2);
-            ctx.fill();
-        }
-        
-        function drawMountain(ctx, x, y, scheme) {
-            ctx.fillStyle = scheme.primary;
-            ctx.beginPath();
-            ctx.moveTo(x - 85, y + 45);
-            ctx.lineTo(x - 20, y - 50);
-            ctx.lineTo(x + 15, y + 15);
-            ctx.lineTo(x + 90, y + 45);
-            ctx.closePath();
-            ctx.fill();
-            ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.fillStyle = scheme.secondary;
-            ctx.beginPath();
-            ctx.moveTo(x - 20, y - 50);
-            ctx.lineTo(x + 15, y + 15);
-            ctx.lineTo(x + 25, y + 5);
-            ctx.lineTo(x, y - 40);
-            ctx.closePath();
-            ctx.fill();
-            ctx.fillStyle = '#fff';
-            ctx.beginPath();
-            ctx.moveTo(x - 20, y - 50);
-            ctx.lineTo(x - 8, y - 20);
-            ctx.lineTo(x + 8, y - 20);
-            ctx.lineTo(x, y - 50);
-            ctx.closePath();
-            ctx.fill();
-            ctx.strokeStyle = 'rgba(0,0,0,0.2)';
-            ctx.lineWidth = 1;
-            ctx.stroke();
-            ctx.fillStyle = 'rgba(0,0,0,0.1)';
-            for(let i = 0; i < 8; i++) {
-                const rockX = x - 70 + Math.random() * 150;
-                const rockY = y - 30 + Math.random() * 60;
-                ctx.beginPath();
-                ctx.arc(rockX, rockY, Math.random() * 4 + 2, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            ctx.fillStyle = '#2d5a2d';
-            ctx.beginPath();
-            ctx.moveTo(x - 85, y + 45);
-            ctx.quadraticCurveTo(x - 35, y + 15, x + 15, y + 15);
-            ctx.lineTo(x + 15, y + 50);
-            ctx.lineTo(x - 85, y + 50);
-            ctx.closePath();
-            ctx.fill();
-        }
-        
-        function drawCoveredBridge(ctx, x, y, scheme) {
-            ctx.fillStyle = '#8B4513';
-            ctx.fillRect(x - 85, y + 25, 170, 25);
-            ctx.strokeStyle = 'rgba(0,0,0,0.2)';
-            ctx.lineWidth = 1;
-            for(let i = 0; i < 7; i++) {
-                ctx.beginPath();
-                ctx.moveTo(x - 85, y + 25 + i * 4);
-                ctx.lineTo(x + 85, y + 25 + i * 4);
-                ctx.stroke();
-            }
-            ctx.fillStyle = scheme.primary;
-            ctx.beginPath();
-            ctx.moveTo(x - 85, y + 25);
-            ctx.lineTo(x - 60, y - 35);
-            ctx.lineTo(x - 20, y - 45);
-            ctx.lineTo(x + 20, y - 45);
-            ctx.lineTo(x + 60, y - 35);
-            ctx.lineTo(x + 85, y + 25);
-            ctx.closePath();
-            ctx.fill();
-            ctx.strokeStyle = scheme.secondary;
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.fillStyle = scheme.secondary;
-            for(let i = 0; i < 5; i++) {
-                ctx.fillRect(x - 70 + i * 35, y - 42, 8, 67);
-            }
-            ctx.strokeStyle = 'rgba(0,0,0,0.15)';
-            ctx.lineWidth = 1;
-            for(let i = 0; i < 5; i++) {
-                ctx.beginPath();
-                ctx.moveTo(x - 85 + i * 8, y + 25);
-                ctx.lineTo(x - 55 + i * 8, y - 32);
-                ctx.stroke();
-            }
-            for(let i = 0; i < 5; i++) {
-                ctx.beginPath();
-                ctx.moveTo(x + 85 - i * 8, y + 25);
-                ctx.lineTo(x + 55 - i * 8, y - 32);
-                ctx.stroke();
-            }
-            ctx.strokeStyle = '#000';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(x, y + 25, 40, 0, Math.PI);
-            ctx.stroke();
-            ctx.fillStyle = 'rgba(0,0,0,0.15)';
-            ctx.beginPath();
-            ctx.arc(x, y + 25, 38, 0, Math.PI);
-            ctx.fill();
-            ctx.fillStyle = '#654321';
-            ctx.fillRect(x - 30, y + 50, 12, 30);
-            ctx.fillRect(x + 18, y + 50, 12, 30);
-        }
-        
-        function drawStar(ctx, cx, cy, points, outerRadius) {
-            const innerRadius = outerRadius * 0.4;
-            let angle = Math.PI / 2 * 3;
-            const slice = Math.PI / points;
-            ctx.beginPath();
-            ctx.moveTo(cx, cy - outerRadius);
-            for (let i = 0; i < points; i++) {
-                ctx.lineTo(cx + Math.cos(angle) * outerRadius, cy + Math.sin(angle) * outerRadius);
-                angle += slice;
-                ctx.lineTo(cx + Math.cos(angle) * innerRadius, cy + Math.sin(angle) * innerRadius);
-                angle += slice;
-            }
-            ctx.lineTo(cx, cy - outerRadius);
-            ctx.closePath();
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadMascot(currentMascotIndex);
-            generateBtn.addEventListener('click', startGeneration);
-            nextBtn.addEventListener('click', nextMascot);
-            prevBtn.addEventListener('click', prevMascot);
-        });
-        
-    </script>
 </body>
 </html>
