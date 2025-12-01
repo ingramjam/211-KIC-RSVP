@@ -19,6 +19,11 @@
                         'midnight': '#0f172a',
                         'gold': '#d4af37',
                         'gold-light': '#f3e5ab',
+                        'motown-orange': '#ff6b35',
+                        'motown-yellow': '#f7931e',
+                        'motown-red': '#c1272d',
+                        'motown-blue': '#0077c8',
+                        'soul-purple': '#6b2d5c',
                     },
                     fontFamily: {
                         'serif': ['"Playfair Display"', 'serif'],
@@ -26,6 +31,7 @@
                     },
                     backgroundImage: {
                         'star-pattern': "radial-gradient(white 1px, transparent 1px)",
+                        'vinyl-texture': "repeating-radial-gradient(circle at center, transparent 0, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px)",
                     }
                 }
             }
@@ -33,258 +39,366 @@
     </script>
     <style>
         body {
-            background-color: #0f172a;
+            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f3460 100%);
             color: #f8fafc;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 40px 40px;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-radial-gradient(circle at center, transparent 0, transparent 2px, rgba(255,255,255,.02) 2px, rgba(255,255,255,.02) 4px);
+            pointer-events: none;
         }
         
         .text-gold-gradient {
-            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            background: linear-gradient(45deg, #ff6b35, #f7931e, #ffd700, #ff6b35);
+            background-size: 200% 200%;
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .gold-border {
-            border: 1px solid #b38728;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            border: 2px solid #f7931e;
+            box-shadow: 
+                0 0 20px rgba(247, 147, 30, 0.4),
+                inset 0 0 20px rgba(247, 147, 30, 0.1);
         }
 
-        /* HubSpot Form Customization */
+        .vinyl-record {
+            background: radial-gradient(circle, #1a1a1a 30%, #000 70%);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .vinyl-record::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-radial-gradient(
+                circle at center,
+                transparent 0,
+                transparent 3px,
+                rgba(255,255,255,0.03) 3px,
+                rgba(255,255,255,0.03) 4px
+            );
+            border-radius: 50%;
+        }
+
+        .retro-badge {
+            background: linear-gradient(135deg, #f7931e 0%, #ff6b35 100%);
+            box-shadow: 0 4px 15px rgba(247, 147, 30, 0.5);
+        }
+
+        /* HubSpot Form Customization - Motown Style */
         .hbspt-form label {
-            color: #e2e8f0 !important;
+            color: #ffd700 !important;
             font-family: 'Lato', sans-serif !important;
-            font-weight: 600 !important;
+            font-weight: 700 !important;
             margin-bottom: 5px !important;
             display: block !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
         }
         .hbspt-form .hs-input {
             width: 100% !important;
-            background-color: #1e293b !important;
-            border: 1px solid #475569 !important;
+            background-color: #1a0a2e !important;
+            border: 2px solid #f7931e !important;
             color: white !important;
-            padding: 12px !important;
-            border-radius: 4px !important;
+            padding: 14px !important;
+            border-radius: 6px !important;
+            transition: all 0.3s ease !important;
+        }
+        .hbspt-form .hs-input:focus {
+            border-color: #ff6b35 !important;
+            box-shadow: 0 0 15px rgba(247, 147, 30, 0.4) !important;
+            outline: none !important;
         }
         .hbspt-form .hs-button {
-            background: linear-gradient(to bottom, #d4af37, #b38728) !important;
+            background: linear-gradient(135deg, #f7931e 0%, #ff6b35 100%) !important;
             color: #000 !important;
             border: none !important;
-            padding: 12px 30px !important;
+            padding: 16px 40px !important;
             font-family: 'Playfair Display', serif !important;
             font-weight: 700 !important;
             text-transform: uppercase !important;
-            letter-spacing: 1px !important;
+            letter-spacing: 2px !important;
             cursor: pointer !important;
             margin-top: 20px !important;
             width: 100% !important;
+            border-radius: 50px !important;
+            box-shadow: 0 4px 15px rgba(247, 147, 30, 0.5) !important;
+            transition: all 0.3s ease !important;
         }
         .hbspt-form .hs-button:hover {
-            opacity: 0.9 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(247, 147, 30, 0.6) !important;
         }
 
         .mascot-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: linear-gradient(135deg, rgba(26, 10, 46, 0.6), rgba(22, 33, 62, 0.6));
+            backdrop-filter: blur(10px);
         }
         .mascot-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 40px rgba(247, 147, 30, 0.4);
+            border-color: #ff6b35 !important;
+        }
+
+        .audio-player {
+            background: linear-gradient(135deg, rgba(26, 10, 46, 0.9), rgba(22, 33, 62, 0.9));
+            backdrop-filter: blur(10px);
+        }
+
+        /* Animated music notes */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .music-note {
+            animation: float 3s ease-in-out infinite;
         }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- Header / Logo Section -->
-    <div class="w-full flex justify-center py-10">
-        <img src="https://211sj.org/wp-content/themes/yootheme/cache/71/new-kick-it-ca-1-7122e420.webp" alt="Kick It California Logo" class="h-24 md:h-32 w-auto object-contain drop-shadow-lg">
+    <div class="w-full flex justify-center py-6">
+        <img src="https://211sj.org/wp-content/themes/yootheme/cache/71/new-kick-it-ca-1-7122e420.webp" alt="Kick It California Logo" class="h-12 md:h-16 w-auto object-contain drop-shadow-lg">
+    </div>
+
+    <!-- Audio Player - Motown Style -->
+    <div class="max-w-4xl mx-auto px-4 mb-8">
+        <div class="audio-player border-2 border-motown-orange rounded-2xl p-6 shadow-2xl">
+            <div class="flex items-center gap-4">
+                <div class="vinyl-record w-16 h-16 flex-shrink-0 relative">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-4 h-4 bg-motown-yellow rounded-full"></div>
+                    </div>
+                    <i class="fas fa-music absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-motown-orange text-xs music-note"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="text-motown-yellow font-bold text-sm uppercase tracking-wider mb-1">Now Playing</p>
+                    <p class="text-white font-serif text-lg">KIC and 211: Help and Hope</p>
+                </div>
+                <audio id="motownAudio" class="flex-1" controls>
+                    <source src="KIC and 211_ Help and Hope.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
     </div>
 
     <!-- Hero Section -->
-    <main class="container mx-auto px-4 max-w-5xl">
+    <main class="container mx-auto px-4 max-w-5xl relative">
+        <!-- Decorative music notes -->
+        <div class="absolute top-0 left-10 text-motown-orange text-2xl opacity-30 music-note">♪</div>
+        <div class="absolute top-20 right-20 text-motown-yellow text-3xl opacity-20 music-note" style="animation-delay: 0.5s;">♫</div>
+        
         <div class="text-center mb-16">
-            <h2 class="text-gold tracking-[0.3em] uppercase text-sm md:text-base font-sans mb-4">You Are Cordially Invited</h2>
+            <h2 class="text-motown-orange tracking-[0.3em] uppercase text-sm md:text-base font-sans mb-4 font-bold">You Are Cordially Invited</h2>
             <h1 class="text-5xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight">
                 When Resources Align,<br>
                 <span class="text-gold-gradient">Communities Thrive</span>
             </h1>
-            <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-                A celebration of the historic partnership between <strong>211</strong> and <strong>Kick It California</strong>. Join us to honor our shared success and explore the future of a healthier California.
+            <p class="text-slate-200 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
+                A celebration of the historic partnership between <strong class="text-motown-yellow">211</strong> and <strong class="text-motown-orange">Kick It California</strong>. Join us to honor our shared success and explore the future of a healthier California.
             </p>
         </div>
 
         <!-- Invitation Video Placeholder -->
-        <div class="relative w-full aspect-video bg-black rounded-lg gold-border overflow-hidden shadow-2xl mb-16 group cursor-pointer">
+        <div class="relative w-full aspect-video bg-gradient-to-br from-soul-purple to-motown-blue rounded-2xl gold-border overflow-hidden shadow-2xl mb-16 group cursor-pointer">
             <!-- Background Image Placeholder (Darkened) -->
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-80"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-70"></div>
+            
+            <!-- Retro sunburst pattern -->
+            <div class="absolute inset-0 opacity-10" style="background: repeating-conic-gradient(from 0deg, transparent 0deg 10deg, rgba(255,107,53,0.3) 10deg 20deg);"></div>
             
             <!-- Play Button -->
             <div class="absolute inset-0 flex items-center justify-center">
-                <div class="w-20 h-20 bg-gold/90 rounded-full flex items-center justify-center pl-1 shadow-[0_0_30px_rgba(212,175,55,0.6)] group-hover:scale-110 transition-transform duration-300">
-                    <i class="fas fa-play text-slate-900 text-3xl"></i>
+                <div class="w-24 h-24 retro-badge rounded-full flex items-center justify-center pl-2 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-play text-black text-4xl"></i>
                 </div>
             </div>
 
             <!-- Video Text Overlay -->
             <div class="absolute bottom-0 left-0 w-full p-8 text-center md:text-left">
-                <h3 class="text-2xl font-serif text-white mb-1">The Invitation</h3>
-                <p class="text-slate-400 font-sans text-sm">"More connection. More support. More impact."</p>
+                <h3 class="text-3xl font-serif text-motown-yellow mb-2 font-bold">The Invitation</h3>
+                <p class="text-slate-200 font-sans text-base">"More connection. More support. More impact."</p>
             </div>
         </div>
 
         <!-- Save The Date Banner -->
-        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-y border-gold/30 py-10 px-4 mb-20">
-            <div class="flex flex-col md:flex-row justify-between items-center max-w-4xl mx-auto gap-8 md:gap-0">
+        <div class="bg-gradient-to-r from-motown-red via-motown-orange to-motown-yellow border-y-4 border-motown-orange py-12 px-4 mb-20 shadow-2xl relative overflow-hidden">
+            <!-- Retro pattern overlay -->
+            <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,.1) 10px, rgba(0,0,0,.1) 20px);"></div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center max-w-4xl mx-auto gap-8 md:gap-0 relative z-10">
                 <div class="text-center md:text-left">
-                    <p class="text-gold uppercase tracking-widest text-xs font-bold mb-1">Date</p>
-                    <p class="text-2xl md:text-3xl font-serif text-white">February 12, 2026</p>
+                    <p class="text-black uppercase tracking-widest text-xs font-black mb-2">Date</p>
+                    <p class="text-3xl md:text-4xl font-serif text-white font-bold drop-shadow-lg">February 12, 2026</p>
                 </div>
-                <div class="hidden md:block w-px h-12 bg-gold/30"></div>
+                <div class="hidden md:block w-1 h-16 bg-white/50"></div>
                 <div class="text-center md:text-left">
-                    <p class="text-gold uppercase tracking-widest text-xs font-bold mb-1">Time</p>
-                    <p class="text-2xl md:text-3xl font-serif text-white">10:00 – 11:00 AM PST</p>
+                    <p class="text-black uppercase tracking-widest text-xs font-black mb-2">Time</p>
+                    <p class="text-3xl md:text-4xl font-serif text-white font-bold drop-shadow-lg">10:00 – 11:00 AM PST</p>
                 </div>
-                <div class="hidden md:block w-px h-12 bg-gold/30"></div>
+                <div class="hidden md:block w-1 h-16 bg-white/50"></div>
                 <div class="text-center md:text-left">
-                    <p class="text-gold uppercase tracking-widest text-xs font-bold mb-1">Where</p>
-                    <a href="https://ucsd.zoom.us/j/99908877877" class="text-2xl md:text-3xl font-serif text-blue-300 underline decoration-gold/50 hover:text-white transition">Via Zoom</a>
+                    <p class="text-black uppercase tracking-widest text-xs font-black mb-2">Where</p>
+                    <a href="https://ucsd.zoom.us/j/99908877877" class="text-3xl md:text-4xl font-serif text-white font-bold underline decoration-2 hover:text-black transition drop-shadow-lg">Via Zoom</a>
                 </div>
             </div>
         </div>
 
         <!-- Mascots "Red Carpet" Section -->
         <div class="mb-20 text-center">
-            <h3 class="text-3xl font-serif text-white mb-4"><span class="border-b-2 border-gold pb-2">Featuring The 211 All-Stars</span></h3>
-            <p class="text-slate-400 mb-10 max-w-2xl mx-auto">Meet the faces of California's 211 network - each representing the unique communities they serve across the Golden State.</p>
+            <h3 class="text-4xl font-serif text-white mb-2"><span class="border-b-4 border-motown-orange pb-2 font-bold">Featuring The 211 All-Stars</span></h3>
+            <p class="text-motown-yellow mb-10 max-w-2xl mx-auto text-lg font-semibold">Meet the faces of California's 211 network - each representing the unique communities they serve across the Golden State.</p>
             
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <!-- The Hollywood Star -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_hollywood_star.png" alt="The Hollywood Star" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">LA County</p>
-                    <p class="text-slate-400 text-xs">Hollywood Star</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">LA County</p>
+                    <p class="text-slate-300 text-xs">Hollywood Star</p>
                 </div>
 
                 <!-- The Bay Bridge Connector -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_bay_bridge_connector.png" alt="The Bay Bridge Connector" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">Bay Area</p>
-                    <p class="text-slate-400 text-xs">Bay Bridge Connector</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">Bay Area</p>
+                    <p class="text-slate-300 text-xs">Bay Bridge Connector</p>
                 </div>
 
                 <!-- The Balboa Park Pal -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_balboa_park_pal.png" alt="The Balboa Park Pal" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">San Diego</p>
-                    <p class="text-slate-400 text-xs">Balboa Park Pal</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">San Diego</p>
+                    <p class="text-slate-300 text-xs">Balboa Park Pal</p>
                 </div>
 
                 <!-- The IE Route Rocker -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_ie_route_rocker.png" alt="The IE Route Rocker" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">Inland Empire</p>
-                    <p class="text-slate-400 text-xs">IE Route Rocker</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">Inland Empire</p>
+                    <p class="text-slate-300 text-xs">IE Route Rocker</p>
                 </div>
 
                 <!-- The OC Operator -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_oc_operator.png" alt="The OC Operator" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">Orange County</p>
-                    <p class="text-slate-400 text-xs">OC Operator</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">Orange County</p>
+                    <p class="text-slate-300 text-xs">OC Operator</p>
                 </div>
 
                 <!-- The Pier-to-Peer Pal -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_pier-to-peer_pal.png" alt="The Pier-to-Peer Pal" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">Ventura County</p>
-                    <p class="text-slate-400 text-xs">Pier-to-Peer Pal</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">Ventura County</p>
+                    <p class="text-slate-300 text-xs">Pier-to-Peer Pal</p>
                 </div>
 
                 <!-- The Oakland Oak -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_oakland_oak.png" alt="The Oakland Oak" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">Alameda County</p>
-                    <p class="text-slate-400 text-xs">Oakland Oak</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">Alameda County</p>
+                    <p class="text-slate-300 text-xs">Oakland Oak</p>
                 </div>
 
                 <!-- The Delta King -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_delta_king.png" alt="The Delta King" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">San Joaquin</p>
-                    <p class="text-slate-400 text-xs">Delta King</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">San Joaquin</p>
+                    <p class="text-slate-300 text-xs">Delta King</p>
                 </div>
 
                 <!-- The Capital Connector -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_capital_connector.png" alt="The Capital Connector" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">Sacramento</p>
-                    <p class="text-slate-400 text-xs">Capital Connector</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">Sacramento</p>
+                    <p class="text-slate-300 text-xs">Capital Connector</p>
                 </div>
 
                 <!-- The Tahoe Gold Miner -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_tahoe_gold_miner.png" alt="The Tahoe Gold Miner" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">Nevada/Placer</p>
-                    <p class="text-slate-400 text-xs">Tahoe Gold Miner</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">Nevada/Placer</p>
+                    <p class="text-slate-300 text-xs">Tahoe Gold Miner</p>
                 </div>
 
                 <!-- The Central Valley Vine -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_central_valley_vine.png" alt="The Central Valley Vine" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">Fresno/Madera</p>
-                    <p class="text-slate-400 text-xs">Central Valley Vine</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">Fresno/Madera</p>
+                    <p class="text-slate-300 text-xs">Central Valley Vine</p>
                 </div>
 
                 <!-- The Diablo Peak Performer -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_diablo_peak_performer.png" alt="The Diablo Peak Performer" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">Contra Costa</p>
-                    <p class="text-slate-400 text-xs">Diablo Peak Performer</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">Contra Costa</p>
+                    <p class="text-slate-300 text-xs">Diablo Peak Performer</p>
                 </div>
 
                 <!-- The Chico Bridge Builder -->
-                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
-                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-xl border-2 border-motown-orange hover:border-motown-yellow">
+                    <div class="aspect-square bg-gradient-to-br from-soul-purple to-motown-blue rounded-lg mb-3 overflow-hidden">
                         <img src="the_chico_bridge_builder.png" alt="The Chico Bridge Builder" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-gold font-serif text-lg">Butte/Glenn</p>
-                    <p class="text-slate-400 text-xs">Chico Bridge Builder</p>
+                    <p class="text-motown-yellow font-serif text-lg font-bold">Butte/Glenn</p>
+                    <p class="text-slate-300 text-xs">Chico Bridge Builder</p>
                 </div>
             </div>
         </div>
 
         <!-- RSVP Form Section -->
-        <div id="rsvp" class="max-w-2xl mx-auto bg-slate-800 p-8 md:p-12 rounded-xl shadow-2xl border border-slate-700 mb-20 relative">
-            <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-gold text-slate-900 font-bold px-6 py-2 rounded-full uppercase tracking-wider text-sm shadow-lg">
+        <div id="rsvp" class="max-w-2xl mx-auto audio-player p-8 md:p-12 rounded-2xl shadow-2xl border-2 border-motown-orange mb-20 relative">
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 retro-badge text-black font-black px-8 py-3 rounded-full uppercase tracking-wider text-sm">
                 Secure Your Spot
             </div>
             
             <div class="text-center mb-8">
-                <h3 class="text-3xl font-serif text-white mb-2">RSVP</h3>
-                <p class="text-slate-400">Please fill out the form below to confirm your attendance.</p>
+                <h3 class="text-4xl font-serif text-motown-yellow mb-3 font-bold">RSVP</h3>
+                <p class="text-slate-200">Please fill out the form below to confirm your attendance.</p>
             </div>
 
             <!-- HubSpot Embed Target -->
@@ -307,8 +421,9 @@
 
     </main>
 
-    <footer class="text-center py-8 text-slate-500 text-sm bg-slate-900">
+    <footer class="text-center py-8 text-slate-400 text-sm bg-gradient-to-r from-soul-purple to-motown-blue border-t-2 border-motown-orange">
         <p>&copy; 2025 Kick It California. All rights reserved.</p>
+        <p class="text-motown-yellow text-xs mt-2">♫ Powered by the Sound of California ♫</p>
     </footer>
 
 </body>
