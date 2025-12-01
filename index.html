@@ -3,95 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMIN Mascot Generator</title>
+    <title>KIC x 211: When Resources Align | RSVP</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ml5@0.12.0/dist/ml5.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #2563eb;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .form-input {
-            width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem;
-        }
-        .btn-blue {
-            background-color: #2563eb; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 500;
-        }
-        .btn-blue:hover { background-color: #1d4ed8; }
-        .btn-blue:disabled { background-color: #93c5fd; cursor: not-allowed; }
-        .btn-green {
-            background-color: #10b981; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 500;
-        }
-        .btn-green:hover { background-color: #059669; }
-        .btn-gray {
-            background-color: #4b5563; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 500;
-        }
-        .btn-gray:hover { background-color: #374151; }
-    </style>
-</head>
-<body class="bg-gray-800 min-h-screen p-4 md:p-8 text-gray-200">
-    <div class="max-w-2xl mx-auto bg-gray-900 rounded-lg shadow-xl overflow-hidden my-8">
-        <header class="bg-gray-700 p-6">
-            <h1 class="text-3xl font-bold text-white">ADMIN Mascot Factory</h1>
-            <p class="text-gray-400">Generate beautiful 211 mascots - no API keys needed!</p>
-        </header>
-        <section class="p-6 md:p-8">
-            <h2 class="text-xl font-semibold text-orange-400 mb-4">Generate Mascots</h2>
-            <div class="mb-4 p-4 bg-gray-800 rounded-lg">
-                <h3 class="text-lg font-bold text-white" id="mascot-tracker">Mascot 1 of 13</h3>
-                <p class="text-gray-400" id="mascot-name">---</p>
-            </div>
-            <div class="mb-4">
-                <label for="custom-prompt" class="block text-sm font-medium text-gray-400 mb-2">Image Prompt:</label>
-                <textarea id="custom-prompt" rows="3" class="form-input bg-gray-800 border-gray-600 text-white" placeholder="A fun, friendly mascot..."></textarea>
-            </div>
-            <div class="max-w-md mx-auto bg-gray-700 border border-gray-600 rounded-lg shadow-lg overflow-hidden">
-                <div class="h-80 bg-gray-800 flex items-center justify-center relative">
-                    <img id="mascot-image" class="w-full h-full object-contain" src="https://placehold.co/400x300/374151/9ca3af?text=Click+Generate" alt="Generated Mascot">
-                    <div id="mascot-loader" class="loader absolute hidden"></div>
-                </div>
-                <div class="p-4 bg-gray-600 grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    <button id="prev-btn" class="btn-gray">Previous</button>
-                    <button id="next-btn" class="btn-gray">Next</button>
-                    <button id="generate-btn" class="btn-blue col-span-2 sm:col-span-1">Generate</button>
-                    <a id="download-btn" class="btn-green text-center col-span-3 hidden" href="#" download="mascot.png">Download</a>
-                </div>
-            </div>
-            <div id="message-box" class="hidden mt-6 max-w-md mx-auto p-4 rounded-lg">
-                <h3 class="font-semibold" id="message-title">Message</h3>
-                <p id="message-text"></p>
-            </div>
-        </section>
-    </div>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- HubSpot Form Script -->
+    <script charset="utf-8" type="text/javascript" src="//js-na2.hsforms.net/forms/embed/v2.js"></script>
 
     <script>
-        const all211s = [
-            { id: 'la', name: '211 LA', mascotName: 'Hollywood Star', prompt: "A smiling star from Walk of Fame wearing sunglasses and headset" },
-            { id: 'bay', name: '211 Bay', mascotName: 'Bay Bridge', prompt: "A smiling Bay Bridge wearing a headset" },
-            { id: 'sd', name: '211 SD', mascotName: 'Balboa Tower', prompt: "A happy Balboa Park Tower with sunglasses and headset" },
-            { id: 'ie', name: '211 IE', mascotName: 'Joshua Tree', prompt: "A stylish Joshua Tree and Route 66 sign mascot with headset" },
-            { id: 'oc', name: '211 OC', mascotName: 'Orange', prompt: "A happy orange wearing sunglasses, headset and carrying surfboard" },
-            { id: 'ven', name: '211 Ventura', mascotName: 'Ventura Pier', prompt: "A happy Ventura Pier with cartoon eyes, smile and headset" },
-            { id: 'ala', name: '211 Alameda', mascotName: 'Oak Tree', prompt: "A friendly wise oak tree with deep roots and headset" },
-            { id: 'sj', name: '211 SJ', mascotName: 'Riverboat', prompt: "A friendly riverboat with captain hat and headset on the delta" },
-            { id: 'sac', name: '211 Sacramento', mascotName: 'Capitol Dome', prompt: "A proud California State Capitol Dome smiling with headset crown" },
-            { id: 'nevpla', name: '211 Nevada', mascotName: 'Gold Nugget', prompt: "A friendly gold nugget with headset from Lake Tahoe" },
-            { id: 'frema', name: '211 Fresno', mascotName: 'Grapes', prompt: "A cool bunch of grapes with sunglasses, headset, giving thumbs up" },
-            { id: 'ccc', name: '211 CCC', mascotName: 'Mt Diablo', prompt: "A smiling Mt Diablo summit with ranger hat and headset" },
-            { id: 'butgle', name: '211 Butte', mascotName: 'Covered Bridge', prompt: "A happy covered bridge character smiling and wearing headset" }
-        ];
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'midnight': '#0f172a',
+                        'gold': '#d4af37',
+                        'gold-light': '#f3e5ab',
+                    },
+                    fontFamily: {
+                        'serif': ['"Playfair Display"', 'serif'],
+                        'sans': ['"Lato"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'star-pattern': "radial-gradient(white 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
         
-        let currentMascotIndex = 0;
-        const messageBox = document.getElementById('message-box');
+        .text-gold-gradient {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border {
+            border: 1px solid #b38728;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* HubSpot Form Customization */
+        .hbspt-form label {
+            color: #e2e8f0 !important;
+            font-family: 'Lato', sans-serif !important;
+            font-weight: 600 !important;
+            margin-bottom: 5px !important;
+            display: block !important;
+        }
+        .hbspt-form .hs-input {
+            width: 100% !important;
+            background-color: #1e293b !important;
+            border: 1px solid #475569 !important;
+            color: white !important;
+            padding: 12px !important;
+            border-radius: 4px !important;
+        }
+        .hbspt-form .hs-button {
+            background: linear-gradient(to bottom, #d4af37, #b38728) !important;
+            color: #000 !important;
+            border: none !important;
+            padding: 12px 30px !important;
+            font-family: 'Playfair Display', serif !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+            cursor: pointer !important;
+            margin-top: 20px !important;
+            width: 100% !important;
+        }
+        .hbspt-form .hs-button:hover {
+            opacity: 0.9 !important;
+        }
+
+        .mascot-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .mascot-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header / Logo Section -->
+    <div class="w-full flex justify-center py-10">
+        <img src="https://211sj.org/wp-content/themes/yootheme/cache/71/new-kick-it-ca-1-7122e420.webp" alt="Kick It California Logo" class="h-24 md:h-32 w-auto object-contain drop-shadow-lg">
+    </div>
+
+    <!-- Hero Section -->
+    <main class="container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-16">
+            <h2 class="text-gold tracking-[0.3em] uppercase text-sm md:text-base font-sans mb-4">You Are Cordially Invited</h2>
+            <h1 class="text-5xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight">
+                When Resources Align,<br>
+                <span class="text-gold-gradient">Communities Thrive</span>
+            </h1>
+            <p class="text-slate-300 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
+                A celebration of the historic partnership between <strong>211</strong> and <strong>Kick It California</strong>. Join us to honor our shared success and explore the future of a healthier California.
+            </p>
+        </div>
+
+        <!-- Invitation Video Placeholder -->
+        <div class="relative w-full aspect-video bg-black rounded-lg gold-border overflow-hidden shadow-2xl mb-16 group cursor-pointer">
+            <!-- Background Image Placeholder (Darkened) -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-80"></div>
+            
+            <!-- Play Button -->
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-20 h-20 bg-gold/90 rounded-full flex items-center justify-center pl-1 shadow-[0_0_30px_rgba(212,175,55,0.6)] group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-play text-slate-900 text-3xl"></i>
+                </div>
+            </div>
+
+            <!-- Video Text Overlay -->
+            <div class="absolute bottom-0 left-0 w-full p-8 text-center md:text-left">
+                <h3 class="text-2xl font-serif text-white mb-1">The Invitation</h3>
+                <p class="text-slate-400 font-sans text-sm">"More connection. More support. More impact."</p>
+            </div>
+        </div>
+
+        <!-- Save The Date Banner -->
+        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-y border-gold/30 py-10 px-4 mb-20">
+            <div class="flex flex-col md:flex-row justify-between items-center max-w-4xl mx-auto gap-8 md:gap-0">
+                <div class="text-center md:text-left">
+                    <p class="text-gold uppercase tracking-widest text-xs font-bold mb-1">Date</p>
+                    <p class="text-2xl md:text-3xl font-serif text-white">February 12, 2026</p>
+                </div>
+                <div class="hidden md:block w-px h-12 bg-gold/30"></div>
+                <div class="text-center md:text-left">
+                    <p class="text-gold uppercase tracking-widest text-xs font-bold mb-1">Time</p>
+                    <p class="text-2xl md:text-3xl font-serif text-white">10:00 – 11:00 AM PST</p>
+                </div>
+                <div class="hidden md:block w-px h-12 bg-gold/30"></div>
+                <div class="text-center md:text-left">
+                    <p class="text-gold uppercase tracking-widest text-xs font-bold mb-1">Where</p>
+                    <a href="https://ucsd.zoom.us/j/99908877877" class="text-2xl md:text-3xl font-serif text-blue-300 underline decoration-gold/50 hover:text-white transition">Via Zoom</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mascots "Red Carpet" Section -->
+        <div class="mb-20 text-center">
+            <h3 class="text-3xl font-serif text-white mb-4"><span class="border-b-2 border-gold pb-2">Featuring The 211 All-Stars</span></h3>
+            <p class="text-slate-400 mb-10 max-w-2xl mx-auto">Meet the faces of California's 211 network - each representing the unique communities they serve across the Golden State.</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- The Hollywood Star -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_hollywood_star.png" alt="The Hollywood Star" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">LA County</p>
+                    <p class="text-slate-400 text-xs">Hollywood Star</p>
+                </div>
+
+                <!-- The Bay Bridge Connector -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_bay_bridge_connector.png" alt="The Bay Bridge Connector" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">Bay Area</p>
+                    <p class="text-slate-400 text-xs">Bay Bridge Connector</p>
+                </div>
+
+                <!-- The Balboa Park Pal -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_balboa_park_pal.png" alt="The Balboa Park Pal" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">San Diego</p>
+                    <p class="text-slate-400 text-xs">Balboa Park Pal</p>
+                </div>
+
+                <!-- The IE Route Rocker -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_ie_route_rocker.png" alt="The IE Route Rocker" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">Inland Empire</p>
+                    <p class="text-slate-400 text-xs">IE Route Rocker</p>
+                </div>
+
+                <!-- The OC Operator -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_oc_operator.png" alt="The OC Operator" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">Orange County</p>
+                    <p class="text-slate-400 text-xs">OC Operator</p>
+                </div>
+
+                <!-- The Pier-to-Peer Pal -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_pier-to-peer_pal.png" alt="The Pier-to-Peer Pal" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">Ventura County</p>
+                    <p class="text-slate-400 text-xs">Pier-to-Peer Pal</p>
+                </div>
+
+                <!-- The Oakland Oak -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_oakland_oak.png" alt="The Oakland Oak" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">Alameda County</p>
+                    <p class="text-slate-400 text-xs">Oakland Oak</p>
+                </div>
+
+                <!-- The Delta King -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_delta_king.png" alt="The Delta King" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">San Joaquin</p>
+                    <p class="text-slate-400 text-xs">Delta King</p>
+                </div>
+
+                <!-- The Capital Connector -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_capital_connector.png" alt="The Capital Connector" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">Sacramento</p>
+                    <p class="text-slate-400 text-xs">Capital Connector</p>
+                </div>
+
+                <!-- The Tahoe Gold Miner -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_tahoe_gold_miner.png" alt="The Tahoe Gold Miner" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">Nevada/Placer</p>
+                    <p class="text-slate-400 text-xs">Tahoe Gold Miner</p>
+                </div>
+
+                <!-- The Central Valley Vine -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_central_valley_vine.png" alt="The Central Valley Vine" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">Fresno/Madera</p>
+                    <p class="text-slate-400 text-xs">Central Valley Vine</p>
+                </div>
+
+                <!-- The Diablo Peak Performer -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_diablo_peak_performer.png" alt="The Diablo Peak Performer" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">Contra Costa</p>
+                    <p class="text-slate-400 text-xs">Diablo Peak Performer</p>
+                </div>
+
+                <!-- The Chico Bridge Builder -->
+                <div class="mascot-card bg-slate-800/50 p-4 rounded-lg border border-slate-700 hover:border-gold/50">
+                    <div class="aspect-square bg-slate-900 rounded mb-3 overflow-hidden">
+                        <img src="the_chico_bridge_builder.png" alt="The Chico Bridge Builder" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-gold font-serif text-lg">Butte/Glenn</p>
+                    <p class="text-slate-400 text-xs">Chico Bridge Builder</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RSVP Form Section -->
+        <div id="rsvp" class="max-w-2xl mx-auto bg-slate-800 p-8 md:p-12 rounded-xl shadow-2xl border border-slate-700 mb-20 relative">
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-gold text-slate-900 font-bold px-6 py-2 rounded-full uppercase tracking-wider text-sm shadow-lg">
+                Secure Your Spot
+            </div>
+            
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-serif text-white mb-2">RSVP</h3>
+                <p class="text-slate-400">Please fill out the form below to confirm your attendance.</p>
+            </div>
+
+            <!-- HubSpot Embed Target -->
+            <div id="hubspot-form-target"></div>
+            
+            <script>
+                // We use window.onload to ensure the external HubSpot script has loaded
+                window.onload = function() {
+                    if (window.hbspt) {
+                        hbspt.forms.create({
+                            portalId: "131650",
+                            formId: "14c2a36e-387b-4368-a49a-b69fa1e98f5e",
+                            region: "na2",
+                            target: "#hubspot-form-target" // Explicitly target the div above
+                        });
+                    }
+                };
+            </script>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-8 text-slate-500 text-sm bg-slate-900">
+        <p>&copy; 2025 Kick It California. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
         const messageText = document.getElementById('message-text');
         const messageTitle = document.getElementById('message-title');
         const mascotTracker = document.getElementById('mascot-tracker');
