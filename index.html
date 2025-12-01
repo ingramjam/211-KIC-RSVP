@@ -71,46 +71,108 @@
             box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
         }
 
-        /* Polaroid Gallery Styles */
-        .polaroid-card {
-            background: #fff;
-            padding: 12px 12px 50px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* Glamorous Motown Award Show Gallery */
+        .gallery-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 24px;
+            padding: 40px 20px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .gallery-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .gallery-container::-webkit-scrollbar-track {
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 10px;
+        }
+
+        .gallery-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #d4af37, #f3e5ab);
+            border-radius: 10px;
+        }
+
+        .gallery-card {
+            flex: 0 0 280px;
             position: relative;
-            transform-origin: center;
+            cursor: pointer;
         }
 
-        .polaroid-card:nth-child(1) { transform: rotate(-3deg); }
-        .polaroid-card:nth-child(2) { transform: rotate(2deg); }
-        .polaroid-card:nth-child(3) { transform: rotate(-2deg); }
-        .polaroid-card:nth-child(4) { transform: rotate(3deg); }
-        .polaroid-card:nth-child(5) { transform: rotate(-1deg); }
-        .polaroid-card:nth-child(6) { transform: rotate(2deg); }
-        .polaroid-card:nth-child(7) { transform: rotate(-3deg); }
-        .polaroid-card:nth-child(8) { transform: rotate(1deg); }
-        .polaroid-card:nth-child(9) { transform: rotate(-2deg); }
-        .polaroid-card:nth-child(10) { transform: rotate(3deg); }
-        .polaroid-card:nth-child(11) { transform: rotate(-1deg); }
-        .polaroid-card:nth-child(12) { transform: rotate(2deg); }
-        .polaroid-card:nth-child(13) { transform: rotate(-2deg); }
-
-        .polaroid-card:hover {
-            transform: rotate(0deg) scale(1.15) translateY(-15px) !important;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-            z-index: 10;
+        .card-wrapper {
+            background: linear-gradient(145deg, #fff9e6, #fffaf0);
+            border: 3px solid #d4af37;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: perspective(800px) rotateY(-2deg) rotateX(0deg);
+            position: relative;
         }
 
-        .polaroid-caption {
+        .card-wrapper::before {
+            content: '';
             position: absolute;
-            bottom: 8px;
-            left: 0;
-            right: 0;
+            inset: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(212, 175, 55, 0.03) 2px,
+                    rgba(212, 175, 55, 0.03) 4px
+                );
+            pointer-events: none;
+            border-radius: 6px;
+        }
+
+        .gallery-card:nth-child(odd) .card-wrapper {
+            transform: perspective(800px) rotateY(-3deg) rotateX(1deg);
+        }
+
+        .gallery-card:nth-child(even) .card-wrapper {
+            transform: perspective(800px) rotateY(3deg) rotateX(-1deg);
+        }
+
+        .gallery-card:hover .card-wrapper {
+            transform: perspective(800px) rotateY(0deg) rotateX(0deg) scale(1.1);
+            box-shadow: 
+                0 25px 60px rgba(212, 175, 55, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .card-image {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #d4af37, #f3e5ab);
+            margin-bottom: 16px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-caption {
             text-align: center;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            color: #333;
-            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.3;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
         }
 
         .vinyl-record {
@@ -138,49 +200,82 @@
             border: 2px solid #d4af37;
         }
 
-        /* HubSpot Form Customization */
+        /* HubSpot Form Customization - High Contrast */
+        .hbspt-form {
+            background: transparent !important;
+        }
+        
         .hbspt-form label {
             color: #ffffff !important;
-            font-family: 'Lato', sans-serif !important;
-            font-weight: 600 !important;
-            margin-bottom: 6px !important;
+            font-family: 'Playfair Display', serif !important;
+            font-weight: 700 !important;
+            margin-bottom: 10px !important;
             display: block !important;
+            font-size: 1.05rem !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
         }
-        .hbspt-form .hs-input {
+        
+        .hbspt-form .hs-form-group {
+            margin-bottom: 20px !important;
+        }
+        
+        .hbspt-form .hs-input,
+        .hbspt-form select,
+        .hbspt-form textarea {
             width: 100% !important;
-            background-color: rgba(255, 255, 255, 0.1) !important;
-            border: 1px solid #d4af37 !important;
-            color: #ffffff !important;
-            padding: 12px !important;
-            border-radius: 6px !important;
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            border: 2px solid #d4af37 !important;
+            color: #0a1128 !important;
+            padding: 14px !important;
+            border-radius: 8px !important;
+            font-family: 'Lato', sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: 600 !important;
             transition: all 0.3s ease !important;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
         }
+        
         .hbspt-form .hs-input::placeholder {
-            color: rgba(255, 255, 255, 0.5) !important;
+            color: rgba(10, 17, 40, 0.5) !important;
         }
-        .hbspt-form .hs-input:focus {
+        
+        .hbspt-form .hs-input:focus,
+        .hbspt-form select:focus,
+        .hbspt-form textarea:focus {
             border-color: #f3e5ab !important;
-            box-shadow: 0 0 12px rgba(212, 175, 55, 0.3) !important;
+            box-shadow: 
+                inset 0 2px 4px rgba(0, 0, 0, 0.1),
+                0 0 16px rgba(212, 175, 55, 0.5) !important;
             outline: none !important;
-            background-color: rgba(255, 255, 255, 0.15) !important;
+            background-color: #fff !important;
         }
+        
         .hbspt-form .hs-button {
             background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 100%) !important;
             color: #0a1128 !important;
-            border: none !important;
-            padding: 14px 36px !important;
+            border: 2px solid #d4af37 !important;
+            padding: 16px 48px !important;
             font-family: 'Playfair Display', serif !important;
-            font-weight: 700 !important;
+            font-weight: 800 !important;
+            font-size: 1.1rem !important;
             cursor: pointer !important;
-            margin-top: 20px !important;
+            margin-top: 24px !important;
             width: 100% !important;
-            border-radius: 8px !important;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4) !important;
             transition: all 0.3s ease !important;
+            text-transform: uppercase !important;
+            letter-spacing: 2px !important;
         }
+        
         .hbspt-form .hs-button:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5) !important;
+            transform: translateY(-3px) !important;
+            box-shadow: 0 12px 32px rgba(212, 175, 55, 0.6) !important;
+            background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 100%) !important;
+        }
+        
+        .hbspt-form .hs-form-required {
+            color: #d4af37 !important;
         }
 
         /* Animated music notes */
@@ -270,132 +365,161 @@
             </div>
         </div>
 
-        <!-- Mascots Polaroid Gallery Section -->
-        <div class="mb-20 text-center">
-            <h3 class="text-4xl font-serif text-white mb-3 font-bold">Featuring The 211 All-Stars</h3>
-            <p class="text-slate-300 mb-12 max-w-2xl mx-auto text-lg">Meet the faces of California's 211 network - each representing the unique communities they serve across the Golden State.</p>
+        <!-- Mascots Red Carpet Gallery Section -->
+        <div class="mb-20">
+            <div class="text-center mb-10">
+                <h3 class="text-5xl font-serif text-gold mb-4 font-bold">🎬 Presenting The 211 All-Stars 🎬</h3>
+                <p class="text-slate-200 text-lg max-w-2xl mx-auto">Scroll to discover the legendary faces representing California's 211 network</p>
+            </div>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto px-4">
+            <div class="gallery-container">
                 <!-- The Hollywood Star -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_hollywood_star.png" alt="The Hollywood Star" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_hollywood_star.png" alt="The Hollywood Star">
+                        </div>
+                        <div class="card-caption">LA County<br>Hollywood Star</div>
                     </div>
-                    <p class="polaroid-caption">LA County - Hollywood Star</p>
                 </div>
 
                 <!-- The Bay Bridge Connector -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_bay_bridge_connector.png" alt="The Bay Bridge Connector" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_bay_bridge_connector.png" alt="The Bay Bridge Connector">
+                        </div>
+                        <div class="card-caption">Bay Area<br>Bay Bridge Connector</div>
                     </div>
-                    <p class="polaroid-caption">Bay Area - Bay Bridge Connector</p>
                 </div>
 
                 <!-- The Balboa Park Pal -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_balboa_park_pal.png" alt="The Balboa Park Pal" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_balboa_park_pal.png" alt="The Balboa Park Pal">
+                        </div>
+                        <div class="card-caption">San Diego<br>Balboa Park Pal</div>
                     </div>
-                    <p class="polaroid-caption">San Diego - Balboa Park Pal</p>
                 </div>
 
                 <!-- The IE Route Rocker -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_ie_route_rocker.png" alt="The IE Route Rocker" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_ie_route_rocker.png" alt="The IE Route Rocker">
+                        </div>
+                        <div class="card-caption">Inland Empire<br>IE Route Rocker</div>
                     </div>
-                    <p class="polaroid-caption">Inland Empire - IE Route Rocker</p>
                 </div>
 
                 <!-- The OC Operator -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_oc_operator.png" alt="The OC Operator" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_oc_operator.png" alt="The OC Operator">
+                        </div>
+                        <div class="card-caption">Orange County<br>OC Operator</div>
                     </div>
-                    <p class="polaroid-caption">Orange County - OC Operator</p>
                 </div>
 
                 <!-- The Pier-to-Peer Pal -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_pier-to-peer_pal.png" alt="The Pier-to-Peer Pal" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_pier-to-peer_pal.png" alt="The Pier-to-Peer Pal">
+                        </div>
+                        <div class="card-caption">Ventura County<br>Pier-to-Peer Pal</div>
                     </div>
-                    <p class="polaroid-caption">Ventura County - Pier-to-Peer Pal</p>
                 </div>
 
                 <!-- The Oakland Oak -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_oakland_oak.png" alt="The Oakland Oak" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_oakland_oak.png" alt="The Oakland Oak">
+                        </div>
+                        <div class="card-caption">Alameda County<br>Oakland Oak</div>
                     </div>
-                    <p class="polaroid-caption">Alameda County - Oakland Oak</p>
                 </div>
 
                 <!-- The Delta King -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_delta_king.png" alt="The Delta King" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_delta_king.png" alt="The Delta King">
+                        </div>
+                        <div class="card-caption">San Joaquin<br>Delta King</div>
                     </div>
-                    <p class="polaroid-caption">San Joaquin - Delta King</p>
                 </div>
 
                 <!-- The Capital Connector -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_capital_connector.png" alt="The Capital Connector" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_capital_connector.png" alt="The Capital Connector">
+                        </div>
+                        <div class="card-caption">Sacramento<br>Capital Connector</div>
                     </div>
-                    <p class="polaroid-caption">Sacramento - Capital Connector</p>
                 </div>
 
                 <!-- The Tahoe Gold Miner -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_tahoe_gold_miner.png" alt="The Tahoe Gold Miner" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_tahoe_gold_miner.png" alt="The Tahoe Gold Miner">
+                        </div>
+                        <div class="card-caption">Nevada/Placer<br>Tahoe Gold Miner</div>
                     </div>
-                    <p class="polaroid-caption">Nevada/Placer - Tahoe Gold Miner</p>
                 </div>
 
                 <!-- The Central Valley Vine -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_central_valley_vine.png" alt="The Central Valley Vine" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_central_valley_vine.png" alt="The Central Valley Vine">
+                        </div>
+                        <div class="card-caption">Fresno/Madera<br>Central Valley Vine</div>
                     </div>
-                    <p class="polaroid-caption">Fresno/Madera - Central Valley Vine</p>
                 </div>
 
                 <!-- The Diablo Peak Performer -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_diablo_peak_performer.png" alt="The Diablo Peak Performer" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_diablo_peak_performer.png" alt="The Diablo Peak Performer">
+                        </div>
+                        <div class="card-caption">Contra Costa<br>Diablo Peak Performer</div>
                     </div>
-                    <p class="polaroid-caption">Contra Costa - Diablo Peak Performer</p>
                 </div>
 
                 <!-- The Chico Bridge Builder -->
-                <div class="polaroid-card">
-                    <div class="aspect-square bg-gray-100 rounded overflow-hidden">
-                        <img src="the_chico_bridge_builder.png" alt="The Chico Bridge Builder" class="w-full h-full object-cover">
+                <div class="gallery-card">
+                    <div class="card-wrapper">
+                        <div class="card-image">
+                            <img src="the_chico_bridge_builder.png" alt="The Chico Bridge Builder">
+                        </div>
+                        <div class="card-caption">Butte/Glenn<br>Chico Bridge Builder</div>
                     </div>
-                    <p class="polaroid-caption">Butte/Glenn - Chico Bridge Builder</p>
                 </div>
             </div>
         </div>
 
         <!-- RSVP Form Section -->
-        <div id="rsvp" class="max-w-2xl mx-auto bg-navy-light/40 p-8 md:p-12 rounded-xl shadow-2xl gold-border mb-20">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl md:text-4xl font-serif text-gold mb-3 font-bold">Confirm Your Attendance</h2>
-                <p class="text-slate-300">Please fill out the form below to confirm your attendance.</p>
+        <div id="rsvp" class="max-w-2xl mx-auto p-8 md:p-12 rounded-xl shadow-2xl gold-border mb-20 relative overflow-hidden"
+             style="background: linear-gradient(135deg, rgba(26, 40, 69, 0.95), rgba(46, 64, 87, 0.95));">
+            
+            <!-- Spotlight effect -->
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-gold rounded-full opacity-5 blur-3xl"></div>
+            <div class="absolute -bottom-20 -left-40 w-60 h-60 bg-gold rounded-full opacity-5 blur-3xl"></div>
+            
+            <div class="relative z-10 text-center mb-8">
+                <h2 class="text-4xl md:text-5xl font-serif text-gold mb-3 font-bold">✦ RSVP ✦</h2>
+                <p class="text-slate-100 text-lg">Join us for this historic celebration</p>
             </div>
             
-            <div class="text-center mb-8">
-                <h3 class="text-4xl font-serif text-motown-yellow mb-3 font-bold">RSVP</h3>
-                <p class="text-slate-200">Please fill out the form below to confirm your attendance.</p>
-            </div>
-
             <!-- HubSpot Embed Target -->
-            <div id="hubspot-form-target"></div>
+            <div id="hubspot-form-target" class="relative z-10"></div>
             
             <script>
                 // We use window.onload to ensure the external HubSpot script has loaded
