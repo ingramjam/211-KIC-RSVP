@@ -419,7 +419,7 @@
             
             <!-- Video Title Overlay -->
             <div class="absolute bottom-0 left-0 w-full p-8 text-center md:text-left bg-gradient-to-t from-black to-transparent">
-                <h3 class="text-2xl md:text-3xl font-serif text-gold mb-2 font-bold">The Invitation</h3>
+                <h3 class="text-2xl md:text-3xl font-serif text-gold mb-2 font-bold">Teamwork makes dreams work!</h3>
                 <p class="text-slate-200 font-sans text-sm md:text-base">"More connection. More support. More impact."</p>
             </div>
         </div>
@@ -923,11 +923,24 @@
             'Butte/Glenn': 'the_chico_bridge_builder.png'
         };
 
-        // Set audio volume to 10%
+        // Set audio volume to 10% and attempt autoplay
         document.addEventListener('DOMContentLoaded', function() {
             var audio = document.getElementById('motownAudio');
             if (audio) {
                 audio.volume = 0.1; // 10% volume
+                
+                // Try to play the audio
+                var playPromise = audio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(function() {
+                        // Autoplay started successfully
+                        console.log('Audio autoplay started');
+                    }).catch(function(error) {
+                        // Autoplay was prevented - this is normal for most browsers
+                        console.log('Autoplay prevented, user must interact first');
+                    });
+                }
             }
         });
 
