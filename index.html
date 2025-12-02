@@ -10,6 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <!-- HubSpot Form Script -->
     <script charset="utf-8" type="text/javascript" src="//js-na2.hsforms.net/forms/embed/v2.js"></script>
 
@@ -524,8 +528,8 @@
         <!-- Mascots Red Carpet Gallery Section -->
         <div class="mb-16 md:mb-24" data-aos="fade-up" data-aos-delay="400">
             <div class="text-center mb-10 md:mb-16 px-4">
-                <h3 class="text-2xl md:text-7xl font-serif text-gold mb-3 md:mb-6 font-bold leading-tight">
-                    <span class="whitespace-nowrap">🎬 Presenting The 211 All-Stars 🎬</span>
+                <h3 class="text-2xl sm:text-3xl md:text-7xl font-serif text-gold mb-3 md:mb-6 font-bold leading-tight mx-auto">
+                    🎬 Presenting The 211 All-Stars 🎬
                 </h3>
                 <p class="text-slate-200 text-base md:text-2xl max-w-3xl mx-auto">Scroll to discover the legendary faces representing California's 211 network</p>
             </div>
@@ -981,7 +985,7 @@
 
     </main>
 
-    <footer class="text-center py-12 text-slate-400 text-base bg-gradient-to-r from-navy via-navy-deep to-navy border-t-2 border-gold relative overflow-hidden" style="box-shadow: 0 -10px 40px rgba(212, 175, 55, 0.2);">
+    <footer class="text-center py-12 text-slate-400 text-base bg-gradient-to-r from-navy via-navy-deep to-navy border-t-2 border-gold relative overflow-hidden" style="box-shadow: 0 -10px 40px rgba(212, 175, 55, 0.2);" data-aos="fade-up">
         <div class="absolute inset-0 bg-gradient-to-t from-gold/5 to-transparent"></div>
         <div class="relative z-10">
             <p class="mb-3" style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">&copy; 2025 Kick It California. All rights reserved.</p>
@@ -991,6 +995,13 @@
 
     <!-- HubSpot Form Initialization -->
     <script>
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
         // Mapping of 211 Call Centers to their mascot images
         const mascotMap = {
             'LA County': 'the_hollywood_star.png',
