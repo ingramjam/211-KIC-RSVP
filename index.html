@@ -356,6 +356,11 @@
         .music-note {
             animation: float 3s ease-in-out infinite;
         }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -393,7 +398,7 @@
                 <div class="hidden md:block w-px h-12 bg-gold/30"></div>
                 <div class="text-center md:text-left">
                     <p class="text-gold uppercase tracking-widest text-xs font-semibold mb-2">Where</p>
-                    <a href="https://ucsd.zoom.us/j/99908877877" class="text-2xl md:text-3xl font-serif text-gold-light font-bold underline decoration-2 hover:text-white transition">Via Zoom</a>
+                    <a href="#rsvp" class="text-2xl md:text-3xl font-serif text-gold-light font-bold underline decoration-2 hover:text-white transition">Via Zoom</a>
                 </div>
             </div>
         </div>
@@ -870,13 +875,26 @@
             <div class="absolute -top-40 -right-40 w-80 h-80 bg-gold rounded-full opacity-5 blur-3xl"></div>
             <div class="absolute -bottom-20 -left-40 w-60 h-60 bg-gold rounded-full opacity-5 blur-3xl"></div>
             
-            <div class="relative z-10 text-center mb-6">
-                <h2 class="text-3xl md:text-4xl font-serif text-gold mb-2 font-bold">✦ RSVP ✦</h2>
-                <p class="text-slate-100 text-base">Join us to celebrate 211 & Kick It California's shared success & future collaboration.</p>
+            <!-- Form Container -->
+            <div id="form-container" class="relative z-10">
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl md:text-4xl font-serif text-gold mb-2 font-bold">✦ RSVP ✦</h2>
+                    <p class="text-slate-100 text-base">Join us to celebrate 211 & Kick It California's shared success & future collaboration.</p>
+                </div>
+                
+                <!-- HubSpot Embed Target -->
+                <div id="hubspot-form-target"></div>
             </div>
-            
-            <!-- HubSpot Embed Target -->
-            <div id="hubspot-form-target" class="relative z-10"></div>
+
+            <!-- Thank You Message (hidden by default) -->
+            <div id="thank-you-message" class="relative z-10 text-center" style="display: none;">
+                <h2 class="text-3xl md:text-4xl font-serif text-gold mb-4 font-bold">✦ Thank You! ✦</h2>
+                <div id="mascot-container" class="mb-6 flex justify-center">
+                    <!-- Mascot image will be inserted here -->
+                </div>
+                <p class="text-slate-100 text-lg mb-2">Your RSVP has been received!</p>
+                <p class="text-gold-light text-base">More details and zoom link to follow</p>
+            </div>
         </div>
 
     </main>
@@ -888,6 +906,23 @@
 
     <!-- HubSpot Form Initialization -->
     <script>
+        // Mapping of 211 Call Centers to their mascot images
+        const mascotMap = {
+            'LA County': 'the_hollywood_star.png',
+            'Bay Area': 'the_bay_bridge_connector.png',
+            'San Diego': 'the_balboa_park_pal.png',
+            'Inland Empire': 'the_ie_route_rocker.png',
+            'Orange County': 'the_oc_operator.png',
+            'Ventura County': 'the_pier-to-peer_pal.png',
+            'Alameda County': 'the_oakland_oak.png',
+            'San Joaquin': 'the_delta_king.png',
+            'Sacramento': 'the_capital_connector.png',
+            'Nevada/Placer': 'the_tahoe_gold_miner.png',
+            'Fresno/Madera': 'the_central_valley_vine.png',
+            'Contra Costa': 'the_diablo_peak_performer.png',
+            'Butte/Glenn': 'the_chico_bridge_builder.png'
+        };
+
         // Set audio volume to 10%
         document.addEventListener('DOMContentLoaded', function() {
             var audio = document.getElementById('motownAudio');
@@ -902,7 +937,40 @@
                 portalId: "131650",
                 formId: "14c2a36e-387b-4368-a49a-b69fa1e98f5e",
                 region: "na2",
-                target: "#hubspot-form-target"
+                target: "#hubspot-form-target",
+                onFormSubmit: function($form) {
+                    // Get the selected 211 Call Center value
+                    var callCenterField = $form.find('select[name*="211"], select[name*="call_center"]');
+                    var selectedCenter = callCenterField.val() || callCenterField.find('option:selected').text();
+                    
+                    // Store it for use in onFormSubmitted
+                    window.selectedCallCenter = selectedCenter;
+                },
+                onFormSubmitted: function($form) {
+                    // Hide the form
+                    document.getElementById('form-container').style.display = 'none';
+                    
+                    // Get the selected call center
+                    var selectedCenter = window.selectedCallCenter;
+                    var mascotImage = null;
+                    
+                    // Find matching mascot
+                    for (var key in mascotMap) {
+                        if (selectedCenter && selectedCenter.includes(key)) {
+                            mascotImage = mascotMap[key];
+                            break;
+                        }
+                    }
+                    
+                    // If mascot found, display it
+                    if (mascotImage) {
+                        var mascotContainer = document.getElementById('mascot-container');
+                        mascotContainer.innerHTML = '<img src="' + mascotImage + '" alt="Your 211 Mascot" class="w-48 h-48 object-contain mx-auto rounded-lg shadow-lg" style="background: linear-gradient(145deg, #fff9e6, #fffaf0); padding: 16px; border: 3px solid #d4af37;">';
+                    }
+                    
+                    // Show thank you message
+                    document.getElementById('thank-you-message').style.display = 'block';
+                }
             });
         } else {
             // If hbspt is not loaded yet, wait for it
@@ -912,7 +980,40 @@
                         portalId: "131650",
                         formId: "14c2a36e-387b-4368-a49a-b69fa1e98f5e",
                         region: "na2",
-                        target: "#hubspot-form-target"
+                        target: "#hubspot-form-target",
+                        onFormSubmit: function($form) {
+                            // Get the selected 211 Call Center value
+                            var callCenterField = $form.find('select[name*="211"], select[name*="call_center"]');
+                            var selectedCenter = callCenterField.val() || callCenterField.find('option:selected').text();
+                            
+                            // Store it for use in onFormSubmitted
+                            window.selectedCallCenter = selectedCenter;
+                        },
+                        onFormSubmitted: function($form) {
+                            // Hide the form
+                            document.getElementById('form-container').style.display = 'none';
+                            
+                            // Get the selected call center
+                            var selectedCenter = window.selectedCallCenter;
+                            var mascotImage = null;
+                            
+                            // Find matching mascot
+                            for (var key in mascotMap) {
+                                if (selectedCenter && selectedCenter.includes(key)) {
+                                    mascotImage = mascotMap[key];
+                                    break;
+                                }
+                            }
+                            
+                            // If mascot found, display it
+                            if (mascotImage) {
+                                var mascotContainer = document.getElementById('mascot-container');
+                                mascotContainer.innerHTML = '<img src="' + mascotImage + '" alt="Your 211 Mascot" class="w-48 h-48 object-contain mx-auto rounded-lg shadow-lg" style="background: linear-gradient(145deg, #fff9e6, #fffaf0); padding: 16px; border: 3px solid #d4af37;">';
+                            }
+                            
+                            // Show thank you message
+                            document.getElementById('thank-you-message').style.display = 'block';
+                        }
                     });
                 }
             });
