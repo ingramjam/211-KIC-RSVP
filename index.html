@@ -1196,6 +1196,21 @@
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
+                    // Email validation regex
+                    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    var email = document.getElementById('email').value.trim();
+                    
+                    // Validate email format
+                    if (!email) {
+                        alert('Please enter an email address.');
+                        return;
+                    }
+                    
+                    if (!emailPattern.test(email)) {
+                        alert('Please enter a valid email address.');
+                        return;
+                    }
+                    
                     // Get form values
                     var formData = {
                         fields: [
@@ -1213,7 +1228,7 @@
                             },
                             {
                                 name: 'email',
-                                value: document.getElementById('email').value
+                                value: email
                             }
                         ]
                     };
