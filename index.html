@@ -1211,12 +1211,19 @@
                         return;
                     }
                     
+                    // Validate RSVP selection
+                    var rsvpValue = document.querySelector('input[name="will_be_attending"]:checked');
+                    if (!rsvpValue) {
+                        alert('Please select Yes or No for attendance.');
+                        return;
+                    }
+                    
                     // Get form values
                     var formData = {
                         fields: [
                             {
-                                name: 'will_be_attending',
-                                value: document.querySelector('input[name="will_be_attending"]:checked').value
+                                name: 'will_attend',
+                                value: rsvpValue.value
                             },
                             {
                                 name: 'select_your_211_call_center',
@@ -1232,6 +1239,9 @@
                             }
                         ]
                     };
+                    
+                    // Log form data for debugging
+                    console.log('Form Data being submitted:', JSON.stringify(formData, null, 2));
 
                     var selectedCallCenter = document.getElementById('call-center').value;
 
@@ -1244,7 +1254,9 @@
                         body: JSON.stringify(formData)
                     })
                     .then(function(response) {
+                        console.log('HubSpot Response Status:', response.status);
                         if (response.ok) {
+                            console.log('Form submission successful');
                             // Hide form
                             document.getElementById('form-container').style.display = 'none';
                             
@@ -1274,11 +1286,15 @@
                             // Show thank you message
                             document.getElementById('thank-you-message').style.display = 'block';
                         } else {
-                            alert('There was an error submitting your RSVP. Please try again.');
+                            console.error('HubSpot submission failed:', response.status);
+                            return response.text().then(function(text) {
+                                console.error('Response body:', text);
+                                alert('There was an error submitting your RSVP. Please try again.');
+                            });
                         }
                     })
                     .catch(function(error) {
-                        console.error('Error:', error);
+                        console.error('Fetch Error:', error);
                         alert('There was an error submitting your RSVP. Please try again.');
                     });
                 });
