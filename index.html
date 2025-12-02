@@ -37,6 +37,7 @@
             background: linear-gradient(135deg, #0a1128 0%, #1b2845 50%, #2e4057 100%);
             color: #f8fafc;
             position: relative;
+            overflow-x: hidden;
         }
         
         body::before {
@@ -47,11 +48,57 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(74, 111, 165, 0.03) 0%, transparent 50%);
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(74, 111, 165, 0.05) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
+
+        /* Animated spotlight effects */
+        body::after {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(212, 175, 55, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 70% 60%, rgba(243, 229, 171, 0.06) 0%, transparent 25%);
+            animation: spotlight 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes spotlight {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(5%, 5%) rotate(90deg); }
+            50% { transform: translate(-3%, 8%) rotate(180deg); }
+            75% { transform: translate(8%, -5%) rotate(270deg); }
+        }
+
+        /* Sparkle animation */
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .sparkle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #d4af37;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            box-shadow: 0 0 10px #d4af37, 0 0 20px #f3e5ab;
+        }
+
+        .sparkle:nth-child(1) { top: 10%; left: 20%; animation: sparkle 3s infinite; }
+        .sparkle:nth-child(2) { top: 30%; left: 80%; animation: sparkle 4s infinite 0.5s; }
+        .sparkle:nth-child(3) { top: 60%; left: 15%; animation: sparkle 3.5s infinite 1s; }
+        .sparkle:nth-child(4) { top: 80%; left: 70%; animation: sparkle 4.5s infinite 1.5s; }
+        .sparkle:nth-child(5) { top: 40%; left: 50%; animation: sparkle 3s infinite 2s; }
         
         .content-wrapper {
             position: relative;
@@ -64,43 +111,68 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .gold-border {
-            border: 2px solid #d4af37;
-            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+            border: 3px solid #d4af37;
+            box-shadow: 
+                0 8px 32px rgba(212, 175, 55, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 60px rgba(212, 175, 55, 0.2);
         }
 
         /* Glamorous Motown Award Show Gallery */
         .gallery-container {
             display: flex;
             overflow-x: auto;
-            gap: 24px;
-            padding: 40px 20px;
+            gap: 32px;
+            padding: 60px 40px;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
+            background: linear-gradient(90deg, 
+                rgba(212, 175, 55, 0.05) 0%, 
+                transparent 10%, 
+                transparent 90%, 
+                rgba(212, 175, 55, 0.05) 100%);
         }
 
         .gallery-container::-webkit-scrollbar {
-            height: 8px;
+            height: 12px;
         }
 
         .gallery-container::-webkit-scrollbar-track {
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(212, 175, 55, 0.15);
             border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
         .gallery-container::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, #d4af37, #f3e5ab);
             border-radius: 10px;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .gallery-container::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #f3e5ab, #d4af37);
         }
 
         .gallery-card {
-            flex: 0 0 280px;
+            flex: 0 0 320px;
             position: relative;
             cursor: pointer;
-            perspective: 1000px;
-            height: 400px;
+            perspective: 1200px;
+            height: 450px;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-8px);
         }
 
         .card-inner {
@@ -130,13 +202,14 @@
         .card-wrapper {
             background: linear-gradient(145deg, #fff9e6, #fffaf0);
             border: 3px solid #d4af37;
-            border-radius: 8px;
-            padding: 16px;
+            border-radius: 12px;
+            padding: 20px;
             box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform: perspective(800px) rotateY(-2deg) rotateX(0deg);
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                0 0 40px rgba(212, 175, 55, 0.3);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: perspective(1000px) rotateY(-2deg) rotateX(0deg);
             position: relative;
             height: 100%;
             display: flex;
@@ -149,29 +222,53 @@
             inset: 0;
             background: 
                 repeating-linear-gradient(
-                    90deg,
+                    45deg,
                     transparent,
                     transparent 2px,
-                    rgba(212, 175, 55, 0.03) 2px,
-                    rgba(212, 175, 55, 0.03) 4px
+                    rgba(212, 175, 55, 0.05) 2px,
+                    rgba(212, 175, 55, 0.05) 4px
                 );
             pointer-events: none;
-            border-radius: 6px;
+            border-radius: 10px;
+        }
+
+        /* Add shine effect */
+        .card-wrapper::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg);
+            animation: shine 6s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         .gallery-card:nth-child(odd) .card-front .card-wrapper {
-            transform: perspective(800px) rotateY(-3deg) rotateX(1deg);
+            transform: perspective(1000px) rotateY(-3deg) rotateX(1deg);
         }
 
         .gallery-card:nth-child(even) .card-front .card-wrapper {
-            transform: perspective(800px) rotateY(3deg) rotateX(-1deg);
+            transform: perspective(1000px) rotateY(3deg) rotateX(-1deg);
         }
 
         .gallery-card:hover .card-front .card-wrapper {
-            transform: perspective(800px) rotateY(0deg) rotateX(0deg) scale(1.05);
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.05);
             box-shadow: 
-                0 25px 60px rgba(212, 175, 55, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+                0 30px 80px rgba(212, 175, 55, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                0 0 60px rgba(212, 175, 55, 0.4);
         }
 
         .stats-container {
@@ -267,6 +364,27 @@
         .audio-player {
             background: linear-gradient(135deg, #1b2845 0%, #2e4057 100%);
             border: 2px solid #d4af37;
+            box-shadow: 
+                0 8px 32px rgba(212, 175, 55, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            animation: audioGlow 3s infinite;
+        }
+
+        @keyframes audioGlow {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         /* HubSpot Form Customization - High Contrast */
@@ -364,47 +482,54 @@
     </style>
 </head>
 <body class="antialiased">
+    <!-- Sparkle effects -->
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
 
     <!-- Header / Logo Section -->
-    <div class="w-full flex justify-center py-6">
-        <img src="https://211sj.org/wp-content/themes/yootheme/cache/71/new-kick-it-ca-1-7122e420.webp" alt="Kick It California Logo" class="h-12 md:h-16 w-auto object-contain drop-shadow-lg">
+    <div class="w-full flex justify-center py-12">
+        <img src="https://211sj.org/wp-content/themes/yootheme/cache/71/new-kick-it-ca-1-7122e420.webp" alt="Kick It California Logo" class="h-16 md:h-20 w-auto object-contain drop-shadow-2xl" style="filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.3));">
     </div>
 
     <!-- Hero Section -->
-    <main class="container mx-auto px-4 max-w-5xl relative content-wrapper">
+    <main class="container mx-auto px-6 max-w-6xl relative content-wrapper">
         
-        <div class="text-center mb-16">
-            <h2 class="text-blue-light tracking-[0.3em] uppercase text-sm md:text-base font-sans mb-4 font-semibold">California Tobacco Control Program Invitation</h2>
-            <h1 class="text-5xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight">
+        <div class="text-center mb-20" data-aos="fade-up">
+            <h2 class="text-blue-light tracking-[0.4em] uppercase text-base md:text-lg font-sans mb-6 font-semibold" style="text-shadow: 0 0 20px rgba(120, 149, 178, 0.5);">California Tobacco Control Program Invitation</h2>
+            <h1 class="text-6xl md:text-8xl font-serif font-bold text-white mb-8 leading-tight" style="text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(212, 175, 55, 0.2);">
                 Partner Appreciation
             </h1>
-            <p class="text-gold text-2xl md:text-3xl font-serif font-bold mb-8">
+            <p class="text-gold text-3xl md:text-4xl font-serif font-bold mb-4" style="text-shadow: 0 2px 20px rgba(212, 175, 55, 0.6);">
                 Celebrating 110,000+ Referrals & Counting
             </p>
         </div>
 
         <!-- Save The Date Banner -->
-        <div class="bg-gradient-to-r from-navy to-blue border-y-2 border-gold py-10 px-4 mb-12 shadow-xl">
-            <div class="flex flex-col md:flex-row justify-between items-center max-w-4xl mx-auto gap-8 md:gap-0">
+        <div class="bg-gradient-to-r from-navy via-blue to-navy border-y-4 border-gold py-14 px-6 mb-16 shadow-2xl relative overflow-hidden" data-aos="zoom-in" style="box-shadow: 0 10px 50px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent animate-pulse"></div>
+            <div class="flex flex-col md:flex-row justify-between items-center max-w-5xl mx-auto gap-10 md:gap-0 relative z-10">
                 <div class="text-center md:text-left">
-                    <p class="text-gold uppercase tracking-widest text-xs font-semibold mb-2">Date</p>
-                    <p class="text-2xl md:text-3xl font-serif text-white font-bold">Thurs, Feb 12, 2026</p>
+                    <p class="text-gold uppercase tracking-widest text-sm font-semibold mb-3" style="text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);">Date</p>
+                    <p class="text-3xl md:text-4xl font-serif text-white font-bold" style="text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);">Thurs, Feb 12, 2026</p>
                 </div>
-                <div class="hidden md:block w-px h-12 bg-gold/30"></div>
+                <div class="hidden md:block w-px h-16 bg-gradient-to-b from-transparent via-gold to-transparent"></div>
                 <div class="text-center md:text-left">
-                    <p class="text-gold uppercase tracking-widest text-xs font-semibold mb-2">Time</p>
-                    <p class="text-2xl md:text-3xl font-serif text-white font-bold">10:00 – 11:00 AM PST</p>
+                    <p class="text-gold uppercase tracking-widest text-sm font-semibold mb-3" style="text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);">Time</p>
+                    <p class="text-3xl md:text-4xl font-serif text-white font-bold" style="text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);">10:00 – 11:00 AM PST</p>
                 </div>
-                <div class="hidden md:block w-px h-12 bg-gold/30"></div>
+                <div class="hidden md:block w-px h-16 bg-gradient-to-b from-transparent via-gold to-transparent"></div>
                 <div class="text-center md:text-left">
-                    <p class="text-gold uppercase tracking-widest text-xs font-semibold mb-2">Where</p>
-                    <a href="#rsvp" class="text-2xl md:text-3xl font-serif text-gold-light font-bold underline decoration-2 hover:text-white transition">Via Zoom</a>
+                    <p class="text-gold uppercase tracking-widest text-sm font-semibold mb-3" style="text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);">Where</p>
+                    <a href="#rsvp" class="text-3xl md:text-4xl font-serif text-gold-light font-bold underline decoration-2 hover:text-white transition-all duration-300" style="text-shadow: 0 2px 20px rgba(212, 175, 55, 0.5);">Via Zoom</a>
                 </div>
             </div>
         </div>
 
         <!-- Invitation Video -->
-        <div class="relative w-full mb-16 rounded-xl gold-border overflow-hidden shadow-2xl max-w-3xl mx-auto" style="background: #000;">
+        <div class="relative w-full mb-20 rounded-2xl gold-border overflow-hidden shadow-2xl max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="200" style="background: #000; box-shadow: 0 20px 80px rgba(212, 175, 55, 0.4);">
             <video 
                 width="100%" 
                 height="auto" 
@@ -418,22 +543,22 @@
             </video>
             
             <!-- Video Title Overlay -->
-            <div class="absolute bottom-0 left-0 w-full p-8 text-center md:text-left bg-gradient-to-t from-black to-transparent">
-                <h3 class="text-2xl md:text-3xl font-serif text-gold mb-2 font-bold">Teamwork makes dreams work!</h3>
-                <p class="text-slate-200 font-sans text-sm md:text-base">"More connection. More support. More impact."</p>
+            <div class="absolute bottom-0 left-0 w-full p-10 text-center md:text-left bg-gradient-to-t from-black via-black/80 to-transparent">
+                <h3 class="text-3xl md:text-4xl font-serif text-gold mb-3 font-bold" style="text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);">Teamwork makes dreams work!</h3>
+                <p class="text-slate-200 font-sans text-base md:text-lg" style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);">"More connection. More support. More impact."</p>
             </div>
         </div>
 
         <!-- Audio Player -->
-        <div class="max-w-3xl mx-auto mb-16">
-            <div class="audio-player rounded-xl p-5 shadow-lg">
-                <div class="flex items-center gap-4">
-                    <div class="vinyl-record w-12 h-12 flex-shrink-0"></div>
+        <div class="max-w-4xl mx-auto mb-20" data-aos="fade-up" data-aos-delay="300">
+            <div class="audio-player rounded-2xl p-6 shadow-2xl">
+                <div class="flex items-center gap-6">
+                    <div class="vinyl-record w-16 h-16 flex-shrink-0" style="filter: drop-shadow(0 4px 10px rgba(212, 175, 55, 0.4));"></div>
                     <div class="flex-1">
-                        <p class="text-gold font-semibold text-sm uppercase tracking-wide mb-1">Now Playing</p>
-                        <p class="text-white font-serif text-base">KIC and 211: Help and Hope</p>
+                        <p class="text-gold font-semibold text-base uppercase tracking-wide mb-2" style="text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);">Now Playing</p>
+                        <p class="text-white font-serif text-lg" style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">KIC and 211: Help and Hope</p>
                     </div>
-                    <audio id="motownAudio" class="flex-1" controls autoplay>
+                    <audio id="motownAudio" class="flex-1" controls autoplay style="filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));">
                         <source src="KIC and 211_ Help and Hope.mp3" type="audio/mpeg">
                         Your browser does not support the audio element.
                     </audio>
@@ -442,10 +567,10 @@
         </div>
 
         <!-- Mascots Red Carpet Gallery Section -->
-        <div class="mb-20">
-            <div class="text-center mb-10">
-                <h3 class="text-5xl font-serif text-gold mb-4 font-bold">🎬 Presenting The 211 All-Stars 🎬</h3>
-                <p class="text-slate-200 text-lg max-w-2xl mx-auto">Scroll to discover the legendary faces representing California's 211 network</p>
+        <div class="mb-24" data-aos="fade-up" data-aos-delay="400">
+            <div class="text-center mb-16">
+                <h3 class="text-6xl md:text-7xl font-serif text-gold mb-6 font-bold" style="text-shadow: 0 4px 30px rgba(212, 175, 55, 0.6);">🎬 Presenting The 211 All-Stars 🎬</h3>
+                <p class="text-slate-200 text-xl md:text-2xl max-w-3xl mx-auto" style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">Scroll to discover the legendary faces representing California's 211 network</p>
             </div>
             
             <div class="gallery-container">
@@ -868,18 +993,18 @@
         </div>
 
         <!-- RSVP Form Section -->
-        <div id="rsvp" class="max-w-xl mx-auto p-6 md:p-8 rounded-xl shadow-2xl gold-border mb-20 relative overflow-hidden"
-             style="background: linear-gradient(135deg, rgba(26, 40, 69, 0.95), rgba(46, 64, 87, 0.95));">
+        <div id="rsvp" class="max-w-2xl mx-auto p-10 md:p-12 rounded-2xl shadow-2xl gold-border mb-28 relative overflow-hidden" data-aos="zoom-in" data-aos-delay="500"
+             style="background: linear-gradient(135deg, rgba(26, 40, 69, 0.98), rgba(46, 64, 87, 0.98)); box-shadow: 0 20px 80px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);">
             
-            <!-- Spotlight effect -->
-            <div class="absolute -top-40 -right-40 w-80 h-80 bg-gold rounded-full opacity-5 blur-3xl"></div>
-            <div class="absolute -bottom-20 -left-40 w-60 h-60 bg-gold rounded-full opacity-5 blur-3xl"></div>
+            <!-- Spotlight effects -->
+            <div class="absolute -top-40 -right-40 w-96 h-96 bg-gold rounded-full opacity-10 blur-3xl animate-pulse"></div>
+            <div class="absolute -bottom-20 -left-40 w-80 h-80 bg-gold rounded-full opacity-10 blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
             
             <!-- Form Container -->
             <div id="form-container" class="relative z-10">
-                <div class="text-center mb-6">
-                    <h2 class="text-3xl md:text-4xl font-serif text-gold mb-2 font-bold">✦ RSVP ✦</h2>
-                    <p class="text-slate-100 text-base">Join us to celebrate 211 & Kick It California's shared success & future collaboration.</p>
+                <div class="text-center mb-8">
+                    <h2 class="text-4xl md:text-5xl font-serif text-gold mb-4 font-bold" style="text-shadow: 0 2px 20px rgba(212, 175, 55, 0.6);">✦ RSVP ✦</h2>
+                    <p class="text-slate-100 text-lg md:text-xl" style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">Join us to celebrate 211 & Kick It California's shared success & future collaboration.</p>
                 </div>
                 
                 <!-- HubSpot Embed Target -->
@@ -888,20 +1013,23 @@
 
             <!-- Thank You Message (hidden by default) -->
             <div id="thank-you-message" class="relative z-10 text-center" style="display: none;">
-                <h2 class="text-3xl md:text-4xl font-serif text-gold mb-4 font-bold">✦ Thank You! ✦</h2>
-                <div id="mascot-container" class="mb-6 flex justify-center">
+                <h2 class="text-4xl md:text-5xl font-serif text-gold mb-6 font-bold" style="text-shadow: 0 2px 20px rgba(212, 175, 55, 0.6);">✦ Thank You! ✦</h2>
+                <div id="mascot-container" class="mb-8 flex justify-center">
                     <!-- Mascot image will be inserted here -->
                 </div>
-                <p class="text-slate-100 text-lg mb-2">Your RSVP has been received!</p>
-                <p class="text-gold-light text-base">More details and zoom link to follow</p>
+                <p class="text-slate-100 text-xl md:text-2xl mb-3 font-semibold" style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">Your RSVP has been received!</p>
+                <p class="text-gold-light text-lg md:text-xl" style="text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);">More details and zoom link to follow</p>
             </div>
         </div>
 
     </main>
 
-    <footer class="text-center py-8 text-slate-400 text-sm bg-gradient-to-r from-navy to-navy-light border-t border-gold">
-        <p>&copy; 2025 Kick It California. All rights reserved.</p>
-        <p class="text-gold-light text-xs mt-2">211 x Kick It California Partnership</p>
+    <footer class="text-center py-12 text-slate-400 text-base bg-gradient-to-r from-navy via-navy-deep to-navy border-t-2 border-gold relative overflow-hidden" style="box-shadow: 0 -10px 40px rgba(212, 175, 55, 0.2);">
+        <div class="absolute inset-0 bg-gradient-to-t from-gold/5 to-transparent"></div>
+        <div class="relative z-10">
+            <p class="mb-3" style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">&copy; 2025 Kick It California. All rights reserved.</p>
+            <p class="text-gold-light text-sm font-semibold" style="text-shadow: 0 0 10px rgba(243, 229, 171, 0.3);">211 x Kick It California Partnership</p>
+        </div>
     </footer>
 
     <!-- HubSpot Form Initialization -->
