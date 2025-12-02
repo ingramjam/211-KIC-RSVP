@@ -1047,6 +1047,113 @@
                 formId: "14c2a36e-387b-4368-a49a-b69fa1e98f5e",
                 region: "na2",
                 target: "#hubspot-form-target",
+                onFormReady: function($form) {
+                    // Reorder fields: RSVP first, then Location, Name, Email
+                    var formFields = $form.find('.hs-form-field');
+                    var rsvpField = null;
+                    var locationField = null;
+                    var nameField = null;
+                    var emailField = null;
+                    
+                    formFields.each(function() {
+                        var field = $(this);
+                        var label = field.find('label').text().toLowerCase();
+                        
+                        if (label.includes('rsvp') || label.includes('attending')) {
+                            rsvpField = field;
+                        } else if (label.includes('211') || label.includes('call center') || label.includes('location')) {
+                            locationField = field;
+                        } else if (label.includes('name') && !label.includes('last')) {
+                            nameField = field;
+                        } else if (label.includes('email')) {
+                            emailField = field;
+                        }
+                    });
+                    
+                    // Reorder the fields
+                    if (rsvpField) {
+                        $form.prepend(rsvpField);
+                        
+                        // Style the RSVP field with thumbs
+                        var rsvpInputs = rsvpField.find('input[type="radio"]');
+                        rsvpInputs.each(function() {
+                            var input = $(this);
+                            var label = input.next('label');
+                            var value = label.text().toLowerCase();
+                            
+                            // Hide the radio button
+                            input.hide();
+                            
+                            // Style the label as a thumb button
+                            label.css({
+                                'display': 'inline-flex',
+                                'align-items': 'center',
+                                'justify-content': 'center',
+                                'width': '120px',
+                                'height': '120px',
+                                'font-size': '64px',
+                                'cursor': 'pointer',
+                                'border': '3px solid #d4af37',
+                                'border-radius': '12px',
+                                'margin': '0 10px',
+                                'transition': 'all 0.3s ease',
+                                'background': 'rgba(30, 41, 59, 0.5)'
+                            });
+                            
+                            // Add thumb emoji
+                            if (value.includes('yes')) {
+                                label.html('👍');
+                                label.attr('title', 'Yes, I\'ll be there!');
+                            } else if (value.includes('no')) {
+                                label.html('👎');
+                                label.attr('title', 'Sorry, can\'t make it');
+                            }
+                            
+                            // Add click handler for styling
+                            label.on('click', function() {
+                                rsvpField.find('label').css({
+                                    'background': 'rgba(30, 41, 59, 0.5)',
+                                    'border-color': '#d4af37',
+                                    'transform': 'scale(1)'
+                                });
+                                $(this).css({
+                                    'background': 'linear-gradient(145deg, #d4af37, #f3e5ab)',
+                                    'border-color': '#fff',
+                                    'transform': 'scale(1.1)',
+                                    'box-shadow': '0 0 30px rgba(212, 175, 55, 0.6)'
+                                });
+                            });
+                            
+                            // Set initial selected state
+                            if (input.is(':checked')) {
+                                label.css({
+                                    'background': 'linear-gradient(145deg, #d4af37, #f3e5ab)',
+                                    'border-color': '#fff',
+                                    'transform': 'scale(1.1)',
+                                    'box-shadow': '0 0 30px rgba(212, 175, 55, 0.6)'
+                                });
+                            }
+                        });
+                        
+                        // Center the thumbs container
+                        rsvpField.find('.hs-form-radio-display').css({
+                            'display': 'flex',
+                            'justify-content': 'center',
+                            'align-items': 'center',
+                            'margin': '20px 0'
+                        });
+                    }
+                    
+                    if (locationField && rsvpField) {
+                        rsvpField.after(locationField);
+                    }
+                    if (nameField && locationField) {
+                        locationField.after(nameField);
+                    }
+                    if (emailField && nameField) {
+                        nameField.after(emailField);
+                    }
+                },
                 onFormSubmit: function($form) {
                     // Get the selected 211 Call Center value
                     var callCenterField = $form.find('select[name*="211"], select[name*="call_center"]');
@@ -1090,6 +1197,113 @@
                         formId: "14c2a36e-387b-4368-a49a-b69fa1e98f5e",
                         region: "na2",
                         target: "#hubspot-form-target",
+                        onFormReady: function($form) {
+                            // Reorder fields: RSVP first, then Location, Name, Email
+                            var formFields = $form.find('.hs-form-field');
+                            var rsvpField = null;
+                            var locationField = null;
+                            var nameField = null;
+                            var emailField = null;
+                            
+                            formFields.each(function() {
+                                var field = $(this);
+                                var label = field.find('label').text().toLowerCase();
+                                
+                                if (label.includes('rsvp') || label.includes('attending')) {
+                                    rsvpField = field;
+                                } else if (label.includes('211') || label.includes('call center') || label.includes('location')) {
+                                    locationField = field;
+                                } else if (label.includes('name') && !label.includes('last')) {
+                                    nameField = field;
+                                } else if (label.includes('email')) {
+                                    emailField = field;
+                                }
+                            });
+                            
+                            // Reorder the fields
+                            if (rsvpField) {
+                                $form.prepend(rsvpField);
+                                
+                                // Style the RSVP field with thumbs
+                                var rsvpInputs = rsvpField.find('input[type="radio"]');
+                                rsvpInputs.each(function() {
+                                    var input = $(this);
+                                    var label = input.next('label');
+                                    var value = label.text().toLowerCase();
+                                    
+                                    // Hide the radio button
+                                    input.hide();
+                                    
+                                    // Style the label as a thumb button
+                                    label.css({
+                                        'display': 'inline-flex',
+                                        'align-items': 'center',
+                                        'justify-content': 'center',
+                                        'width': '120px',
+                                        'height': '120px',
+                                        'font-size': '64px',
+                                        'cursor': 'pointer',
+                                        'border': '3px solid #d4af37',
+                                        'border-radius': '12px',
+                                        'margin': '0 10px',
+                                        'transition': 'all 0.3s ease',
+                                        'background': 'rgba(30, 41, 59, 0.5)'
+                                    });
+                                    
+                                    // Add thumb emoji
+                                    if (value.includes('yes')) {
+                                        label.html('👍');
+                                        label.attr('title', 'Yes, I\'ll be there!');
+                                    } else if (value.includes('no')) {
+                                        label.html('👎');
+                                        label.attr('title', 'Sorry, can\'t make it');
+                                    }
+                                    
+                                    // Add click handler for styling
+                                    label.on('click', function() {
+                                        rsvpField.find('label').css({
+                                            'background': 'rgba(30, 41, 59, 0.5)',
+                                            'border-color': '#d4af37',
+                                            'transform': 'scale(1)'
+                                        });
+                                        $(this).css({
+                                            'background': 'linear-gradient(145deg, #d4af37, #f3e5ab)',
+                                            'border-color': '#fff',
+                                            'transform': 'scale(1.1)',
+                                            'box-shadow': '0 0 30px rgba(212, 175, 55, 0.6)'
+                                        });
+                                    });
+                                    
+                                    // Set initial selected state
+                                    if (input.is(':checked')) {
+                                        label.css({
+                                            'background': 'linear-gradient(145deg, #d4af37, #f3e5ab)',
+                                            'border-color': '#fff',
+                                            'transform': 'scale(1.1)',
+                                            'box-shadow': '0 0 30px rgba(212, 175, 55, 0.6)'
+                                        });
+                                    }
+                                });
+                                
+                                // Center the thumbs container
+                                rsvpField.find('.hs-form-radio-display').css({
+                                    'display': 'flex',
+                                    'justify-content': 'center',
+                                    'align-items': 'center',
+                                    'margin': '20px 0'
+                                });
+                            }
+                            
+                            if (locationField && rsvpField) {
+                                rsvpField.after(locationField);
+                            }
+                            if (nameField && locationField) {
+                                locationField.after(nameField);
+                            }
+                            if (emailField && nameField) {
+                                nameField.after(emailField);
+                            }
+                        },
                         onFormSubmit: function($form) {
                             // Get the selected 211 Call Center value
                             var callCenterField = $form.find('select[name*="211"], select[name*="call_center"]');
