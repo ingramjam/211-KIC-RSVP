@@ -1,0 +1,973 @@
+<!--
+  templateType: "page"
+  isAvailableForNewContent: true
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIC x 211: When Resources Align | RSVP</title>
+    
+    <!-- HubSpot Required Header -->
+    {{ standard_header_includes }}
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- HubSpot Form Script -->
+    <script charset="utf-8" type="text/javascript" src="//js-na2.hsforms.net/forms/embed/v2.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy-deep': '#0a1128',
+                        'navy': '#1b2845',
+                        'navy-light': '#2e4057',
+                        'blue': '#4a6fa5',
+                        'blue-light': '#7895b2',
+                        'gold': '#d4af37',
+                        'gold-light': '#f3e5ab',
+                    },
+                    fontFamily: {
+                        'serif': ['"Limelight"', 'sans-serif'],
+                        'sans': ['"Lato"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a1128 0%, #1b2845 50%, #2e4057 100%);
+            color: #f8fafc;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(74, 111, 165, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Animated spotlight effects */
+        body::after {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(212, 175, 55, 0.03) 0%, transparent 25%),
+                radial-gradient(circle at 70% 60%, rgba(243, 229, 171, 0.02) 0%, transparent 25%);
+            animation: spotlight 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes spotlight {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(5%, 5%) rotate(90deg); }
+            50% { transform: translate(-3%, 8%) rotate(180deg); }
+            75% { transform: translate(8%, -5%) rotate(270deg); }
+        }
+
+        /* Sparkle animation */
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .sparkle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #d4af37;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            box-shadow: 0 0 10px #d4af37, 0 0 20px #f3e5ab;
+        }
+
+        .sparkle:nth-child(1) { top: 10%; left: 20%; animation: sparkle 3s infinite; }
+        .sparkle:nth-child(2) { top: 30%; left: 80%; animation: sparkle 4s infinite 0.5s; }
+        .sparkle:nth-child(3) { top: 60%; left: 15%; animation: sparkle 3.5s infinite 1s; }
+        .sparkle:nth-child(4) { top: 80%; left: 70%; animation: sparkle 4.5s infinite 1.5s; }
+        .sparkle:nth-child(5) { top: 40%; left: 50%; animation: sparkle 3s infinite 2s; }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #d4af37, #f3e5ab, #d4af37);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Thumb Button Styling */
+        .thumb-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 120px;
+            border: 3px solid #d4af37;
+            border-radius: 12px;
+            background: rgba(30, 41, 59, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .thumb-button:hover {
+            transform: scale(1.05);
+            border-color: #f3e5ab;
+        }
+
+        input[type="radio"]:checked + .thumb-button {
+            background: linear-gradient(145deg, #d4af37, #f3e5ab);
+            border-color: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
+        }
+
+        .gold-border {
+            border: 3px solid #d4af37;
+            box-shadow: 
+                0 8px 32px rgba(212, 175, 55, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Glamorous Motown Award Show Gallery */
+        .gallery-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 24px;
+            padding: 40px 20px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .gallery-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .gallery-container::-webkit-scrollbar-track {
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 10px;
+        }
+
+        .gallery-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #d4af37, #f3e5ab);
+            border-radius: 10px;
+        }
+
+        .gallery-container::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #f3e5ab, #d4af37);
+        }
+
+        .gallery-card {
+            flex: 0 0 300px;
+            position: relative;
+            cursor: pointer;
+            perspective: 1000px;
+            height: 420px;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .gallery-card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        .card-wrapper {
+            background: linear-gradient(145deg, #fff9e6, #fffaf0);
+            border: 3px solid #d4af37;
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: perspective(1000px) rotateY(-2deg) rotateX(0deg);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(212, 175, 55, 0.03) 2px,
+                    rgba(212, 175, 55, 0.03) 4px
+                );
+            pointer-events: none;
+            border-radius: 8px;
+        }
+
+        .gallery-card:nth-child(odd) .card-front .card-wrapper {
+            transform: perspective(1000px) rotateY(-3deg) rotateX(1deg);
+        }
+
+        .gallery-card:nth-child(even) .card-front .card-wrapper {
+            transform: perspective(1000px) rotateY(3deg) rotateX(-1deg);
+        }
+
+        .gallery-card:hover .card-front .card-wrapper {
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.03);
+            box-shadow: 
+                0 20px 50px rgba(212, 175, 55, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 24px;
+            height: 100%;
+            padding: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1b2845;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.85rem;
+            color: #a58d3e;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .card-image {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #d4af37, #f3e5ab);
+            margin-bottom: 16px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-caption {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.3;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+            margin-top: auto;
+        }
+
+        .vinyl-record {
+            width: 48px;
+            height: 48px;
+            background: radial-gradient(circle, #1a1a1a 20%, #333 21%, #111 40%, #333 41%, #000 100%);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .vinyl-record::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: #d4af37;
+            border-radius: 50%;
+        }
+
+        .audio-player {
+            background: linear-gradient(135deg, #1b2845 0%, #2e4057 100%);
+            border: 2px solid #d4af37;
+            box-shadow: 
+                0 8px 32px rgba(212, 175, 55, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        /* Scale adjustments - 90% for main content, logo stays 100% */
+        main {
+            transform: scale(0.9);
+            transform-origin: top center;
+        }
+
+        footer {
+            transform: scale(0.9);
+            transform-origin: top center;
+        }
+
+        .gallery-container {
+            transform: scale(0.9);
+            transform-origin: center;
+        }
+
+        .audio-player {
+            transform: scale(0.9);
+            transform-origin: center;
+        }
+
+        /* Logo stays at 100% - no scaling */
+        .w-full.flex.justify-center.py-6 {
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Sparkle effects -->
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+
+    <!-- Header / Logo Section -->
+    <div class="w-full flex justify-center py-6 md:py-12 px-4">
+        <img src="https://211sj.org/wp-content/themes/yootheme/cache/71/new-kick-it-ca-1-7122e420.webp" alt="Kick It California Logo" style="max-width: 100%; height: 48px; object-fit: contain; filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.3));">
+    </div>
+
+    <!-- Hero Section -->
+    <main class="container mx-auto px-4 md:px-6 max-w-6xl relative content-wrapper">
+        
+        <div class="text-center mb-12 md:mb-20" data-aos="fade-up">
+            <h2 class="text-blue-light tracking-[0.3em] md:tracking-[0.4em] uppercase text-xs md:text-lg font-sans mb-4 md:mb-6 font-semibold">California Tobacco Prevention Program Invitation</h2>
+            <h1 class="text-4xl md:text-8xl font-serif font-bold text-white mb-4 md:mb-8 leading-tight" style="text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);">
+                Partner Appreciation
+            </h1>
+            <p class="text-gold text-xl md:text-4xl font-serif font-bold mb-4" style="text-shadow: 0 2px 15px rgba(212, 175, 55, 0.3);">
+                Celebrating 110,000+ Referrals & Counting
+            </p>
+        </div>
+
+        <!-- Save The Date Banner -->
+        <div class="bg-gradient-to-r from-navy via-blue to-navy border-y-4 border-gold py-8 md:py-14 px-4 md:px-6 mb-16 shadow-2xl relative overflow-hidden" data-aos="zoom-in" style="box-shadow: 0 10px 50px rgba(212, 175, 55, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent animate-pulse"></div>
+            <div class="flex flex-col justify-center items-center max-w-5xl mx-auto gap-6 md:gap-10 relative z-10">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 w-full text-center">
+                    <div class="flex flex-col items-center">
+                        <p class="text-gold uppercase tracking-widest text-xs md:text-sm font-semibold mb-2">Date</p>
+                        <p class="text-xl md:text-4xl font-serif font-bold text-white">Thurs, Feb 12, 2026</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <p class="text-gold uppercase tracking-widest text-xs md:text-sm font-semibold mb-2">Time</p>
+                        <p class="text-xl md:text-4xl font-serif font-bold text-white">10:00 – 11:00 AM PST</p>
+                    </div>
+                    <div class="flex flex-col items-center gap-3">
+                        <p class="text-gold uppercase tracking-widest text-xs md:text-sm font-semibold mb-1">Where</p>
+                        <p class="text-xl md:text-4xl font-serif font-bold text-gold-light mb-3">Via Zoom</p>
+                        <a href="#rsvp" class="bg-gradient-to-r from-gold to-gold-light text-navy-deep px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold text-base md:text-lg hover:from-gold-light hover:to-gold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 inline-block">
+                            ✦ RSVP Now ✦
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AGENDA SECTION -->
+        <div class="max-w-4xl mx-auto mb-16 md:mb-20 px-4 md:px-0" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-gradient-to-br from-gold/10 to-blue/10 border-2 border-gold rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden">
+                <div class="absolute -top-20 -right-20 w-40 h-40 bg-gold rounded-full opacity-5 blur-3xl"></div>
+                <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-gold rounded-full opacity-5 blur-3xl"></div>
+                
+                <div class="relative z-10 text-center">
+                    <h2 class="text-2xl md:text-3xl font-serif text-gold mb-4 font-bold">✦ AGENDA ✦</h2>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 text-slate-200">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base md:text-lg font-medium">5-Year Project Outcomes</span>
+                        </div>
+                        <div class="hidden md:block w-1 h-6 bg-gold/30"></div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-base md:text-lg font-medium">211 Center Awards</span>
+                        </div>
+                        <div class="hidden md:block w-1 h-6 bg-gold/30"></div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-base md:text-lg font-medium">Looking Ahead</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Invitation Video -->
+        <div class="relative w-full mb-12 md:mb-20 overflow-hidden mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <div class="md:max-w-4xl md:mx-auto overflow-hidden">
+            <video 
+                width="100%" 
+                height="auto" 
+                autoplay
+                loop
+                muted
+                style="display: block; width: 100%; height: auto;"
+                poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23000' width='1920' height='1080'/%3E%3C/svg%3E">
+                <source src="https://github.com/ingramjam/211-KIC-RSVP/raw/main/Cable_car_crooner_202512011649.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            </div>
+            
+            <!-- Text Below Video for All Devices -->
+            <div class="text-center px-4 py-6 md:py-8 bg-navy-deep md:max-w-4xl md:mx-auto">
+                <h3 class="text-xl md:text-3xl font-serif text-gold mb-2 md:mb-3 font-bold">Thank You 211 for Serving California</h3>
+                <p class="text-slate-200 font-sans text-sm md:text-lg">"More connection. More support. More impact."</p>
+            </div>
+        </div>
+
+        <!-- Audio Player -->
+        <div class="w-full md:max-w-4xl mx-auto mb-12 md:mb-20 px-4 md:px-0" data-aos="fade-up" data-aos-delay="300">
+            <div class="audio-player rounded-xl md:rounded-2xl p-4 md:p-6 shadow-2xl">
+                <div class="flex flex-col md:flex-row items-center gap-3 md:gap-6">
+                    <div class="vinyl-record w-12 h-12 md:w-16 md:h-16 flex-shrink-0"></div>
+                    <div class="text-center md:text-left md:flex-1">
+                        <p class="text-gold font-semibold text-xs md:text-base uppercase tracking-wide mb-1 md:mb-2">Now Playing</p>
+                        <p class="text-white font-serif text-sm md:text-lg">211 and KIC: Help and Hope</p>
+                        <p class="text-slate-400 text-xs mt-1">(Click ▶️ to play)</p>
+                    </div>
+                    <audio id="motownAudio" class="w-full md:flex-1 mt-3 md:mt-0" controls autoplay>
+                        <source src="https://github.com/ingramjam/211-KIC-RSVP/raw/main/KIC and 211_ Help and Hope.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mascots Red Carpet Gallery Section -->
+        <div class="mb-16 md:mb-24" data-aos="fade-up" data-aos-delay="400">
+            <div class="text-center mb-10 md:mb-16 px-4">
+                <h3 class="text-xl sm:text-2xl md:text-5xl lg:text-6xl font-serif text-gold mb-3 md:mb-6 font-bold leading-tight mx-auto whitespace-nowrap overflow-hidden text-ellipsis">
+                    🎬 Celebrating The 211 All-Stars 🎬
+                </h3>
+                <p class="text-slate-200 text-base md:text-xl max-w-3xl mx-auto mb-3">13 Call Centers + Hundreds of Dedicated 211 Staff = Healthier Communities</p>
+            </div>
+            
+            <div class="gallery-container" id="gallery-container">
+                <!-- Gallery cards will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- RSVP Form Section -->
+        <div id="rsvp" class="max-w-2xl mx-auto p-10 md:p-12 rounded-2xl shadow-2xl gold-border mb-28 relative overflow-hidden" data-aos="zoom-in" data-aos-delay="500"
+             style="background: linear-gradient(135deg, rgba(26, 40, 69, 0.98), rgba(46, 64, 87, 0.98)); box-shadow: 0 20px 80px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);">
+            
+            <!-- Spotlight effects -->
+            <div class="absolute -top-40 -right-40 w-96 h-96 bg-gold rounded-full opacity-10 blur-3xl animate-pulse"></div>
+            <div class="absolute -bottom-20 -left-40 w-80 h-80 bg-gold rounded-full opacity-10 blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+            
+            <!-- Form Container -->
+            <div id="form-container" class="relative z-10">
+                <div class="text-center mb-8">
+                    <h2 class="text-4xl md:text-5xl font-serif text-gold mb-4 font-bold" style="text-shadow: 0 2px 20px rgba(212, 175, 55, 0.6);">✦ RSVP ✦</h2>
+                    <p class="text-slate-100 text-lg md:text-xl" style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">Join us to celebrate 211 & Kick It California's shared success.</p>
+                </div>
+                
+                <!-- Custom RSVP Form -->
+                <form id="rsvp-form" class="space-y-6">
+                    <!-- RSVP Thumbs (First) -->
+                    <div class="text-center">
+                        <label class="block text-slate-200 text-lg font-semibold mb-4">Will you be attending?</label>
+                        <div class="flex justify-center items-center gap-6">
+                            <input type="radio" id="rsvp-yes" name="will_be_attending" value="yes" class="hidden" required>
+                            <label for="rsvp-yes" class="thumb-button cursor-pointer" title="Yes, I'll be there!">
+                                <span class="text-6xl">👍</span>
+                            </label>
+                            
+                            <input type="radio" id="rsvp-no" name="will_be_attending" value="no" class="hidden" required>
+                            <label for="rsvp-no" class="thumb-button cursor-pointer" title="Sorry, can't make it">
+                                <span class="text-6xl">👎</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 211 Call Center (Second) -->
+                    <div>
+                        <label for="call-center" class="block text-slate-200 text-base font-semibold mb-2">Select Your 211 Call Center <span class="text-red-400">*</span></label>
+                        <select id="call-center" name="select_your_211_call_center" class="w-full px-4 py-3 rounded-lg bg-white text-navy-deep border-2 border-gold focus:outline-none focus:border-gold-light transition-colors" required>
+                            <option value="">Please Select</option>
+                            <option value="211 LA County">211 LA County</option>
+                            <option value="211 Bay Area">211 Bay Area</option>
+                            <option value="211 San Diego">211 San Diego</option>
+                            <option value="211 Inland Empire">211 Inland Empire</option>
+                            <option value="211 Orange County">211 Orange County</option>
+                            <option value="211 Ventura County">211 Ventura County</option>
+                            <option value="211 Alameda County">211 Alameda County</option>
+                            <option value="211 San Joaquin">211 San Joaquin</option>
+                            <option value="211 Sacramento">211 Sacramento</option>
+                            <option value="211 Nevada/Placer">211 Nevada/Placer</option>
+                            <option value="211 Fresno/Madera">211 Fresno/Madera</option>
+                            <option value="211 Contra Costa">211 Contra Costa</option>
+                            <option value="211 Butte/Glenn">211 Butte/Glenn</option>
+                        </select>
+                    </div>
+
+                    <!-- First Name (Third) -->
+                    <div>
+                        <label for="first-name" class="block text-slate-200 text-base font-semibold mb-2">First name <span class="text-red-400">*</span></label>
+                        <input type="text" id="first-name" name="firstname" class="w-full px-4 py-3 rounded-lg bg-white text-navy-deep border-2 border-gold focus:outline-none focus:border-gold-light transition-colors" required>
+                    </div>
+
+                    <!-- Email (Fourth) -->
+                    <div>
+                        <label for="email" class="block text-slate-200 text-base font-semibold mb-2">Email <span class="text-red-400">*</span></label>
+                        <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-lg bg-white text-navy-deep border-2 border-gold focus:outline-none focus:border-gold-light transition-colors" required>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center pt-4">
+                        <button type="submit" class="bg-gradient-to-r from-gold to-gold-light text-navy-deep px-8 py-4 rounded-lg font-bold text-lg hover:from-gold-light hover:to-gold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105">
+                            Submit RSVP
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Thank You Message (hidden by default) -->
+            <div id="thank-you-message" class="relative z-10 text-center" style="display: none;">
+                <h2 class="text-4xl md:text-5xl font-serif text-gold mb-6 font-bold" style="text-shadow: 0 2px 20px rgba(212, 175, 55, 0.6);">✦ Thank You! ✦</h2>
+                <div id="mascot-container" class="mb-6 flex flex-col items-center">
+                    <img id="mascot-image" src="" alt="Mascot" style="max-width: 200px; max-height: 200px; margin-bottom: 12px;">
+                </div>
+                <p id="mascot-name" class="text-xl md:text-2xl font-serif text-gold mb-4 font-bold" style="text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);"></p>
+                <p id="thank-you-text" class="text-slate-100 text-xl md:text-2xl mb-3 font-semibold" style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);"></p>
+                <p id="thank-you-subtext" class="text-gold-light text-lg md:text-xl" style="text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);"></p>
+            </div>
+        </div>
+
+        <!-- TESTIMONIAL SECTION -->
+        <div class="max-w-4xl mx-auto mb-16 md:mb-24 px-4 md:px-0" data-aos="fade-up" data-aos-delay="150">
+            <div class="relative p-8 md:p-12 rounded-2xl bg-gradient-to-r from-gold/5 to-transparent">
+                <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                    <span class="text-5xl text-gold/30">"</span>
+                </div>
+                <div class="text-center">
+                    <p class="text-xl md:text-3xl font-serif text-white font-bold italic mb-6 leading-relaxed">
+                        I truly feel like this is one of the most important things I've had the opportunity to work on in my entire career.
+                    </p>
+                    <div class="flex flex-col items-center gap-2">
+                        <p class="text-lg font-serif text-gold font-bold">Tonia Hagaman</p>
+                        <p class="text-sm md:text-base text-slate-300">Chief, Community & Statewide Interventions<br/>CA Dept of Public Health</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-12 text-slate-400 text-base bg-gradient-to-r from-navy via-navy-deep to-navy border-t-2 border-gold relative overflow-hidden" style="box-shadow: 0 -10px 40px rgba(212, 175, 55, 0.2);" data-aos="fade-up">
+        <div class="absolute inset-0 bg-gradient-to-t from-gold/5 to-transparent"></div>
+        <div class="relative z-10">
+            <p class="mb-3" style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">© 2025 Kick It California. All rights reserved.</p>
+            <p class="text-gold-light text-sm font-semibold" style="text-shadow: 0 0 10px rgba(243, 229, 171, 0.3);">211 x Kick It California Partnership</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mapping of 211 Call Centers to their mascot images (using GitHub URLs for HubSpot)
+        const mascotMap = {
+            'LA County': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_hollywood_star.png',
+            'Bay Area': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_bay_bridge_connector.png',
+            'San Diego': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_balboa_park_pal.png',
+            'Inland Empire': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_ie_route_rocker.png',
+            'Orange County': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_oc_operator.png',
+            'Ventura County': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_pier-to-peer_pal.png',
+            'Alameda County': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_oakland_oak.png',
+            'San Joaquin': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_delta_king.png',
+            'Sacramento': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_capital_connector.png',
+            'Nevada/Placer': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_tahoe_gold_miner.png',
+            'Fresno/Madera': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_central_valley_vine.png',
+            'Contra Costa': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_diablo_peak_performer.png',
+            'Butte/Glenn': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_chico_bridge_builder.png'
+        };
+
+        // Mapping of 211 Call Centers to their mascot names
+        const mascotNameMap = {
+            'LA County': 'The Hollywood Star',
+            'Bay Area': 'The Bay Bridge Connector',
+            'San Diego': 'The Balboa Park Pal',
+            'Inland Empire': 'The IE Route Rocker',
+            'Orange County': 'The OC Operator',
+            'Ventura County': 'The Pier-to-Peer Pal',
+            'Alameda County': 'The Oakland Oak',
+            'San Joaquin': 'The Delta King',
+            'Sacramento': 'The Capital Connector',
+            'Nevada/Placer': 'The Tahoe Gold Miner',
+            'Fresno/Madera': 'The Central Valley Vine',
+            'Contra Costa': 'The Diablo Peak Performer',
+            'Butte/Glenn': 'The Chico Bridge Builder'
+        };
+
+        // Gallery data with statistics
+        const galleryData = [
+            { center: 'LA County', mascot: 'The Hollywood Star', referrals: '7,145', enrolled: '1,830', gifts: '1,113' },
+            { center: 'Bay Area', mascot: 'The Bay Bridge Connector', referrals: '9,903', enrolled: '3,215', gifts: '2,159' },
+            { center: 'San Diego', mascot: 'The Balboa Park Pal', referrals: '9,567', enrolled: '1,851', gifts: '1,263' },
+            { center: 'Inland Empire', mascot: 'The IE Route Rocker', referrals: '7,519', enrolled: '2,732', gifts: '1,759' },
+            { center: 'Orange County', mascot: 'The OC Operator', referrals: '5,640', enrolled: '1,852', gifts: '1,191' },
+            { center: 'Ventura County', mascot: 'The Pier-to-Peer Pal', referrals: '4,846', enrolled: '1,615', gifts: '1,085' },
+            { center: 'Alameda County', mascot: 'The Oakland Oak', referrals: '7,145', enrolled: '1,830', gifts: '1,113' },
+            { center: 'San Joaquin', mascot: 'The Delta King', referrals: '4,664', enrolled: '1,561', gifts: '960' },
+            { center: 'Sacramento', mascot: 'The Capital Connector', referrals: '4,159', enrolled: '1,841', gifts: '1,289' },
+            { center: 'Nevada/Placer', mascot: 'The Tahoe Gold Miner', referrals: '2,319', enrolled: '849', gifts: '538' },
+            { center: 'Fresno/Madera', mascot: 'The Central Valley Vine', referrals: '1,775', enrolled: '560', gifts: '362' },
+            { center: 'Contra Costa', mascot: 'The Diablo Peak Performer', referrals: '1,312', enrolled: '477', gifts: '306' },
+            { center: 'Butte/Glenn', mascot: 'The Chico Bridge Builder', referrals: '1,351', enrolled: '474', gifts: '301' }
+        ];
+
+        /**
+         * Initialize AOS (Animate On Scroll) if available
+         */
+        function initializeAOS() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                    offset: 100
+                });
+            }
+        }
+
+        /**
+         * Generate gallery cards dynamically
+         */
+        function generateGalleryCards() {
+            const galleryContainer = document.getElementById('gallery-container');
+            if (!galleryContainer) return;
+
+            galleryContainer.innerHTML = '';
+
+            galleryData.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'gallery-card';
+                card.onclick = function() {
+                    this.classList.toggle('flipped');
+                };
+
+                const imageUrl = mascotMap[item.center] || '';
+
+                card.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="card-wrapper">
+                                <div class="card-image">
+                                    <img src="${imageUrl}" alt="${item.mascot}" loading="lazy">
+                                </div>
+                                <div class="card-caption">${item.center}<br>${item.mascot}</div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="card-wrapper">
+                                <div class="stats-container">
+                                    <div class="stat-item">
+                                        <div class="stat-number">${item.referrals}</div>
+                                        <div class="stat-label">Total Referrals</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number">${item.enrolled}</div>
+                                        <div class="stat-label">Enrolled</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number">${item.gifts}</div>
+                                        <div class="stat-label">Gift Cards Sent</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                galleryContainer.appendChild(card);
+            });
+        }
+
+        /**
+         * Initialize audio player
+         */
+        function initializeAudioPlayer() {
+            const audio = document.getElementById('motownAudio');
+            if (audio) {
+                audio.volume = 0.1; // 10% volume
+
+                // Try to play the audio
+                const playPromise = audio.play();
+
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            console.log('Audio autoplay started');
+                        })
+                        .catch((error) => {
+                            console.log('Autoplay prevented - user interaction required');
+                        });
+                }
+            }
+        }
+
+        /**
+         * Email validation
+         */
+        function isValidEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+
+        /**
+         * Handle RSVP form submission
+         */
+        function handleFormSubmission(e) {
+            e.preventDefault();
+
+            // Get form values
+            const email = document.getElementById('email').value.trim();
+            const rsvpValue = document.querySelector('input[name="will_be_attending"]:checked');
+            const firstName = document.getElementById('first-name').value;
+            const selectedCallCenter = document.getElementById('call-center').value;
+
+            // Validation
+            if (!rsvpValue) {
+                alert('Please select Yes or No for attendance.');
+                return;
+            }
+
+            if (!email) {
+                alert('Please enter an email address.');
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            if (!selectedCallCenter) {
+                alert('Please select a 211 Call Center.');
+                return;
+            }
+
+            if (!firstName) {
+                alert('Please enter your first name.');
+                return;
+            }
+
+            // Extract call center name from option value
+            const callCenterName = selectedCallCenter.replace('211 ', '');
+
+            // Prepare form data for HubSpot
+            const formData = {
+                fields: [
+                    {
+                        name: 'will_attend',
+                        value: rsvpValue.value
+                    },
+                    {
+                        name: 'select_your_211_call_center',
+                        value: selectedCallCenter
+                    },
+                    {
+                        name: 'firstname',
+                        value: firstName
+                    },
+                    {
+                        name: 'email',
+                        value: email
+                    }
+                ]
+            };
+
+            console.log('Submitting form data:', JSON.stringify(formData, null, 2));
+
+            // Submit to HubSpot
+            fetch('https://api.hsforms.com/submissions/v3/integration/submit/131650/14c2a36e-387b-4368-a49a-b69fa1e98f5e', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then((response) => {
+                    console.log('HubSpot Response Status:', response.status);
+                    if (response.ok) {
+                        console.log('Form submitted successfully');
+
+                        // Hide form
+                        document.getElementById('form-container').style.display = 'none';
+
+                        // Find and display mascot
+                        const mascotImage = mascotMap[callCenterName];
+                        const mascotName = mascotNameMap[callCenterName];
+
+                        // Show appropriate message based on RSVP
+                        if (rsvpValue.value === 'yes') {
+                            if (mascotImage) {
+                                const mascotImageElement = document.getElementById('mascot-image');
+                                mascotImageElement.src = mascotImage;
+                                mascotImageElement.alt = mascotName || 'Your 211 Mascot';
+                                document.getElementById('mascot-container').style.display = 'flex';
+                            }
+
+                            if (mascotName) {
+                                document.getElementById('mascot-name').textContent = mascotName;
+                            }
+
+                            document.getElementById('thank-you-text').textContent = 'Your RSVP has been received!';
+                            document.getElementById('thank-you-subtext').textContent = 'More details and zoom link to follow';
+                        } else {
+                            // Hide mascot for "no" responses
+                            document.getElementById('mascot-container').style.display = 'none';
+                            document.getElementById('mascot-name').textContent = '';
+                            
+                            document.getElementById('thank-you-text').textContent = "We're sorry you can't make it!";
+                            document.getElementById('thank-you-subtext').textContent = 'Collaborating with you is very important to us. We encourage you to share this page with other members of your team who are available and should be part of the session.';
+                        }
+
+                        // Show thank you message
+                        document.getElementById('thank-you-message').style.display = 'block';
+
+                        // Scroll to thank you message
+                        setTimeout(() => {
+                            document.getElementById('thank-you-message').scrollIntoView({ behavior: 'smooth' });
+                        }, 300);
+                    } else {
+                        console.error('HubSpot submission failed:', response.status);
+                        return response.text().then((text) => {
+                            console.error('Response body:', text);
+                            alert('There was an error submitting your RSVP. Please try again.');
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Fetch Error:', error);
+                    alert('There was an error submitting your RSVP. Please try again.');
+                });
+        }
+
+        /**
+         * Initialize all event listeners and functions
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize AOS animations
+            initializeAOS();
+
+            // Generate gallery cards
+            generateGalleryCards();
+
+            // Initialize audio player
+            initializeAudioPlayer();
+
+            // Setup form submission handler
+            const form = document.getElementById('rsvp-form');
+            if (form) {
+                form.addEventListener('submit', handleFormSubmission);
+            }
+        });
+
+        /**
+         * Re-initialize AOS on AJAX loads (for HubSpot compatibility)
+         */
+        if (typeof window !== 'undefined') {
+            window.addEventListener('load', function() {
+                if (typeof AOS !== 'undefined') {
+                    AOS.refresh();
+                }
+            });
+        }
+    </script>
+{{ standard_footer_includes }}
+</body>
+</html>
