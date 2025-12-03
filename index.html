@@ -465,6 +465,12 @@
         body {
             overflow-x: hidden;
         }
+
+        /* Scale down all content except logo by 10% */
+        main, footer, .gallery-container, .audio-player {
+            transform: scale(0.9);
+            transform-origin: top center;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -484,7 +490,7 @@
     <main class="container mx-auto px-4 md:px-6 max-w-6xl relative content-wrapper">
         
         <div class="text-center mb-12 md:mb-20" data-aos="fade-up">
-            <h2 class="text-blue-light tracking-[0.3em] md:tracking-[0.4em] uppercase text-xs md:text-lg font-sans mb-4 md:mb-6 font-semibold">California Tobacco Control Program Invitation</h2>
+            <h2 class="text-blue-light tracking-[0.3em] md:tracking-[0.4em] uppercase text-xs md:text-lg font-sans mb-4 md:mb-6 font-semibold">California Tobacco Prevention Program Invitation</h2>
             <h1 class="text-4xl md:text-8xl font-serif font-bold text-white mb-4 md:mb-8 leading-tight" style="text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);">
                 Partner Appreciation
             </h1>
@@ -1097,6 +1103,19 @@
                 <p class="text-slate-100 text-xl md:text-2xl mb-3 font-semibold" style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">Your RSVP has been received!</p>
                 <p class="text-gold-light text-lg md:text-xl" style="text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);">More details and zoom link to follow</p>
             </div>
+
+            <!-- Sorry You Can't Make It Message (hidden by default) -->
+            <div id="sorry-message" class="relative z-10 text-center" style="display: none;">
+                <h2 class="text-4xl md:text-5xl font-serif text-gold mb-6 font-bold" style="text-shadow: 0 2px 20px rgba(212, 175, 55, 0.6);">We're sorry you can't make it!</h2>
+                <div class="max-w-2xl mx-auto">
+                    <p class="text-slate-100 text-lg md:text-xl mb-4 font-semibold leading-relaxed" style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">
+                        Collaborating with you is very important to us.
+                    </p>
+                    <p class="text-gold-light text-base md:text-lg leading-relaxed" style="text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);">
+                        We encourage you to share this page with other members of your team who are available and should be part of the session.
+                    </p>
+                </div>
+            </div>
         </div>
 
         <!-- TESTIMONIAL SECTION -->
@@ -1260,31 +1279,40 @@
                             // Hide form
                             document.getElementById('form-container').style.display = 'none';
                             
-                            // Find matching mascot
-                            var mascotImage = null;
-                            var mascotName = null;
-                            for (var key in mascotMap) {
-                                if (selectedCallCenter && selectedCallCenter.includes(key)) {
-                                    mascotImage = mascotMap[key];
-                                    mascotName = mascotNameMap[key];
-                                    break;
+                            // Check if response is "no"
+                            var attendingResponse = document.querySelector('input[name="will_be_attending"]:checked').value;
+                            
+                            if (attendingResponse === 'no') {
+                                // Show sorry message for "no" responses
+                                document.getElementById('sorry-message').style.display = 'block';
+                            } else {
+                                // Show thank you message with mascot for "yes" responses
+                                // Find matching mascot
+                                var mascotImage = null;
+                                var mascotName = null;
+                                for (var key in mascotMap) {
+                                    if (selectedCallCenter && selectedCallCenter.includes(key)) {
+                                        mascotImage = mascotMap[key];
+                                        mascotName = mascotNameMap[key];
+                                        break;
+                                    }
                                 }
+                                
+                                // Display mascot image if found
+                                if (mascotImage) {
+                                    var mascotImageElement = document.getElementById('mascot-image');
+                                    mascotImageElement.src = mascotImage;
+                                    mascotImageElement.alt = mascotName || 'Your 211 Mascot';
+                                }
+                                
+                                // Display mascot name if found
+                                if (mascotName) {
+                                    document.getElementById('mascot-name').textContent = mascotName;
+                                }
+                                
+                                // Show thank you message
+                                document.getElementById('thank-you-message').style.display = 'block';
                             }
-                            
-                            // Display mascot image if found
-                            if (mascotImage) {
-                                var mascotImageElement = document.getElementById('mascot-image');
-                                mascotImageElement.src = mascotImage;
-                                mascotImageElement.alt = mascotName || 'Your 211 Mascot';
-                            }
-                            
-                            // Display mascot name if found
-                            if (mascotName) {
-                                document.getElementById('mascot-name').textContent = mascotName;
-                            }
-                            
-                            // Show thank you message
-                            document.getElementById('thank-you-message').style.display = 'block';
                         } else {
                             console.error('HubSpot submission failed:', response.status);
                             return response.text().then(function(text) {
