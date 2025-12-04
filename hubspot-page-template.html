@@ -781,6 +781,23 @@
         }
 
         /**
+         * Initialize horizontal scroll for gallery with mouse wheel
+         */
+        function initializeGalleryScroll() {
+            const galleryContainer = document.getElementById('gallery-container');
+            if (!galleryContainer) return;
+
+            galleryContainer.addEventListener('wheel', function(e) {
+                // Prevent default vertical scroll
+                e.preventDefault();
+                
+                // Scroll horizontally instead
+                // deltaY is the vertical scroll amount, we use it for horizontal scrolling
+                this.scrollLeft += e.deltaY;
+            }, { passive: false });
+        }
+
+        /**
          * Initialize audio player
          */
         function initializeAudioPlayer() {
@@ -950,6 +967,9 @@
 
             // Generate gallery cards
             generateGalleryCards();
+
+            // Initialize gallery horizontal scroll
+            initializeGalleryScroll();
 
             // Initialize audio player
             initializeAudioPlayer();
