@@ -581,19 +581,20 @@
                         <label for="call-center" class="block text-slate-200 text-base font-semibold mb-2">Select Your 211 Call Center <span class="text-red-400">*</span></label>
                         <select id="call-center" name="select_your_211_call_center" class="w-full px-4 py-3 rounded-lg bg-white text-navy-deep border-2 border-gold focus:outline-none focus:border-gold-light transition-colors" required>
                             <option value="">Please Select</option>
-                            <option value="211 LA County">211 LA County</option>
-                            <option value="211 Bay Area">211 Bay Area</option>
-                            <option value="211 San Diego">211 San Diego</option>
-                            <option value="211 Inland Empire">211 Inland Empire</option>
-                            <option value="211 Orange County">211 Orange County</option>
-                            <option value="211 Ventura County">211 Ventura County</option>
-                            <option value="211 Alameda County">211 Alameda County</option>
-                            <option value="211 San Joaquin">211 San Joaquin</option>
-                            <option value="211 Sacramento">211 Sacramento</option>
-                            <option value="211 Nevada/Placer">211 Nevada/Placer</option>
-                            <option value="211 Fresno/Madera">211 Fresno/Madera</option>
-                            <option value="211 Contra Costa">211 Contra Costa</option>
-                            <option value="211 Butte/Glenn">211 Butte/Glenn</option>
+                            <option value="Help Central (Butte/Glenn)">Help Central (Butte/Glenn)</option>
+                            <option value="Fresno/Madera">Fresno/Madera</option>
+                            <option value="Contra Costa">Contra Costa</option>
+                            <option value="San Joaquin">San Joaquin</option>
+                            <option value="Orange County">Orange County</option>
+                            <option value="Connecting Point (Nevada/Placer/Tahoe)">Connecting Point (Nevada/Placer/Tahoe)</option>
+                            <option value="Sacramento">Sacramento</option>
+                            <option value="Ventura - Interface">Ventura - Interface</option>
+                            <option value="Alameda (Eden I&amp;R)">Alameda (Eden I&amp;R)</option>
+                            <option value="Inland Empire (Riverside/San Bernardino)">Inland Empire (Riverside/San Bernardino)</option>
+                            <option value="Bay Area">Bay Area</option>
+                            <option value="San Diego">San Diego</option>
+                            <option value="Los Angeles">Los Angeles</option>
+                            <option value="Other - CTPP">Other - CTPP</option>
                         </select>
                     </div>
 
@@ -661,36 +662,38 @@
     <script>
         // Mapping of 211 Call Centers to their mascot images (using GitHub URLs for HubSpot)
         const mascotMap = {
-            'LA County': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_hollywood_star.png',
+            'Los Angeles': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_hollywood_star.png',
             'Bay Area': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_bay_bridge_connector.png',
             'San Diego': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_balboa_park_pal.png',
-            'Inland Empire': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_ie_route_rocker.png',
+            'Inland Empire (Riverside/San Bernardino)': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_ie_route_rocker.png',
             'Orange County': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_oc_operator.png',
-            'Ventura County': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_pier-to-peer_pal.png',
-            'Alameda County': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_oakland_oak.png',
+            'Ventura - Interface': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_pier-to-peer_pal.png',
+            'Alameda (Eden I&R)': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_oakland_oak.png',
             'San Joaquin': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_delta_king.png',
             'Sacramento': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_capital_connector.png',
-            'Nevada/Placer': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_tahoe_gold_miner.png',
+            'Connecting Point (Nevada/Placer/Tahoe)': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_tahoe_gold_miner.png',
             'Fresno/Madera': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_central_valley_vine.png',
             'Contra Costa': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_diablo_peak_performer.png',
-            'Butte/Glenn': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_chico_bridge_builder.png'
+            'Help Central (Butte/Glenn)': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_chico_bridge_builder.png',
+            'Other - CTPP': 'https://github.com/ingramjam/211-KIC-RSVP/raw/main/the_capital_connector.png'
         };
 
         // Mapping of 211 Call Centers to their mascot names
         const mascotNameMap = {
-            'LA County': 'The Hollywood Star',
+            'Los Angeles': 'The Hollywood Star',
             'Bay Area': 'The Bay Bridge Connector',
             'San Diego': 'The Balboa Park Pal',
-            'Inland Empire': 'The IE Route Rocker',
+            'Inland Empire (Riverside/San Bernardino)': 'The IE Route Rocker',
             'Orange County': 'The OC Operator',
-            'Ventura County': 'The Pier-to-Peer Pal',
-            'Alameda County': 'The Oakland Oak',
+            'Ventura - Interface': 'The Pier-to-Peer Pal',
+            'Alameda (Eden I&R)': 'The Oakland Oak',
             'San Joaquin': 'The Delta King',
             'Sacramento': 'The Capital Connector',
-            'Nevada/Placer': 'The Tahoe Gold Miner',
+            'Connecting Point (Nevada/Placer/Tahoe)': 'The Tahoe Gold Miner',
             'Fresno/Madera': 'The Central Valley Vine',
             'Contra Costa': 'The Diablo Peak Performer',
-            'Butte/Glenn': 'The Chico Bridge Builder'
+            'Help Central (Butte/Glenn)': 'The Chico Bridge Builder',
+            'Other - CTPP': 'The Capital Connector'
         };
 
         // Gallery data with statistics
@@ -845,8 +848,8 @@
                 return;
             }
 
-            // Extract call center name from option value
-            const callCenterName = selectedCallCenter.replace('211 ', '');
+            // Use the selected call center value directly (no transformation needed)
+            const callCenterName = selectedCallCenter;
 
             // Prepare form data for HubSpot
             const formData = {
